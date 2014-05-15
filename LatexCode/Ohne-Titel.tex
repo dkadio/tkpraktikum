@@ -1,0 +1,76 @@
+% !TEX encoding = UTF-8 Unicode
+%Präambel
+
+%Report für große Doukumente. Dieser ist in Kapitel (\chapter{}) aufgeteilt
+\documentclass[12pt, a4paper, ngerman]{report} 
+
+%Article für normale Doumente
+%\documentclass[12pt, a4paper, ngerman]{article}
+
+%Deutsche Beschreibungen von generiertem Text (table of contents => Inhaltsverzeichnis)
+\usepackage[ngerman]{babel}
+
+%Umlaute
+\usepackage[utf8]{inputenc}
+
+%Schriftart Helvetica 
+\usepackage[scaled]{helvet}
+
+%Seitenränder
+\usepackage{geometry}
+%top = Abstand nach oben
+%left = Abstand nach links
+%right = Abstand nach rechts
+%bottom= Abstand nach unten
+%heapsep= Abstand zwische Kopfzeile und Text
+%footskip= Abstand zwischen Text und Fußzeile
+\geometry{a4paper, top=25mm, left=30mm, right=25mm, bottom=30mm, headsep=10mm, footskip=12mm}
+
+%Farben nutzen
+\usepackage{xcolor}
+
+%Grafiken einbinden
+\usepackage{graphicx}
+
+%Zusätzliche Positionsbefehle
+\usepackage{float} 
+
+%Die Einrücktiefe bei einem neuen Absatz
+\setlength{\parindent}{0pt}
+
+%Fülltext
+\usepackage{blindtext}
+
+%Fuer Zitate	
+\PassOptionsToPackage{backend=bibtex}{biblatex}
+\usepackage[natbib=true,style=numeric]{biblatex}
+\usepackage[babel,german=guillemets]{csquotes}
+\bibliography{quellen.bib} 
+
+% Aufnahme von \paragraph in das Inhaltsverzeichnis 
+\setcounter{tocdepth}{3}  
+
+%Nummerierung vertiefen, \paragraph kommt mit ins Inhaltsverzeichnis
+\setcounter{secnumdepth}{4} 
+
+%Feste Tabellen
+\usepackage{tabulary}
+
+%caption für nummerierte Tabellenüberschriften
+%booktabs für die Steuerung von Linien
+\usepackage{caption, booktabs}
+
+\begin{document}
+
+\chapter{14.05.2014 - GSM Versuch}
+\section{A1}
+\begin{itemize}
+	\item \textbf{Uplink:} 
+	\item \textbf{Downlink:}
+	\item \textbf{ARFCNs:}
+\end{itemize}
+
+\textbf{Absolute Radio Frequency Channel Number}
+
+\end{document}
+
