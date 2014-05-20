@@ -30,10 +30,7 @@
 % Frontmatter
 %*******************************************************
 \include{FrontBackmatter/Titlepage}
-\cleardoublepage\include{FrontBackmatter/Declaration}
-\clearpage\include{FrontBackmatter/ConfidentialityClause}
 \clearpage\include{FrontBackmatter/Abstract}
-\cleardoublepage\include{FrontBackmatter/Acknowledgments}
 \cleardoublepage\include{FrontBackmatter/Contents}
 
 %********************************************************************
@@ -43,9 +40,12 @@
 \pagestyle{headings}
 %\pagestyle{scrheadings}
 \cleardoublepage
-\include{Examples/Einleitung}	 	% Diese Einbindungen werden natürlich entfernt, wenn es an die richtige
-\include{Examples/Beispiele} 		% Abschlussarbeit geht!
-%\include{Chapters/KapitelBachelorarbeit} <<< Hier alle Chapter der Abschlussarbeit (einzeln) einbinden
+\include{tkinhalt/gsm}	 	% Diese Einbindungen werden natürlich entfernt, wenn es an die richtige
+\include{tkinhalt/BA} 		% Abschlussarbeit geht!
+\include{tkinhalt/RSP}
+\include{tkinhalt/RSC}
+\include{tkinhalt/SDH}
+\include{tkinhalt/RN}
 
 %********************************************************************
 % Other Stuff in the Back
@@ -56,8 +56,6 @@
 % Appendix/Anhang
 %***************************************************************
 \appendix
-\part*{Anhang}
-\cleardoublepage\include{Chapters/Anhang-A}
 
 %*******************************************************
 \cleardoublepage\include{FrontBackmatter/Colophon}
