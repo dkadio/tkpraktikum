@@ -1,0 +1,5 @@
+R1_HTW#copy running-config startup-config
+Destination filename [startup-config]?
+Building configuration...
+[OK]
+R1_HTW#

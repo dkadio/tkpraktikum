@@ -1,0 +1,30 @@
+Zu 1 und 2
+
+
+PC>ping 192.168.0.1
+
+Pinging 192.168.0.1 with 32 bytes of data:
+
+Reply from 192.168.0.1: bytes=32 time=125ms TTL=255
+Reply from 192.168.0.1: bytes=32 time=62ms TTL=255
+Reply from 192.168.0.1: bytes=32 time=62ms TTL=255
+Reply from 192.168.0.1: bytes=32 time=63ms TTL=255
+
+Ping statistics for 192.168.0.1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 62ms, Maximum = 125ms, Average = 78ms
+
+PC>ping 10.10.10.1
+
+Pinging 10.10.10.1 with 32 bytes of data:
+
+Reply from 10.10.10.1: bytes=32 time=63ms TTL=255
+Reply from 10.10.10.1: bytes=32 time=63ms TTL=255
+Reply from 10.10.10.1: bytes=32 time=63ms TTL=255
+Reply from 10.10.10.1: bytes=32 time=62ms TTL=255
+
+Ping statistics for 10.10.10.1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 62ms, Maximum = 63ms, Average = 62ms

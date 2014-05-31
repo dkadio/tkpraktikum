@@ -1,0 +1,84 @@
+R1_HTW#show startup-config
+Using 1058 out of 245752 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1_HTW
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$WPnk$wNZGar7F/KHiw5VcuCMtE.
+enable password cisco
+!
+no aaa new-model
+!
+!
+ip cef
+!
+!
+no ip domain lookup
+multilink bundle-name authenticated
+!
+!
+!
+archive
+ log config
+  hidekeys
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ description R1 LAN Default Gateway
+ ip address 192.168.1.1 255.255.255.128
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ description R1 WAN
+ ip address 192.168.1.193 255.255.255.252
+ clock rate 125000
+!
+interface Serial0/0/1
+ no ip address
+ shutdown
+ clock rate 125000
+!
+router rip
+ version 2
+ network 192.168.1.0
+!
+ip forward-protocol nd
+!
+!
+ip http server
+!
+!
+!
+control-plane
+!
+banner motd ^CUnauthorized Use Prohibited^C
+!
+line con 0
+ password cisco
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ password cisco
+ login
+!
+scheduler allocate 20000 1000
+!
+end
