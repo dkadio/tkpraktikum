@@ -19,31 +19,97 @@ Es wird ein Mobiltelefon das bereits im Netz registriert ist bereit gestellt, es
 Im folgenden Versuch wird mit Hilfe zweier Tools Frequenzen empfangen und diese Visualisiert. Das Tool kal scannt alle empfangbaren Frequenzen ab, zeigt deren Downlink sowie ARFCN und die stärke des empfangenden Signals an. ARFCN steht für Absolute Radio Channel Number durch die man die Down- sowie Uplinkfrequenzen berechnen kann. Im GSM 1800 sind die ARFCN von 512 bis 885 zugeordnet. Die geringste Downlinkfrequenz bei GSM 1800 ist 1805,2 MHz. Passend dazu sind die Uplinkfrequenzen in einem Abstand von 95 Mhz, beginnend bei 1710,2 bis 1784,8 Mhz. Jedes Down und Uplink-Paar wird durch die ARFCN gekennzeichnet. Durch das Tool baudline ist es möglich die empfangenen Frequenzen zeitlich zu betrachten. Um die Benutzung zu vereinfachen benutzen wir dbusrp. 
 
 
+\vspace{1 cm}
+Auf der folgenden Abbildung ist zu sehen welche Frequenzen in Deutschland von welchem Providern benutzt werden. 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/providerfregtabelle.png}
+  \caption{Frequenzentabelle der Provider}
+  \label{fig:frequtabelle}
+\end{figure}
 
-Hier sollten noch die berechnungen stehen und vlt die tabelle zu den Provider frequenzen.
+\vspace{1 cm}
+Die Berechnungen für die Frequenzen ergeben sich aus der folgenden Formeln
+\vspace{0,5 cm}
+
+ \begin{tabular}{lcr}
+  fuplink = Startfrequenz +  (ARFCN -Offset )  * 0,2MHz\\
+  fdownlink = fuplink + Abstand \\
+  fuplink = fdownlink - Abstand \\
+  ARFCN = (fuplink - Startfrequenz/0,2 MHZ) + Offset \\
+ \end{tabular}
+
 
 \subsection{Versuchsdurchführung}
-%was wurde protokolliert
+Der Versuch zeigt als erstes die empfangbaren Frequenzen mit hilfe von kal und führt diese auf. Man suche sich eine möglichst stark presente Frequenz um diese sich visualiseren zu lassen.
+\vspace{0,5 cm}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/vorhandenefreq.png}
+  \caption{Anzeige der vorhandenen Frequenzen}
+  \label{fig:vorhfrequenzen}
+\end{figure}
+
+Mit dem Befehl dbusrp -f <die gewählte Frequenz>  lässt sich die Frequenz anschaulich darstellen. Die Frequenzen werden in 3 Bereichen angezeigt. Die obere Anzeige zeigt das SIgnal im Zeitbereich, unten werden die Spektren der Frequenz dargestellt und mittig nach dem Wasserfallmodell. Das Wasserfallmodell zeigt wie sich die  Grundfrequenz durch abziehen oder hinzufügen von Frequenzen verändert wird.
+\vspace{0,5 cm}
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/visuallisierung.png}
+  \caption{Eine visualisierte Frequenz}
+  \label{fig:visual}
+\end{figure}
+
 
 \subsection{Versuchsziel}
 %warum wurde protokoliert
-
+Der Versuch gibt einen Allgemeinen Einblick in den Umfang von GSM und veranschaulicht die benutzten Frequenzen. Ausserdem werden die mathematischen zusammenhänge klarer und GSM an sich verständlicher.
 
 \section{Anruf an die 2600}
-\subsection{Versuchsdurchführung}
-%was wurde protokolliert
+Es soll ein Anruf auf die 2600 was dem echo-Dienst entspricht durchgeführt werden. Dazu benötigen wir den am Anfang beschriebenen Versusaufbau sowie ein GSM-Fähiges Mobiltelefon das in dem Netz registriert ist. 
+Als erstes muss das OpenBTS system gestartet werden dies erfolgt über mehrere Konsolen Befehle, da OpenBTS aus mehreren Komponenten besteht. 
+Zuerst muss der Authentication-Service gestartet werden dies erfolgt durch den Befehl sipauthserve. Dannach muss die SMqueue gestartet werden die für die Weiterlietung der SMS verantwortlich ist, mit dem Befehl smqueue wird der Service gestartet. Der eigentliche OpenBTS Service muss ebenfalls gestartet werden. Dieser Dienst stellt den Kern des Systems dar, alle anderen Prozesse agieren mit diesem Prozess. Ausserdem brauchen wir noch den Asterisk Service der bereits in diesem Dokument erklärt worden ist. Diesen starten wir in einer neuen Konsole mit dem Befehl asterisk -r. Alle Befehle müssen als Superuser ausgeführt werden, sonst würden die Berechtigungen dazu fehlen.
+Um sich in dem Netz mit seinem eigenen Mobiltelefon registrieren zu können wählen wir das entsprechende Netz aus und erhalten unsere IMSI. Nun kann die 2600 angerufen werden und der Versuch durchgeführt werden.
+
+
 \subsection{Versuchsziel}
 %warum wurde protokoliert
+Das Ziel dieses Versuches ist es die die mit geschnittenen Daten zu Analysieren und einen Anruf vom Aufbau bis zum Abbau mit zu verfolgen.
+
+
+\subsection{Versuchsdurchführung}
+%was wurde protokolliert
+Nachdem wir uns registriert haben erhalten wir eine SMS mit folgendem Inhalt.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{tkinhalt/gsm_bilder/einwahlgsm.png}
+  \caption{Einwahl in das GSM Netz}
+  \label{fig:einwahl}
+\end{figure}
+
+Nun rufen wir die 2600 an und lassen dabei Wireshark mitlaufen um später den Rufaufbau und Datenaustausch mit zu schneiden.
+Es ertönt eine Stimme und kurz darauf ist der echo-Dienst aktiv und gibt die Sprach-Daten die gesendet werden wieder zurück.
+
+
 \section{Beschreibung der Verschiedenen Messungen und Ergebnisdarstellung}
+%hier sollte die auswertung der Sprachdaten stehen
+
 \section{Diskussion der Messergebnisse und Ausarbeiten der Aufgaben}
 %dies beinhaltet auch die Nacharbeitung von Themen, die im Versuch als bisher nicht bekannt erkannt wurden.
 
 
 \section{Senden einer SMS an die 411}
+Der Selbe Versuch wie mit dem Echo-Dienst wird nun per SMS wiederholt. In diesem Fall sollen die Packetdaten einer SMS mit geschnitten werden und diese Analysiert werden.
 \subsection{Versuchsdurchführung}
 %was wurde protokolliert
+Da wir bereits im GSM-Netz registriert sind bzw das System gestartet ist, senden wir einfach eine SMS mit dem Inhalt "info" an die 411. Als Antwort auf die SMS erhalten wir eine Antwort mit dem Inhalt der gesendeten SMS sowie weitere Informationen wie Zeiten. % was stand den da noch drin?
 \subsection{Versuchsziel}
 %warum wurde protokoliert
+Der Versuch soll den Ablauf des Senden einer SMS veranschaulichen. 
+
 \section{Beschreibung der Verschiedenen Messungen und Ergebnisdarstellung}
 \section{Diskussion der Messergebnisse und Ausarbeiten der Aufgaben}
 %dies beinhaltet auch die Nacharbeitung von Themen, die im Versuch als bisher nicht bekannt erkannt wurden.
