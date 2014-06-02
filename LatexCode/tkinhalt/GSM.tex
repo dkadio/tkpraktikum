@@ -19,7 +19,7 @@ Zusätzlich steht uns zur Generierung von GSM Paketen ein Mobiltelefon zur Verfüg
 %Bestandteile des Versuchsaufbaus sind zwei baugleiche Open Base Transceiver Station Systeme bestehend aus Computer und der USRP. Die USRP ist für den Empfang der Funksignale notwendig. OpenBTS läuft in unserem Fall auf einem Rechner mit Ubuntu als Betriebssystem und  besteht aus mehren Programmen. Das System modifiziert den gewöhnlichen GSM-Netzaufbau. USRP, SDR und OpenBTS übernehmen die Aufgaben von dem Base Transceiver Station und dme Base Station Controller, die Aufgabe des Mobile Switching Center wird von dem Asterisk übernommen und verbindet das Netz mit dem IP-Backbone. SDR steht für Software Defined Radio und stellt Signalverarbeitungsbibliotheken zur verfügung. 
 %Es wird ein Mobiltelefon das bereits im Netz registriert ist bereit gestellt, es ist jedoch eben so gut möglich sich mit einem anderen GSM-fähigen Telefon in dem Netz anzumelden. Auf dem OpenBTS system laufen verschiedene Dienste wie etwa der echo dienst der unter der Nummer 2600 bzw eine reply-Dients für SMS unter der 411.
 
-Die einzelnen Bauteile im Überblick:
+\subsection{Die einzelnen Bauteile im Überblick\label{bauteile}}
 \subsubsection{Antenne\label{antenne}}
 
 %%Hier gehört noch ein Bild von der Antenne rein %%
@@ -46,7 +46,32 @@ Das Ziel des Versuchs ist es, die Paketdaten mitzuschneiden, die in einem GSM Ne
 
 %womit und in welcher Anordnung wurde protokolliert
 \section{Visualisieren von Frequenzen}
-Im folgenden Versuch wird mit Hilfe zweier Tools Frequenzen empfangen und diese Visualisiert. Das Tool kal scannt alle empfangbaren Frequenzen ab, zeigt deren Downlink sowie ARFCN und die stärke des empfangenden Signals an. ARFCN steht für Absolute Radio Channel Number durch die man die Down- sowie Uplinkfrequenzen berechnen kann. Im GSM 1800 sind die ARFCN von 512 bis 885 zugeordnet. Die geringste Downlinkfrequenz bei GSM 1800 ist 1805,2 MHz. Passend dazu sind die Uplinkfrequenzen in einem Abstand von 95 Mhz, beginnend bei 1710,2 bis 1784,8 Mhz. Jedes Down und Uplink-Paar wird durch die ARFCN gekennzeichnet. Durch das Tool baudline ist es möglich die empfangenen Frequenzen zeitlich zu betrachten. Um die Benutzung zu vereinfachen benutzen wir dbusrp. 
+%Im folgenden Versuch wird mit Hilfe zweier Tools Frequenzen empfangen und diese Visualisiert. Das Tool kal scannt alle empfangbaren Frequenzen ab, zeigt deren Downlink sowie ARFCN und die stärke des empfangenden Signals an. ARFCN steht für Absolute Radio Channel Number durch die man die Down- sowie Uplinkfrequenzen berechnen kann. Im GSM 1800 sind die ARFCN von 512 bis 885 zugeordnet. Die geringste Downlinkfrequenz bei GSM 1800 ist 1805,2 MHz. Passend dazu sind die Uplinkfrequenzen in einem Abstand von 95 Mhz, beginnend bei 1710,2 bis 1784,8 Mhz. Jedes Down und Uplink-Paar wird durch die ARFCN gekennzeichnet. Durch das Tool baudline ist es möglich die empfangenen Frequenzen zeitlich zu betrachten. Um die Benutzung zu vereinfachen benutzen wir dbusrp. 
+\subsection{Frequenzen auflisten}
+\subsubsection{Aufbau des Versuchs}
+Für die Visualisierung der Frequenzen werden die in \ref{bauteile} beschriebenen Komponenten benötigt. Aus der Softwarepaket OpenBTS werden die Tools lsursp, baudline und kal benötigt.
+
+Neben der vorhandenen Hardware werden keine weiteren Geräte benötigt. Das Vorhandensein von Sendern in der Reichweite des Systems ist dennoch eine Vorraussetzung.
+
+\subsubsection{Versuchsdurchführung}
+Mit dem Tool lsursp wird überprüft, ob die USPR \ref{uspr} vom System erkannt wird.
+
+Nachdem festgestellt wurde, dass die USRP angeschlossen und vom System erkannt wurde, kann der eigentliche Versuch beginnen. Hierzu wird das Tool kal mit dem Kommando \glqq kal -s -DCS\grqq aufgerufen.
+
+\subsubsection{Auswertung des Versuchs}
+Das Tool kal hat angezeigt, dass folgende Frequenzen empfangen werden können:
+
+%%%%Tabelle mit allen Frequenzen %%%%%
+
+Bei dieser Tabelle fallen die Begriffe UPLINK, DOWNLINK und ARFCN auf. Vor der eigentlichen Auswertung der Messergebnisse möchten wir diese Begriffe erst einmal erklären.
+\paragraph{UPLINK}
+Das ist halt UPLINK
+
+
+\paragraph{DOWNLINK}
+
+\paragraph{ARFCN}
+
 
 
 \vspace{1 cm}
