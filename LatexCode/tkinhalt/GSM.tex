@@ -61,17 +61,39 @@ Nachdem festgestellt wurde, dass die USRP angeschlossen und vom System erkannt w
 \subsubsection{Auswertung des Versuchs}
 Das Tool kal hat angezeigt, dass folgende Frequenzen empfangen werden können:
 
-%%%%Tabelle mit allen Frequenzen %%%%%
+\vspace{1 cm}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/ergebnisKal.png}
+  \caption{Darstellung aller empfangener Frequenzen}
+  \label{fig:empfangeneFrequenzen}
+\end{figure}
 
-Bei dieser Tabelle fallen die Begriffe UPLINK, DOWNLINK und ARFCN auf. Vor der eigentlichen Auswertung der Messergebnisse möchten wir diese Begriffe erst einmal erklären.
-\paragraph{UPLINK}
-Das ist halt UPLINK
+
+Bei dieser Tabelle fallen die Begriffe chan und power auf. Vor der eigentlichen Auswertung der Messergebnisse möchten wir diese Begriffe erst einmal erklären.
+\paragraph{chan}
+%%Keine Ahnung
+
+\paragraph{power}
+%%Wieder keine Ahnung
 
 
-\paragraph{DOWNLINK}
+Anhand dieser Auflistung ist es möglich, den Frequenzbereichs von DCS 1800 zu errechnen. DCS 1800 ist übrigens besser als das E Netz bekannt. 
 
-\paragraph{ARFCN}
+Zur Berechnung eines Frequenzbereichs gibt es einige Formeln. Welche genutzt wird, hängt davon ab, welche Werte bereits bekannt sind.
 
+\begin{table}[h!]
+\centering
+ \fbox{
+ \begin{tabular}{lcr}
+  fuplink = Startfrequenz +  (ARFCN -Offset )  * 0,2MHz\\
+  fdownlink = fuplink + Abstand \\
+  fuplink = fdownlink - Abstand \\
+  ARFCN = (fuplink - Startfrequenz/0,2 MHZ) + Offset \\
+ \end{tabular}}
+  \caption{Formel zur Berechnung des Frequenzbereichs }
+  \label{fig:Frequenzbereich}
+\end{table}
 
 
 \vspace{1 cm}
@@ -87,12 +109,7 @@ Auf der folgenden Abbildung ist zu sehen welche Frequenzen in Deutschland von we
 Die Berechnungen für die Frequenzen ergeben sich aus der folgenden Formeln
 \vspace{0,5 cm}
 
- \begin{tabular}{lcr}
-  fuplink = Startfrequenz +  (ARFCN -Offset )  * 0,2MHz\\
-  fdownlink = fuplink + Abstand \\
-  fuplink = fdownlink - Abstand \\
-  ARFCN = (fuplink - Startfrequenz/0,2 MHZ) + Offset \\
- \end{tabular}
+
 
 
 \subsection{Versuchsdurchführung}
