@@ -4,15 +4,45 @@
 
 \chapter{GSM Versuch}
 \section{Allgemeine Beschreibung der Versuche}
-Im folgenden handelt es sich um ein Test-Versuch im Global System for Mobile Communications.
-Es wird an zwei Baugleichen Systemen gearbeitet die jeweils eine Universal Software Radio Peripheral anbieten (USRP). Das System läuft mit dem Programm OpenBTS und implementiert einen GSM-Protokollstack von Layer 1-3 und terminiert die höheren Schichten. Mit dem System ist es möglich die meisten GSM-Signale abzufangen und mit zu schneiden.
-Ziel des Versuches ist es die Packetdaten via Wireshark, in dem GSM-Netz von einem Anruf auf den Echo-Server sowie eine SMS an die 411 mi dem Text "info", mit zu schneiden und zu analysieren. Um sich mit den Komponenten und GSM vertraut zu machen werden zu Anfang einige Visuelle und Informative Versuche ausgeführt wie z.b. das Visualisieren von Frequenzen und das erarbeiten der mathematischen Zusammen hänge der Frequenzen.
+Im folgenden handelt es sich um ein Test-Versuch GSM. GSM ist die Abkürzung für Global System for Mobile Communications und ein Standard für die volldigitale Mobilfunknetze. Wir haben ihn bereits kennen gelernt, da alle unsere Handys darauf beruhen. GSM ermöglicht die eigentliche Telefonie, eine Datenübertragung und das Versenden und Empfangen von SMS, Short Message Services. Mittlerweile wurden für die Datenübertragung leistungsfähigere Standards, wie UMTS und LTE entwickelt, jedoch ist GSM noch nicht wegzudenken. 
 
-%Kurze Einleitung ins Thema
+Der Versuch soll das Verständnis für die Technik vertiefen, die den reibungslosen Ablauf unserer Handygespräche ermöglicht. Zu diesem Zweck steht uns ein System zur Verfügung, das aus einer Antenne, der Technik zur Signalverarbeitung und einem Computer mit entsprechender Software besteht. 
+
 \subsection{Versuchsaufbau}
+Der Aufbau des Versuchs ist auf den ersten Blick leicht beschrieben: Unser System besteht aus einer Antenne \ref{antenne}, einem USPR \ref{uspr} und einem Computer \ref{computer}. 
+%%%%%%Bild des Gesamtaufbaus%%%%%
 
-Bestandteile des Versuchsaufbaus sind zwei baugleiche Open Base Transceiver Station Systeme bestehend aus Computer und der USRP. Die USRP ist für den Empfang der Funksignale notwendig. OpenBTS läuft in unserem Fall auf einem Rechner mit Ubuntu als Betriebssystem und  besteht aus mehren Programmen. Das System modifiziert den gewöhnlichen GSM-Netzaufbau. USRP, SDR und OpenBTS übernehmen die Aufgaben von dem Base Transceiver Station und dme Base Station Controller, die Aufgabe des Mobile Switching Center wird von dem Asterisk übernommen und verbindet das Netz mit dem IP-Backbone. SDR steht für Software Defined Radio und stellt Signalverarbeitungsbibliotheken zur verfügung. 
-Es wird ein Mobiltelefon das bereits im Netz registriert ist bereit gestellt, es ist jedoch eben so gut möglich sich mit einem anderen GSM-fähigen Telefon in dem Netz anzumelden. Auf dem OpenBTS system laufen verschiedene Dienste wie etwa der echo dienst der unter der Nummer 2600 bzw eine reply-Dients für SMS unter der 411.
+Zusätzlich steht uns zur Generierung von GSM Paketen ein Mobiltelefon zur Verfügung. 
+%%%%Bild vom Handy%%%%
+
+
+%Bestandteile des Versuchsaufbaus sind zwei baugleiche Open Base Transceiver Station Systeme bestehend aus Computer und der USRP. Die USRP ist für den Empfang der Funksignale notwendig. OpenBTS läuft in unserem Fall auf einem Rechner mit Ubuntu als Betriebssystem und  besteht aus mehren Programmen. Das System modifiziert den gewöhnlichen GSM-Netzaufbau. USRP, SDR und OpenBTS übernehmen die Aufgaben von dem Base Transceiver Station und dme Base Station Controller, die Aufgabe des Mobile Switching Center wird von dem Asterisk übernommen und verbindet das Netz mit dem IP-Backbone. SDR steht für Software Defined Radio und stellt Signalverarbeitungsbibliotheken zur verfügung. 
+%Es wird ein Mobiltelefon das bereits im Netz registriert ist bereit gestellt, es ist jedoch eben so gut möglich sich mit einem anderen GSM-fähigen Telefon in dem Netz anzumelden. Auf dem OpenBTS system laufen verschiedene Dienste wie etwa der echo dienst der unter der Nummer 2600 bzw eine reply-Dients für SMS unter der 411.
+
+Die einzelnen Bauteile im Überblick:
+\subsubsection{Antenne\label{antenne}}
+
+%%Hier gehört noch ein Bild von der Antenne rein %%
+
+
+Dieses Bauteil wandelt die elektromagnetischen Signale in elektrische Signale um. Antennen sind in prinzipiell in allen Geräten enthalten, die etwas mit Funktechnik zu tun haben. Dazu zählen beispielsweise Radios oder auch Handys. Die Umwandlung hat den Hintergrund, dass die elektromagnetischen Single aus der Luft nicht direkt weiterverarbeitet werden können. 
+
+\subsubsection{USPR\label{uspr}}
+Das USPR, Universal Radio Peripheral, ist eine geschlossene Einheit, die das Verarbeiten der Empfangenen Signale ermöglicht. Es ist modular aufgebaut, sodass ein breites Frequenzspektrum abgedeckt werden kann. Für unseren Versuch interessieren aber nur die Frequenzen des GSM. Das USPR wird im folgenden nicht weiter betrachtet, da es nicht der Gegenstand des Versuchs war, sondern diesen nur ermöglicht hat.
+%%Bild von USPR%%
+
+
+\subsubsection{Computer\label{computer}}
+Der Computer mit seiner entsprechenden Software ist die für den Versuch am interessanteste Komponente. Er ermöglicht es, die empfangenen Funksignale grafisch darzustellen und auszuwerten. Weiterhin stellt der Computer die Protokolle für den reibungslosen Ablauf und eine vollwertige $U_m$ Schnittstelle zur Verfügung.
+
+%%Bild vom Computer%%%%%
+
+Zur Bereitstellung dieser Schnittstelle und der Protokolle wird das Softwarepaket OpenBTS genutzt. 
+
+%Es wird an zwei Baugleichen Systemen gearbeitet die jeweils eine Universal Software Radio Peripheral anbieten (USRP). Das System läuft mit dem Programm OpenBTS und implementiert einen GSM-Protokollstack von Layer 1-3 und terminiert die höheren Schichten. Mit dem System ist es möglich die meisten GSM-Signale abzufangen und mit zu schneiden.
+%Ziel des Versuches ist es die Packetdaten via Wireshark, in dem GSM-Netz von einem Anruf auf den Echo-Server sowie eine SMS an die 411 mi dem Text "info", mit zu schneiden und zu analysieren. Um sich mit den Komponenten und GSM vertraut zu machen werden zu Anfang einige Visuelle und Informative Versuche ausgeführt wie z.b. das Visualisieren von Frequenzen und das erarbeiten der mathematischen Zusammen hänge der Frequenzen.
+
+Das Ziel des Versuchs ist es, die Paketdaten mitzuschneiden, die in einem GSM Netz auftreten. Vor dem Mitschnitt soll ein Grundverständnis über die Physik hinter dem GSM Netz geschaffen werden.
 
 %womit und in welcher Anordnung wurde protokolliert
 \section{Visualisieren von Frequenzen}
