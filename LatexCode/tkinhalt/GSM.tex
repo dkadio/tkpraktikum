@@ -54,7 +54,8 @@ Das Ziel des Versuchs ist es, die Paketdaten mitzuschneiden, die in einem GSM Ne
 %womit und in welcher Anordnung wurde protokolliert
 \section{Visualisieren von Frequenzen}
 %Im folgenden Versuch wird mit Hilfe zweier Tools Frequenzen empfangen und diese Visualisiert. Das Tool kal scannt alle empfangbaren Frequenzen ab, zeigt deren Downlink sowie ARFCN und die stärke des empfangenden Signals an. ARFCN steht für Absolute Radio Channel Number durch die man die Down- sowie Uplinkfrequenzen berechnen kann. Im GSM 1800 sind die ARFCN von 512 bis 885 zugeordnet. Die geringste Downlinkfrequenz bei GSM 1800 ist 1805,2 MHz. Passend dazu sind die Uplinkfrequenzen in einem Abstand von 95 Mhz, beginnend bei 1710,2 bis 1784,8 Mhz. Jedes Down und Uplink-Paar wird durch die ARFCN gekennzeichnet. Durch das Tool baudline ist es möglich die empfangenen Frequenzen zeitlich zu betrachten. Um die Benutzung zu vereinfachen benutzen wir dbusrp. 
-\subsection{Frequenzen auflisten}
+
+\subsection{Frequenzen auflisten \label{frequenzenAuflisten}}
 \subsubsection{Aufbau des Versuchs}
 Für die Visualisierung der Frequenzen werden die in \ref{bauteile} beschriebenen Komponenten benötigt. Aus der Softwarepaket OpenBTS werden die Tools lsursp, baudline und kal benötigt.
 
@@ -78,8 +79,8 @@ Das Ergebnis der Umgebungsscans ist in Tabelle \ref{tab:empfangeneFreqzenzen} au
   chan: & 620 (1826.8 + 347Hz) & power: 727.63 \\
   chan: & 630 (1828.8MHz + 177Hz) & power: 1421.75 \\
   chan: & 631 (1820.0MHz + 209Hz) & power: 2495.22 \\
-    chan: & 637 (1830.2MHz + 403Hz) & power: 2876.83 \\
-      chan: & 40 (1830.8MHz + 508Hz) & power: 36384.61 \\
+  chan: & 637 (1830.2MHz + 403Hz) & power: 2876.83 \\
+  chan: & 640 (1830.8MHz + 508Hz) & power: 36384.61 \\
   chan: & 641 (1831.0MHz + 508Hz) & power: 8809.88 \\  
    chan: & 647 (1832.2MHz - 32.386Hz) & power:  1305.97 \\
   chan: & 648 (1832.4MHz - 32470Hz) & power: 10507.76 \\      
@@ -148,53 +149,58 @@ Auf der folgenden Abbildung ist zu sehen welche Frequenzen in Deutschland von we
   \label{fig:frequtabelle}
 \end{figure} 
 
-Wenn man die Tabelle \ref{tab:empfangeneFreqzenzen} und die Grafik \ref{fig:frequtabelle} vergleicht, ergibt sich folgende neue Tabelle:
+Wenn man die Tabelle \ref{tab:empfangeneFreqzenzen} und die Grafik \ref{fig:frequtabelle} vergleicht, ergibt sich Tabelle \ref{frequenzAnbieter}. Auffällig ist, dass keine Signale des Anbieters Vodafone empfangen werden, dafür aber mehrere militärische Kanäle.
 
 \begin{table}[h!]
+ 
 \begin{tabular}{lll}
-  chan: & 555 (1813.8 MHz + 14.632kHz) & power: 1007.18 \\
-  chan: & 602 (1823.2MHz - 8.896kHz) & power 481.48 \\
-  chan: & 619 (1826.6MHz + 572Hz) & power: 1171.37 \\
-  chan: & 620 (1826.8 + 347Hz) & power: 727.63 \\
-  chan: & 630 (1828.8MHz + 177Hz) & power: 1421.75 \\
-  chan: & 631 (1820.0MHz + 209Hz) & power: 2495.22 \\
-    chan: & 637 (1830.2MHz + 403Hz) & power: 2876.83 \\
-      chan: & 40 (1830.8MHz + 508Hz) & power: 36384.61 \\
-  chan: & 641 (1831.0MHz + 508Hz) & power: 8809.88 \\  
-   chan: & 647 (1832.2MHz - 32.386Hz) & power:  1305.97 \\
-  chan: & 648 (1832.4MHz - 32470Hz) & power: 10507.76 \\      
-  chan: & 700 (1842.8MHz + 386Hz) & power: 21662.59 \\ 
-  chan: & 701 (1843.0MHz + 455Hz) & power: 4220.36 \\ 
-  chan: & 706 (1844.0MHz + 387Hz) & power: 27836.79 \\
-  chan: & 709 (1844.6MHz + 2.954Hz) & power: 1148.92 \\
-  chan: & 713 (1845.4MHz + 621Hz) & power: 6744.54 \\
-  chan: & 715 (1845.8MHz + 388Hz) & power: 20091.07 \\
-  chan: & 755 (1853.8MHz - 20.894Hz) & power: 458.32 \\  
-  chan: & 764 (1855.6MHz + 485Hz) & power: 19349.83 \\
-  chan: & 765 (1855.8MHz + 381Hz) & power: 9962.32 \\
-  chan: & 769 (1856.6MHz + 38.177Hz) & power: 3226.76 \\  
-  chan: & 798 (1862.4MHz + 498Hz) & power: 994.82 \\  
-  chan: & 802 (1863.2MHz + 498Hz) & power: 118213.39 \\
-  chan: & 805 (1863.8MHz + 440Hz) & power:  5598.97 \\
+	chan: & 555 1813.8 MHz & Militär \\
+	chan: & 602 1823.2MHz & T-Mobile  \\
+	chan: & 619 1826.6MHz & $O_2$ \\
+	chan: & 620 1826.8 + 347Hz & $O_2$ \\
+	chan: & 630 1828.8MHz & $O_2$ \\
+	chan: & 631 1820.0MHz & Militär \\
+	chan: & 637 1830.2MHz & $O_2$ \\
+	chan: & 640 1830.8MHz & $O_2$ \\
+	chan: & 641 1831.0MHz  & $O_2$ \\  
+	chan: & 647 1832.2MHz & $O_2$ \\
+	chan: & 648 1832.4MHz & $O_2$ \\      
+	chan: & 700 1842.8MHz & $O_2$ \\ 
+	chan: & 701 1843.0MHz & $O_2$\\ 
+	chan: & 706 1844.0MHz & $O_2$ \\
+	chan: & 709 1844.6MHz& $O_2$\\
+	chan: & 713 1845.4MHz & $O_2$ \\
+	chan: & 715 1845.8MHz & $O_2$ \\
+	chan: & 755 1853.8MHz & E-Plus \\  
+	chan: & 764 1855.6MHz & E-Plus \\
+	chan: & 765 1855.8MHz & E-Plus \\
+	chan: & 769 1856.6MHz  & E-Plus \\  
+	chan: & 798 1862.4MHz & E-Plus \\  
+	chan: & 802 1863.2MHz & E-Plus \\
+	chan: & 805 1863.8MHz & E-Plus \\
    
  \end{tabular}
- \end{tabular}
  \caption{Auflistung der empfangenen Frequenzen}
- \label{tab:empfangeneFreqzenzen}
+ \label{tab:frequenzAnbieter}
  \end{table}
+ 
+ 
+\subsection{Frequenzen darstellen}
+Der Versuch \ref{frequenzenAuflisten} hat ergeben, dass im GSM Standard verschiedene Frequenzen genutzt werden. Die Tatsache, dass Kanäle mit einer Breite genutzt werden, wirft die Frage auf, was es mit diesen Breiten auf sich hat und wie Informationen übertragen werden.
 
-\subsection{Versuchsdurchführung}
-Der Versuch zeigt als erstes die empfangbaren Frequenzen mit hilfe von kal und führt diese auf. Man suche sich eine möglichst stark presente Frequenz um diese sich visualiseren zu lassen.
-\vspace{0,5 cm}
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/vorhandenefreq.png}
-  \caption{Anzeige der vorhandenen Frequenzen}
-  \label{fig:vorhfrequenzen}
-\end{figure}
+\subsubsection{Aufbau des Versuchs}
+Der Aufbau des Versuchs entspricht grob dem Aufbau des Versuchs \ref{frequenzenAuflisten}. Anstelle des Tools kal wird DSP-Buttler-Tool dsusrp genutzt.
 
-Mit dem Befehl dbusrp -f <die gewählte Frequenz>  lässt sich die Frequenz anschaulich darstellen. Die Frequenzen werden in 3 Bereichen angezeigt. Die obere Anzeige zeigt das SIgnal im Zeitbereich, unten werden die Spektren der Frequenz dargestellt und mittig nach dem Wasserfallmodell. Das Wasserfallmodell zeigt wie sich die  Grundfrequenz durch abziehen oder hinzufügen von Frequenzen verändert wird.
+\subsubsection{Versuchsdurchführung}
+Vor Beginn des Versuchs muss der Umgebungsscan aus \ref{frequenzenAuflisten} wiederholt werden. Dadurch kann sicher gestellt werden, dass die Messung mit einer aktiven, bzw. gerade gesendeten Frequenz durchgeführt wird. Nachdem eine Frequenz gefunden wurde, beginnt der eigentliche Versuch mit dem Kommando  \textit{dbusrp-f 699219}. Dieses Kommando startet ein Analysetool, das sowohl den Frequenz- als auch den Amplitudenbereich ausgibt.
+
+
+\subsubsection{Auswertung des Versuchs}
+Das Ergebnis dieses Versuchs kann in der Grafik \ref{fig:visual} betrachtet werden. Die Wellen im oberen Bereich der Darstellung sind die Darstellung im Zeitbereich, die unteren Wellen sind die Darstellung im Frequenzbereich. In der Mitte wird das Signal im Wasserfallmodell darstellt. Das Wasserfallmodell zeigt wie sich die  Grundfrequenz durch abziehen oder hinzufügen von Frequenzen verändert wird. Die Darstellung des Signal erinnert stark an weißes Rauschen \todo{Wat han mir wei davon?} 
+
+
+%Mit dem Befehl dbusrp -f <die gewählte Frequenz>  lässt sich die Frequenz anschaulich darstellen. Die Frequenzen werden in 3 Bereichen angezeigt. Die obere Anzeige zeigt das SIgnal im Zeitbereich, unten werden die Spektren der Frequenz dargestellt und mittig nach dem Wasserfallmodell. Das Wasserfallmodell zeigt wie sich die  Grundfrequenz durch abziehen oder hinzufügen von Frequenzen verändert wird.
 \vspace{0,5 cm}
 
 
@@ -206,9 +212,9 @@ Mit dem Befehl dbusrp -f <die gewählte Frequenz>  lässt sich die Frequenz anscha
 \end{figure}
 
 
-\subsection{Versuchsziel}
+%\subsection{Versuchsziel}
 %warum wurde protokoliert
-Der Versuch gibt einen Allgemeinen Einblick in den Umfang von GSM und veranschaulicht die benutzten Frequenzen. Ausserdem werden die mathematischen zusammenhänge klarer und GSM an sich verständlicher.
+%Der Versuch gibt einen Allgemeinen Einblick in den Umfang von GSM und veranschaulicht die benutzten Frequenzen. Ausserdem werden die mathematischen zusammenhänge klarer und GSM an sich verständlicher.
 
 \section{Anruf an die 2600}
 Es soll ein Anruf auf die 2600 was dem echo-Dienst entspricht durchgeführt werden. Dazu benötigen wir den am Anfang beschriebenen Versusaufbau sowie ein GSM-Fähiges Mobiltelefon das in dem Netz registriert ist. 
@@ -217,12 +223,38 @@ Zuerst muss der Authentication-Service gestartet werden dies erfolgt durch den B
 Um sich in dem Netz mit seinem eigenen Mobiltelefon registrieren zu können wählen wir das entsprechende Netz aus und erhalten unsere IMSI. Nun kann die 2600 angerufen werden und der Versuch durchgeführt werden.
 
 
-\subsection{Versuchsziel}
+%\subsection{Versuchsziel}
 %warum wurde protokoliert
-Das Ziel dieses Versuches ist es die die mit geschnittenen Daten zu Analysieren und einen Anruf vom Aufbau bis zum Abbau mit zu verfolgen.
+%Das Ziel dieses Versuches ist es die die mit geschnittenen Daten zu Analysieren und einen Anruf vom Aufbau bis zum Abbau mit zu verfolgen.
 
 
-\subsection{Versuchsdurchführung}
+\section{Datenmitschnitte}
+Der vorangegangene Versuch sollte die physikalischen Eigenschaften des GSM Standards vermitteln. Der folgende Versuch beschäftigt sich mit den Protokolleigenschaften des GSM. Daher werden Situationen simuliert, die täglich millionenfach in den deutschen GSM Netzen stattfinden. Den Datenverkehr, den diese Situationen verursachen werden wir mitschneiden und analysieren.
+
+\subsection{Anruf mitschneiden}
+
+\subsubsection{Versuchsaufbau}
+Die Hardware entspricht der des Versuchs \ref{frequenzenAuflisten}. Der Unterschied liegt in der Software. Diese simuliert ein eigenes GSM Netz. Als Softwarepaket wird Open BTS genutzt, was wieder mit  mehreren Softwarekomponenten interagiert. Die für uns relevanten Teile des Open BTS sind im wesentlichen:
+\begin{itemize}
+	\item Sipauthserve - Ist für die Authentifizierung verantwortlich
+	\item Smqueue - Ein store-and-forward SIP Server, dient der Weiterleitung von SMS 
+	\item  Asterisk - Stellt die Telefonanlage zur Verfügung
+\end{itemize}
+Diese Software erlaubt in Verbindung mit der Hardware den Betrieb eines eigenen GSM Netzes. Zum Mittschnitt der Daten steht das Tool Wireshark zur Verfügung. Wireshark ist ein Protocol Analyzer, damit ist es möglich einzelne Datenpakete mitzuschneiden.
+
+Die Hardware wird um ein Mobiltelefon erweitert. Dieses ist bereits konfiguriert und registriert. Dieses Mobiltelefon ermöglicht die Kommunikation und Interaktion mit dem GSM Netz. 
+
+\subsubsection{Versuchsdurchführung}
+Zu Beginn des Versuchs muss die Software gestartet werden. Da die einzelnen Programme untereinander Abhängigkeiten haben, müssen sie in einem Befehl gestartet werden. \todo{Stimmt das denn auch? Das mit den Abhängigkeiten und gleichzeitigg starten} Der Befehl \textit{sudo sipauthserve \& sudo smqueue \& sudo OpenBTS \& sudo OpenBTSCLI}  startet die grundsätzliche Funktionalität des GSM Netzes. Mit dem Befehl \textit{sudo asterisk -r} startet die Vermittlungenlage.
+
+Nachdem die die Vorbereitungen abgeschlossen sind, steht ein GSM Netz zur Verfügung.  Für den Mitschnitt der Daten muss noch Wireshark konfiguriert werden. Hierzu wird das Filter \textit{!(udp port 5700 || udp port 5702 || icmp)} gesetzt. Ein Filter in Wireshark hat den Vorteil, dass beim Datenmitschnitt die umrelevanten Daten herausgefiltert werden können und damit die doch sehr umfangreiche Datenmenge reduziert werden kann.
+
+Der Anruf wird auf die Telefonnummer 2600 getätigt. Diese Telefonnummer ist als echo Kanal konfiguriert, das heißt, dass das Gespräch vom Netz wieder zurück zum Teilnehmer geschickt wird.
+
+
+\subsubsection{Auswertung des Versuchs}
+
+
 %was wurde protokolliert
 Nachdem wir uns registriert haben erhalten wir eine SMS mit folgendem Inhalt.
 
