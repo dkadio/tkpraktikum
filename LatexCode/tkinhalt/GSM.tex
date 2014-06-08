@@ -29,7 +29,14 @@ Dieses Bauteil wandelt die elektromagnetischen Signale in elektrische Signale um
 
 \subsubsection{USPR\label{uspr}}
 Das USPR, Universal Radio Peripheral, ist eine geschlossene Einheit, die das Verarbeiten der Empfangenen Signale ermöglicht. Es ist modular aufgebaut, sodass ein breites Frequenzspektrum abgedeckt werden kann. Für unseren Versuch interessieren aber nur die Frequenzen des GSM. Das USPR wird im folgenden nicht weiter betrachtet, da es nicht der Gegenstand des Versuchs war, sondern diesen nur ermöglicht hat.
-%%Bild von USPR%%
+
+\vspace{1 cm}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.65\textwidth]{tkinhalt/gsm_bilder/USPR.JPG}
+  \caption{USPR mit Antenne}
+  \label{fig:uspr}
+\end{figure}
 
 
 \subsubsection{Computer\label{computer}}
@@ -56,29 +63,63 @@ Neben der vorhandenen Hardware werden keine weiteren Geräte benötigt. Das Vorhan
 \subsubsection{Versuchsdurchführung}
 Mit dem Tool lsursp wird überprüft, ob die USPR \ref{uspr} vom System erkannt wird.
 
-Nachdem festgestellt wurde, dass die USRP angeschlossen und vom System erkannt wurde, kann der eigentliche Versuch beginnen. Hierzu wird das Tool kal mit dem Kommando \glqq kal -s -DCS\grqq aufgerufen.
+Nachdem festgestellt wurde, dass die USRP angeschlossen und vom System erkannt wurde, kann der eigentliche Versuch beginnen. Hierzu wird das Tool kal mit dem Kommando \glqq kal -s -DCS\grqq aufgerufen. Kal führt einen Umgebungsscan durch, das bedeutet, dass alle Frequenzen, die im DCS 1800 Band liegen und empfangen werden können, aufgelistet werden können.
 
 \subsubsection{Auswertung des Versuchs}
-Das Tool kal hat angezeigt, dass folgende Frequenzen empfangen werden können:
+Zur Erklärung, das DCS 1800 Band ist ein Frequenzband, das den Frequenzbereich um 1800 MHz nutzt. In Deutschland wurde dieser Bereich ursprünglich von den  E-Netzen, also dien Anbietern E-Plus und $O_2$ genutzt. Aus Kapazitätsmangel haben 1999 auch die großen D-Netz Betreiber DCS 1800 Frequenzen erworben.  \todo{Quellen finden} Der Umgebungsscan gibt also die Frequenzen aus, die mit GSM zu tun haben, auf einen Anbieter ist der Scan aber nicht beschränkt.
+Das Ergebnis der Umgebungsscans ist in Tabelle \ref{tab:empfangeneFreqzenzen} aufgelistet.  Jede Zeile dieser Auflistung besteht aus chan mit Frequenzen und power mit einem Wert.
+
+ \begin{table}[h!]
+ 
+ \begin{tabular}{lll}
+  chan: & 555 (1813.8 MHz + 14.632kHz) & power: 1007.18 \\
+  chan: & 602 (1823.2MHz - 8.896kHz) & power 481.48 \\
+  chan: & 619 (1826.6MHz + 572Hz) & power: 1171.37 \\
+  chan: & 620 (1826.8 + 347Hz) & power: 727.63 \\
+  chan: & 630 (1828.8MHz + 177Hz) & power: 1421.75 \\
+  chan: & 631 (1820.0MHz + 209Hz) & power: 2495.22 \\
+    chan: & 637 (1830.2MHz + 403Hz) & power: 2876.83 \\
+      chan: & 40 (1830.8MHz + 508Hz) & power: 36384.61 \\
+  chan: & 641 (1831.0MHz + 508Hz) & power: 8809.88 \\  
+   chan: & 647 (1832.2MHz - 32.386Hz) & power:  1305.97 \\
+  chan: & 648 (1832.4MHz - 32470Hz) & power: 10507.76 \\      
+  chan: & 700 (1842.8MHz + 386Hz) & power: 21662.59 \\ 
+  chan: & 701 (1843.0MHz + 455Hz) & power: 4220.36 \\ 
+  chan: & 706 (1844.0MHz + 387Hz) & power: 27836.79 \\
+  chan: & 709 (1844.6MHz + 2.954Hz) & power: 1148.92 \\
+  chan: & 713 (1845.4MHz + 621Hz) & power: 6744.54 \\
+  chan: & 715 (1845.8MHz + 388Hz) & power: 20091.07 \\
+  chan: & 755 (1853.8MHz - 20.894Hz) & power: 458.32 \\  
+  chan: & 764 (1855.6MHz + 485Hz) & power: 19349.83 \\
+  chan: & 765 (1855.8MHz + 381Hz) & power: 9962.32 \\
+  chan: & 769 (1856.6MHz + 38.177Hz) & power: 3226.76 \\  
+  chan: & 798 (1862.4MHz + 498Hz) & power: 994.82 \\  
+  chan: & 802 (1863.2MHz + 498Hz) & power: 118213.39 \\
+  chan: & 805 (1863.8MHz + 440Hz) & power:  5598.97 \\
+   
+ \end{tabular}
+ \caption{Auflistung der empfangenen Frequenzen}
+ \label{tab:empfangeneFreqzenzen}
+ \end{table}
+
 
 \vspace{1 cm}
 \begin{figure}[h!]
   \centering
   \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/ergebnisKal.png}
-  \caption{Darstellung aller empfangener Frequenzen}
+  \caption{Screenshot des Umgebungsscans}
   \label{fig:empfangeneFrequenzen}
 \end{figure}
 
-
-Bei dieser Tabelle fallen die Begriffe chan und power auf. Vor der eigentlichen Auswertung der Messergebnisse möchten wir diese Begriffe erst einmal erklären.
 \paragraph{chan}
-%%Keine Ahnung
+Chan steht in diesem Fall für channel oder channel number. Dieser Wert wird auch als ARFCN, Absolute Radio Frequency Channel Number, bezeichnet. Der Hintergrund ist, dass ein Teilnehmer des GSM Netzes nicht das gesamte Frequenzband benötigt. Bzw. auch, dass andere Kommunikationsteilnehmer einer Base Station ausgeschlossen werden, wenn ein Teilnehmer exklusiv das gesamte Frequenzband nutzt. Deswegen werden die Frequenzbänder in Kanäle (channels) unterteilt. Anhand der ARFCN kann die absolute Frequenz berechnet werden, die für die tatsächliche Kommunikation genutzt wird. Die Formel dazu ist in der Abbildung \ref{fig:Frequenzbereich} beschrieben. Auf diese Thematik wird aber im weiteren Verlauf des Versuchs weiter eingegangen. \todo{Den Scheiß habe ich mir quasi ausgedacht. Stimmt das annähernd?}
 
 \paragraph{power}
-%%Wieder keine Ahnung
+Power ist die Stärke, mit der das Signal empfangen wurde. Keine Ahnung welche Einheit. \todo{Dazu was richtiges schreiben}
 
 
-Anhand dieser Auflistung ist es möglich, den Frequenzbereichs von DCS 1800 zu errechnen. DCS 1800 ist übrigens besser als das E Netz bekannt. 
+\paragraph{Berechnung der Frequenzen}
+Wie schon erwähnt, anhand dieser Auflistung ist es möglich, den Frequenzbereichs von DCS 1800 zu errechnen.  
 
 Zur Berechnung eines Frequenzbereichs gibt es einige Formeln. Welche genutzt wird, hängt davon ab, welche Werte bereits bekannt sind.
 
