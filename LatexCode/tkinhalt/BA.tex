@@ -3,18 +3,117 @@
 %=========================================
 
 \chapter{BA Versuch}
-\section{Einleitung}
-%Kurze Einleitung ins Thema
 
-\section{Downlink}
-%alles zum Downlink
+\section{Allgemeine Beschreibung des Versuchs}
+BA, Basic Access, ist der Standardanschluss an das ISDN Netz. Er wird von den Anbietern an Privatkunden und kleine Betriebe vergeben. Basic Access bietet zwei Nutzkanäle (B-Kanäle) und einen Signalisierungskanal (D-Kanal). Obwohl die Netzbetreiber nach und nach auf reine IP Netze umstellen, hat ISDN in öffentlichen Telefonnetzen einen hohen Stellenwert. Mit der Entscheidung, dass die Ortsvermittlungsanlagen digitalisiert werden sollte, wurde 1979 ein wichtiger Grundstein für ISDN gelegt. 1987 wurde ISDN in Pilotprojekten erfolgreich getestet und schließlich 1989 flächendeckend eingeführt. ISDN bietet im Vergleich zu den analogen Übertragungstechniken den Vorteil, dass zwei Nutzkanäle gleichzeitig übertragen werden können. Zusätzliche Vorteile resultieren aus der verbesserten Sprachqualität und der schnelleren Datenübertragung.
 
-\section{Uplink}
+Der folgende Versuch soll das grundlegende Verständnis für ISDN vertiefen und gleichzeitig Einblicke in die Konfiguration gewähren. Der Einblick in die Konfiguration wird dadurch vermittelt, dass es zu dem Versuch gehört, die Anlage für den Versuch herzurichten. Durch Protokollmitschnitte und die bereitgestellten Unterlagen soll das grundlegende Verständnis für ISDN vermittelt werden.
 
-%alles zum uplink
-\section{ARFCN}
+\section{Einrichten der Anlage}
 
-%alles zu ARFCN
+\subsection{Einrichten der Ports \label{einrichtungPorts}}
+\subsubsection{Aufbau des Versuchs}
 
-\section{Untersuchung des Paketflusses mit Wireshark}
+Als Switch steht ein Patapsco Liberator S zur Verfügung. Der Switch übernimmt die Funktionen des Netzes. Dazu gehören die TEI Vergabe, das Routing von Gesprächen und die Vergabe von Telefonnummern. Auf der Hardwareebene verbindet der Liberator die Telefone.
 
+Zusätzlich steht ein EyeSDN Gerät. Dieses ermöglicht die Verbindung des Computers mit dem ISDN Netz und damit den Mittschnitt der Daten. 
+
+Zur Telefonie stehen zwei Telefone zur Verfügung und zum Konfigurieren des Systems ein Computer.
+\todo{War da nicht noch was zur Stromversorgung?}
+
+\subsubsection{Versuchsdurchführung}
+Die Hardware ist zu Beginn des Versuchs bereits verkabelt. Nachdem die SoftwareEyeSDN gestartet wurde, beginnt das Konfigurieren des Switches. Die Konfiguration des Switches geschieht in der Anwendung Switchmanager. Dort werden die Ports eingerichtet, an denen die Telefone hängen und die Freizeichen eingestellt. Nach dem Upload wird die Konfiguration auf den Switch übertragen.
+
+Die Einstellungen können direkt an den Telefonen getestet werden. Wenn der Hörer abgehoben wird, muss ein Freizeichen zu hören sein.
+
+
+\subsubsection{}
+\begin{figure}[htbp]
+\includegraphics[width=0.7\textwidth]{tkinhalt/ba_bilder/liberator.png}
+\caption{Der Loberator S \cite{liberatorBild}}
+\label{darstellungLiberator}
+\end{figure} 
+
+\subsubsection{Auswertung des Versuchs}
+Nachdem die Ports konfiguriert sind, und die Konfiguration auf den Liberator S übertragen sind, sind die Telefone grundsätzlich aktiv. Beide Telefone geben nach dem Abheben des Hörers ein Freizeichen. 
+
+\subsection{Einrichten der Routing Tabellen}
+Nach dem Versuch \ref{einrichtungPorts} haben die Telefone bereits Grundfunktionalitäten. Zum Telefonieren und für die weiteren Versuche fehlt aber noch die Einrichtung der Routinginformationen. Ohne die Routinginformationen ist es nicht möglich, ein Gespräch von einem Telefon zum Anderen zu leiten, als zu telefonieren.
+
+\subsubsection{Aufbau des Versuchs}
+Der Aufbau des Versuchs entspricht dem vom Versuch \ref{einrichtungPorts}. Dieser ist für den aktuellen Versuch aber eine Vorraussetzung.
+
+\subsubsection{Beschreibung des Versuchs}
+Das Routing wird im Interface Term des Liberator Fensters eingerichtet. Für das Einrichten von  Routen können Profile angelegt werden, dadurch bleibt das System flexibler. Wir richten ein neues Profil ein, und konfigurieren die Routen von Telefon 1 zu Telefon 2  und umgekehrt. Wie bereits im letzten Versuch werden die Einstellungen nach dem Hochladen wirksam.
+
+\subsubsection{Auswertung des Versuchs}
+Nachdem die Routen konfiguriert sind, ist es möglich das Telefon 2 vom Telefon 1 an anzurufen. Bzw. ein Anruf in die Umgekehrte Richtung ist auch möglich.
+
+\section{Aufzeichnungen und Interpretationen des ISDN-D-Kanal Protokolls}
+\subsection{Aufzeichnen des  ISDN-D-Kanal Protokolls \ref{aufzeichnenDKanal}}
+\subsubsection{Versuchsaufbau}
+Der Versuchsaufbau entspricht dem Versuch  \ref{einrichtungPorts}. Die beiden vorangegangen Versuche sind für diesen voraus gesetzt.
+
+\subsubsection{Versuchdurchführung}
+Die spätere Auswertung wird erleichtert, wenn der, eventuell schon laufende, Mitschnittsdienst erst gestoppt wird und alle vorhandenen Ergebnisse verworfen werden. Nachdem das geschehen ist, wird der Mitschnittdienst wieder gestartet und das Telefon 1 vom Telefon 2 angerufen. Wenn das Telefon 2 klingelt wird der Hörer abgehoben und nach einem kurzen Moment wieder aufgelegt. Dadurch wird ein Gespräch aufgebaut und wieder abgebaut. Direkt nach dem Beenden des Gesprächs wird der Mitschnittdienst wieder gestoppt. 
+Die Auswertung des Gesprächs beginnt, wenn der Mitschnitt im Fenster mit einem Doppelklick ausgewählt wird. 
+
+\subsection{Interpretieren des D-Kanal-Protokoll Mitschnitts}
+\subsubsection{Versuchsaufbau}
+Der Versuch \ref{aufzeichnenDKanal} muss durchgeführt sein und die Ergebnisse müssen vorliegen. Für die Auswertung muss ein Computer mit der Software Wireshark bereit stehen.
+\subsubsection{Versuchsdurchführung}
+Die aufgezeichneten Protokolldaten werden mit Wireshark geöffnet. 
+
+\subsubsection{Auswertung des Versuchs}
+\todo{Verbindungsaufbau skizzieren}
+Zur einfacheren und genaueren Auswertung des Versuchs sind in der Aufgabenbeschreibung 12 Fragen beschrieben. 
+\todo{Da kann mehr als Blindtext stehen}
+\begin{enumerate} 
+	\item \textbf{Welche Rahmen dienen der TEI-Vergabe, und welcher TEI-Wert wird dem Telefon von der Vermittlung zugewiesen?} - \blindtext 
+		
+		\includegraphics[width=0.3\textwidth]{tkinhalt/ba_bilder/rahmen.jpg}
+	\item \textbf{Wann ist der Aufbau der Schicht 2 abgeschlossen?}  
+	\item \textbf{Welchen ISDN-Dienst fordert das Telefon von der Vermittlungsstelle an, welche Übertragungskapazität benötigt dieser Dienst?}	\item \textbf{Welche Kodierung des Sprachkanals wird gewählt?}
+	\item \textbf{Welche MSN-Nummer wird in welchem Rahmen übertragen?}
+	\item \textbf{Wann ist der gesicherte Aufbau der Schicht 3 abgeschlossen?}
+	\item \textbf{Welchen B-Kanal weist die Vermittlung der Verbindung zu?}
+	\item \textbf{Wo wird die gerufene Telefonnummer übermittelt?}
+	\item \textbf{Mit welchem Rahmen bestätigt die Vermittlung die Vollständigkeit der Rufnummer und beginn den angeforderten Teilnehmer anzuwählen?}
+	\item \textbf{Mit welchem Rahmen signalisiert die Vermittlung, dass der gerufene Teilnehmeranschluss ein Endgerät besitzt, das den Sprachdienst erfüllen kann und ein Rufsignal aussendet?}
+	\item \textbf{Wann sind die Schichten 3 und 2 jeweils wieder vollständig abgebaut?}
+	\item \textbf{Bei ISDN gibt es die Möglichkeit, bei einem abgehenden Ruf die Zielrufnummer vor oder nach dem Abheben des Hörers einzugeben. Wodurch unterscheidet sich die Signalisierung auf Schicht 3 (SETUP- und INFO Nachricht) der Teilnehmerschnittstelle in diesen beiden Fällen?}
+\end{enumerate}
+
+Nur dass das TODO die Tabelle nicht kaputt macht\todo{Haben wir den Versuch mit dem aufgelegten Hörer gemacht?}
+
+\begin{table}
+\begin{tabular}{|p{0.20 \linewidth}||*{9}{p{0.07 \linewidth}|}}
+\hline
+Nachricht / Nachrichtenelement & Alert & Call Proc & Conn & DISC & Info & Rel & Rel. Comp & Setup & Setup Ack\\
+\hline
+\hline
+Bearer Capability & & & & & & & & &    \\ 
+\hline
+Cause & & & & & & & & &  \\
+\hline
+Channel Identification  & & & & & & & & &  \\
+\hline
+Process Indicator  & & & & & & & & &  \\
+\hline
+Display  & & & & & & & & &  \\
+\hline
+Date / Time  & & & & & & & & &  \\
+\hline
+Calling Party Number  & & & & & & & & & \\
+\hline
+Called Party Number   & & & & & & & & & \\
+\hline
+Sending Complete  & & & & & & & & & \\
+\hline
+Facility  & & & & & & & & & \\
+\hline
+User to User Information  & & & & & & & & & \\
+\hline
+\end{tabular}
+\caption{Genutzte Nachrichten}
+\end{table}
