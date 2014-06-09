@@ -12,9 +12,6 @@ Der Versuch soll das Verständnis für die Technik vertiefen, die den reibungslose
 Der Aufbau des Versuchs ist auf den ersten Blick leicht beschrieben: Unser System besteht aus einer Antenne \ref{antenne}, einem USPR \ref{uspr} und einem Computer \ref{computer}. 
 %%%%%%Bild des Gesamtaufbaus%%%%%
 
-Zusätzlich steht uns zur Generierung von GSM Paketen ein Mobiltelefon zur Verfügung. 
-%%%%Bild vom Handy%%%%
-
 
 %Bestandteile des Versuchsaufbaus sind zwei baugleiche Open Base Transceiver Station Systeme bestehend aus Computer und der USRP. Die USRP ist für den Empfang der Funksignale notwendig. OpenBTS läuft in unserem Fall auf einem Rechner mit Ubuntu als Betriebssystem und  besteht aus mehren Programmen. Das System modifiziert den gewöhnlichen GSM-Netzaufbau. USRP, SDR und OpenBTS übernehmen die Aufgaben von dem Base Transceiver Station und dme Base Station Controller, die Aufgabe des Mobile Switching Center wird von dem Asterisk übernommen und verbindet das Netz mit dem IP-Backbone. SDR steht für Software Defined Radio und stellt Signalverarbeitungsbibliotheken zur verfügung. 
 %Es wird ein Mobiltelefon das bereits im Netz registriert ist bereit gestellt, es ist jedoch eben so gut möglich sich mit einem anderen GSM-fähigen Telefon in dem Netz anzumelden. Auf dem OpenBTS system laufen verschiedene Dienste wie etwa der echo dienst der unter der Nummer 2600 bzw eine reply-Dients für SMS unter der 411.
@@ -233,7 +230,7 @@ Der vorangegangene Versuch sollte die physikalischen Eigenschaften des GSM Stand
 
 \subsection{Anruf mitschneiden}
 
-\subsubsection{Versuchsaufbau}
+\subsubsection{Versuchsaufbau \label{aufbauMittschnitt}}
 Die Hardware entspricht der des Versuchs \ref{frequenzenAuflisten}. Der Unterschied liegt in der Software. Diese simuliert ein eigenes GSM Netz. Als Softwarepaket wird Open BTS genutzt, was wieder mit  mehreren Softwarekomponenten interagiert. Die für uns relevanten Teile des Open BTS sind im wesentlichen:
 \begin{itemize}
 	\item Sipauthserve - Ist für die Authentifizierung verantwortlich
@@ -244,50 +241,47 @@ Diese Software erlaubt in Verbindung mit der Hardware den Betrieb eines eigenen 
 
 Die Hardware wird um ein Mobiltelefon erweitert. Dieses ist bereits konfiguriert und registriert. Dieses Mobiltelefon ermöglicht die Kommunikation und Interaktion mit dem GSM Netz. 
 
-\subsubsection{Versuchsdurchführung}
+\subsubsection{Versuchsdurchführung \label{mitschnittDurchführung}}
 Zu Beginn des Versuchs muss die Software gestartet werden. Da die einzelnen Programme untereinander Abhängigkeiten haben, müssen sie in einem Befehl gestartet werden. \todo{Stimmt das denn auch? Das mit den Abhängigkeiten und gleichzeitigg starten} Der Befehl \textit{sudo sipauthserve \& sudo smqueue \& sudo OpenBTS \& sudo OpenBTSCLI}  startet die grundsätzliche Funktionalität des GSM Netzes. Mit dem Befehl \textit{sudo asterisk -r} startet die Vermittlungenlage.
 
 Nachdem die die Vorbereitungen abgeschlossen sind, steht ein GSM Netz zur Verfügung.  Für den Mitschnitt der Daten muss noch Wireshark konfiguriert werden. Hierzu wird das Filter \textit{!(udp port 5700 || udp port 5702 || icmp)} gesetzt. Ein Filter in Wireshark hat den Vorteil, dass beim Datenmitschnitt die umrelevanten Daten herausgefiltert werden können und damit die doch sehr umfangreiche Datenmenge reduziert werden kann.
 
 Der Anruf wird auf die Telefonnummer 2600 getätigt. Diese Telefonnummer ist als echo Kanal konfiguriert, das heißt, dass das Gespräch vom Netz wieder zurück zum Teilnehmer geschickt wird.
 
+Nachdem der Versuch vorbereitet ist, wird über das Mobiltelefon die Nummer 2600 angerufen.
 
 \subsubsection{Auswertung des Versuchs}
+Der Echo Kanal funktioniert, wie beschrieben. Die Sprachdaten, die ans Netz gesendet werden, werden wieder vom Netz zurück geschickt.
 
 
-%was wurde protokolliert
-Nachdem wir uns registriert haben erhalten wir eine SMS mit folgendem Inhalt.
+\todo{Hier die Datenpakete, bzw. deren Analyse rein}
+
+Wird der Versuch mit einem eigenen Mobiltelefon ausgeführt, muss sich dieses erst an am Netz anmelden. Diese Anmeldung wird vom Netz mit einer SMS bestätigt.
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.5\textwidth]{tkinhalt/gsm_bilder/einwahlgsm.png}
-  \caption{Einwahl in das GSM Netz}
+  \caption{Quittierung der Einwahl in das GSM Netz}
   \label{fig:einwahl}
 \end{figure}
 
-Nun rufen wir die 2600 an und lassen dabei Wireshark mitlaufen um später den Rufaufbau und Datenaustausch mit zu schneiden.
-Es ertönt eine Stimme und kurz darauf ist der echo-Dienst aktiv und gibt die Sprach-Daten die gesendet werden wieder zurück.
 
 
-\section{Beschreibung der Verschiedenen Messungen und Ergebnisdarstellung}
-%hier sollte die auswertung der Sprachdaten stehen
 
-\section{Diskussion der Messergebnisse und Ausarbeiten der Aufgaben}
-%dies beinhaltet auch die Nacharbeitung von Themen, die im Versuch als bisher nicht bekannt erkannt wurden.
+\section{Mitschnitt einer SMS}
+\subsection{Versuchsaufbau}
+Der Aufbau des Versuchs entspricht dem Aufbau \ref{aufbauMittschnitt}.
 
-
-\section{Senden einer SMS an die 411}
-Der Selbe Versuch wie mit dem Echo-Dienst wird nun per SMS wiederholt. In diesem Fall sollen die Packetdaten einer SMS mit geschnitten werden und diese Analysiert werden.
 \subsection{Versuchsdurchführung}
-%was wurde protokolliert
-Da wir bereits im GSM-Netz registriert sind bzw das System gestartet ist, senden wir einfach eine SMS mit dem Inhalt "info" an die 411. Als Antwort auf die SMS erhalten wir eine Antwort mit dem Inhalt der gesendeten SMS sowie weitere Informationen wie Zeiten. % was stand den da noch drin?
-\subsection{Versuchsziel}
-%warum wurde protokoliert
-Der Versuch soll den Ablauf des Senden einer SMS veranschaulichen. 
+Die Durchführung entspricht der Durchführung \ref{mitschnittDurchführung}. Anstatt des Anrufs an die Nummer 2600 wird eine SMS mit dem Inhaltt \glqq info \grqq an die Telefonnummer 411 geschickt.
 
-\section{Beschreibung der Verschiedenen Messungen und Ergebnisdarstellung}
+\subsubsection{Auswertung des Versuchs}
 
-Das erste Bild zeigt das Packet das gesendet wird bei dem veschicken einer SMS. Wie man schon in der Informationsspalte sehen kann wird die SMS von dem Mobiltelefon(MS) an das Netzwerk(NW) geschickt. In dem Feld TP-USER-DATA kann man sich den geschickten Inhalt ansehen. Was in diesem Fall high ist. 
+Als Antwort auf die SMS erhalten wir eine Antwort mit dem Inhalt der gesendeten SMS sowie weitere Informationen wie Zeiten. \todo{ was stand den da noch drin}
+
+In der Protokollanalyse sieht man, welche Datenpakete für den Versand einer SMS nötig sind. Die Grafik \reffig:sms1} zeigt das Packet das gesendet wird bei dem Veschicken einer SMS. Wie man schon in der Informationsspalte sehen kann wird die SMS von dem Mobiltelefon(MS) an das Netzwerk(NW) geschickt. In dem Feld TP-USER-DATA kann man sich den geschickten Inhalt ansehen. Was in diesem Fall high ist. 
+
+Die Grafik \ref{fig:sms2} zeigt die gleiche SMS. Der Unterschied ist, dass die SMS vom Netzwerk zum Mobiltelefon geschickt wird.
 %\begin{figure}[h]
   %\centering
   %\begin{minipage}[b]{6 cm}
