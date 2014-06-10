@@ -67,21 +67,39 @@ Die aufgezeichneten Protokolldaten werden mit Wireshark geöffnet.
 \subsubsection{Auswertung des Versuchs}
 \todo{Verbindungsaufbau skizzieren}
 Zur einfacheren und genaueren Auswertung des Versuchs sind in der Aufgabenbeschreibung 12 Fragen beschrieben. 
-\todo{Da kann mehr als Blindtext stehen}
 \begin{enumerate} 
-	\item \textbf{Welche Rahmen dienen der TEI-Vergabe, und welcher TEI-Wert wird dem Telefon von der Vermittlung zugewiesen?} - \blindtext 
+	\item \textbf{Welche Rahmen dienen der TEI-Vergabe, und welcher TEI-Wert wird dem Telefon von der Vermittlung zugewiesen?} \newline
+		Die Tei vergabe wird über das Protocol TEI mit der info Itenty Request behandelt. Diese fordert einen TEi Wert zur indentifizierung des Endgerätes an. 
 		
-		\includegraphics[width=0.3\textwidth]{tkinhalt/ba_bilder/rahmen.jpg}
-	\item \textbf{Wann ist der Aufbau der Schicht 2 abgeschlossen?}  
-	\item \textbf{Welchen ISDN-Dienst fordert das Telefon von der Vermittlungsstelle an, welche Übertragungskapazität benötigt dieser Dienst?}	\item \textbf{Welche Kodierung des Sprachkanals wird gewählt?}
-	\item \textbf{Welche MSN-Nummer wird in welchem Rahmen übertragen?}
-	\item \textbf{Wann ist der gesicherte Aufbau der Schicht 3 abgeschlossen?}
-	\item \textbf{Welchen B-Kanal weist die Vermittlung der Verbindung zu?}
-	\item \textbf{Wo wird die gerufene Telefonnummer übermittelt?}
-	\item \textbf{Mit welchem Rahmen bestätigt die Vermittlung die Vollständigkeit der Rufnummer und beginn den angeforderten Teilnehmer anzuwählen?}
-	\item \textbf{Mit welchem Rahmen signalisiert die Vermittlung, dass der gerufene Teilnehmeranschluss ein Endgerät besitzt, das den Sprachdienst erfüllen kann und ein Rufsignal aussendet?}
-	\item \textbf{Wann sind die Schichten 3 und 2 jeweils wieder vollständig abgebaut?}
-	\item \textbf{Bei ISDN gibt es die Möglichkeit, bei einem abgehenden Ruf die Zielrufnummer vor oder nach dem Abheben des Hörers einzugeben. Wodurch unterscheidet sich die Signalisierung auf Schicht 3 (SETUP- und INFO Nachricht) der Teilnehmerschnittstelle in diesen beiden Fällen?}
+		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/indenty_request_a1.png}
+		
+		Die Anfrage wird durch einen Identy Assigned bestätigt und ein TEI Wert wird dem Endgerät zugewiesen. In diesem Fall wird der Wert 64 zugewiesen.
+		
+		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/identy_assigned_a1.png}
+
+	\item \textbf{Wann ist der Aufbau der Schicht 2 abgeschlossen?}  \newline
+	Der Aufbau ist nach dem senden eines unnumbered Acknowledge Frame der zur Bestätigung des Set Asynchronous Balance Mode Extended Frame benutzt wird beendet.
+		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/sabme_a2.png}
+	
+	\item \textbf{Welchen ISDN-Dienst fordert das Telefon von der Vermittlungsstelle an, welche Übertragungskapazität benötigt dieser Dienst?}\newline
+	Das Telefon fordert den Dienst zum übertragen von Sprache an. Dies ist ein Kanal mit 64 kbit/s übertragungskapazität.
+	Im folgenden Frame kann man dies herauslesen. Es handelt sich hierbei um eine Setup Nachricht.
+		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/setup_a3.png}
+	
+	
+	\item \textbf{Welche Kodierung des Sprachkanals wird gewählt?}\newline
+	ITU-T standardized coding hab ich hier aufm block stehen.
+	\item \textbf{Welche MSN-Nummer wird in welchem Rahmen übertragen?}\newline
+	\item \textbf{Wann ist der gesicherte Aufbau der Schicht 3 abgeschlossen?}\newline
+	\item \textbf{Welchen B-Kanal weist die Vermittlung der Verbindung zu?}\newline
+	B1 Channel (0x01)
+	\item \textbf{Wo wird die gerufene Telefonnummer übermittelt?}\newline
+	\item \textbf{Mit welchem Rahmen bestätigt die Vermittlung die Vollständigkeit der Rufnummer und beginn den angeforderten Teilnehmer anzuwählen?}\newline
+	Alerting
+	\item \textbf{Mit welchem Rahmen signalisiert die Vermittlung, dass der gerufene Teilnehmeranschluss ein Endgerät besitzt, das den Sprachdienst erfüllen kann und ein Rufsignal aussendet?}\newline
+	
+	\item \textbf{Wann sind die Schichten 3 und 2 jeweils wieder vollständig abgebaut?}\newline
+	\item \textbf{Bei ISDN gibt es die Möglichkeit, bei einem abgehenden Ruf die Zielrufnummer vor oder nach dem Abheben des Hörers einzugeben. Wodurch unterscheidet sich die Signalisierung auf Schicht 3 (SETUP- und INFO Nachricht) der Teilnehmerschnittstelle in diesen beiden Fällen?}\newline
 \end{enumerate}
 
 Nur dass das TODO die Tabelle nicht kaputt macht\todo{Haben wir den Versuch mit dem aufgelegten Hörer gemacht?}
