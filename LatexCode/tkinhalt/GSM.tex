@@ -44,7 +44,7 @@ Der Computer mit seiner entsprechenden Software ist die für den Versuch am inter
 Zur Bereitstellung dieser Schnittstelle und der Protokolle wird das Softwarepaket OpenBTS genutzt. 
 
 %Es wird an zwei Baugleichen Systemen gearbeitet die jeweils eine Universal Software Radio Peripheral anbieten (USRP). Das System läuft mit dem Programm OpenBTS und implementiert einen GSM-Protokollstack von Layer 1-3 und terminiert die höheren Schichten. Mit dem System ist es möglich die meisten GSM-Signale abzufangen und mit zu schneiden.
-%Ziel des Versuches ist es die Packetdaten via Wireshark, in dem GSM-Netz von einem Anruf auf den Echo-Server sowie eine SMS an die 411 mi dem Text "info", mit zu schneiden und zu analysieren. Um sich mit den Komponenten und GSM vertraut zu machen werden zu Anfang einige Visuelle und Informative Versuche ausgeführt wie z.b. das Visualisieren von Frequenzen und das erarbeiten der mathematischen Zusammen hänge der Frequenzen.
+%Ziel des Versuches ist es die Paketdaten via Wireshark, in dem GSM-Netz von einem Anruf auf den Echo-Server sowie eine SMS an die 411 mi dem Text "info", mit zu schneiden und zu analysieren. Um sich mit den Komponenten und GSM vertraut zu machen werden zu Anfang einige Visuelle und Informative Versuche ausgeführt wie z.b. das Visualisieren von Frequenzen und das erarbeiten der mathematischen Zusammen hänge der Frequenzen.
 
 Das Ziel des Versuchs ist es, die Paketdaten mitzuschneiden, die in einem GSM Netz auftreten. Vor dem Mitschnitt soll ein Grundverständnis über die Physik hinter dem GSM Netz geschaffen werden.
 
@@ -253,17 +253,90 @@ Nachdem der Versuch vorbereitet ist, wird über das Mobiltelefon die Nummer 2600 
 \subsubsection{Auswertung des Versuchs}
 Der Echo Kanal funktioniert, wie beschrieben. Die Sprachdaten, die ans Netz gesendet werden, werden wieder vom Netz zurück geschickt.
 
+\todo{Um in U(m) umwandeln so das das m klein wird}
 
-\todo{Hier die Datenpakete, bzw. deren Analyse rein}
+Mit geschnitten werden die Daten die über das Um Interface gesendet werden. Das Um Interface ist eine Funkschnittstelle die für die Übertragung zwischen der Mobile-Station und dem Base Transceiver Station zuständig ist. Das Um Interface arbeitet auf den Untersten drei Layer des ISO-OSI-Referenzmodell.
+
+Durch Wireshark ist es möglich einen Einblick in die gesendeten Daten der verschiedenen Layern zu erhalten. 
+Die Pakete die auf den verschiedenen Layern gesendet werden sind die folgenden:
+
+\begin{itemize}
+	\item Auf Layer1 - GSMTAP
+	\item Auf Layer2 - LAPDm
+	\item Auf Layer3 - Resource Management Protocol (RR)
+\end{itemize}
+
+
+Da OpenBTS alle höheren Protokolle terminiert, erscheinen in Wireshark nicht nur die RR Nachrichten sondern auch Mobility Management und Call Management Nachrichten als Layer 3 Nachrichten welche in Wireshark als LAPDm gekennzeichnet sind.
+Im folgenden werden die für den Versuch wichtigen Pakete untersucht.\newline
+
+GSMTAP ist ein Pseudoheader für das Um Interface der in UDP Pakete gekapselt wird. Dieser Übernimmt die Aufgabe der fehlerfreien Übertragung, sowie die Verteilung der Kanäle.
+Im Header werden Informationen zu der verwendeten Version, der länge des Headers, der Type der übertragenden Daten, sowie die ARFCN und nähere Informationen zur Signalstärke angegeben.
+
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/gsmtap_header.png}\captionof{figure}{GSMTAP-Header}
+  \label{fig:GSMPTAP-Header}
+
+
+Unser Hauptaugenmerk legen wir auf die Pakete die als SIP gekennzeichnet sind. Hier kann man am besten nachverfolgen was gerade für eine Aktion durchgeführt wird. 
+Da als erstes eine Verbindung aufgebaut werden muss damit man mit dem Echo-Server interagieren kann wird zuerst eine Invite Nachricht gesendet. \newline
+Bevor das jedoch passiert wird vorher auf dem Layer 2 eine Setup Nachricht gesendet. Wie man in \ref{Lapdm Setup Nachricht} sehen kann wird hier ebenfalls die Bearer Capability angefordert. Die Bearer Capability bedeutet das ein Gerät in unserem Fall die MS eine bestimmte Transportleistung vom Netz anfordert. 
+\todo{in bin einzubinden http://www.itwissen.info/definition/lexikon/bearer-capability-BC.html}
+ 
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/lapdm_setup.png}\captionof{figure}{Setup Nachricht auf dem Layer 2}
+  \label{fig:Lapdm Setup Nachricht}
+
+Ist dieser Vorgang abgeschlossen kann der Teilnehmer durch die Invite Nachricht den Echo-Server Anfragen und ihm für den Sprach-Aufbau relevante Daten übermitteln.
+Diese sind, wie man im Header sehen kann, von wem die Nachricht gestellt wird, an wen sie gesendet wird, sowie die Call-ID.
+
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_invite_1.png}\captionof{figure}{Invite Nachricht im SIP Protokoll}
+  \label{fig:SIP invite Nachricht}
+
+Vorrausgesetzt das diese Daten nicht fehlerhaft sind wird versucht eine Verbindung zu dem Server herzustellen. Diese kann man in \ref{SIP trying Nachricht} sehen. Dort wird mit dem Status-Code 100 gekennzeichnet.
+
+  
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_trying_2.png}\captionof{figure}{trying Nachricht im SIP Protokoll}
+  \label{fig:SIP trying Nachrichtl}
+
+Wenn die Anfrage der Verbindung erfolgreich war wird dies durch eine Ok-Nachricht bestätigt. 
+
+  
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_ok_3.png}\captionof{figure}{Antwort auf die Einladung im SIP Protokoll}
+  \label{fig:SIP ok Nachricht}
+
+Daraufhin erfolgt die Bestätigung und die Verbindung ist somit aufgebaut und bereit.
+
+  
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_ack_4.png}\captionof{figure}{Bestätigungs Nachricht im SIP Protokoll}
+  \label{fig:SIP acknowledge Nachricht}
+  
+Nun werden die Daten via RTP zwischen Server und User ausgetauscht. RTP is das Real-Time-Transport Protocol das dazu dient audiovisuelle Daten über IP-basierte Netzwerke zu versenden. 
+Wir legen nun auf das bedeutet wir möchten die Verbindung trennen. Das erfolgt durch einen Bye-nachricht (\ref{SIP bye Nachricht}. In dieser meldet der User dem Server das er die Verbindung nun trennt um dem Server bescheid zu geben. da ebenfalls die Layer 2 Verbindung wieder getrennt werden muss erfolgt hier eine Disconnect Nachricht wie in \ref{LAPDm Disconnect Nachricht}.
+
+  
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/lapdm_disconnect.png}\captionof{figure}{Aufforderung zum Beenden der Layer 2 verbindung}
+  \label{fig:LAPDm Disconnect Nachricht}
+
+
+
+  
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_bye_5.png}\captionof{figure}{Aufforderung zum Beenden des Calls}
+  \label{fig:SIP bye Nachricht}
+
+Die Bye-Nachricht wird durch eine weitere OK-Nachricht bestätigt und somit ist die Verbindung vollständig abgebaut. 
+
+  
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_ok_6.png}\captionof{figure}{Antwort auf die Aufforderung}
+  \label{fig:SIP ok Nachricht 2}
+
+
+
 
 Wird der Versuch mit einem eigenen Mobiltelefon ausgeführt, muss sich dieses erst an am Netz anmelden. Diese Anmeldung wird vom Netz mit einer SMS bestätigt.
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.5\textwidth]{tkinhalt/gsm_bilder/einwahlgsm.png}
-  \caption{Quittierung der Einwahl in das GSM Netz}
+  
+  \includegraphics[width=0.5\textwidth]{tkinhalt/gsm_bilder/einwahlgsm.png}\captionof{figure}{Quittierung der Einwahl in das GSM Netz}
   \label{fig:einwahl}
-\end{figure}
+
 
 
 
@@ -279,7 +352,7 @@ Die Durchführung entspricht der Durchführung \ref{mitschnittDurchführung}. Ansta
 
 Als Antwort auf die SMS erhalten wir eine Antwort mit dem Inhalt der gesendeten SMS sowie weitere Informationen wie Zeiten. \todo{ was stand den da noch drin}
 
-In der Protokollanalyse sieht man, welche Datenpakete für den Versand einer SMS nötig sind. Die Grafik \ref{fig:sms1} zeigt das Packet das gesendet wird bei dem Veschicken einer SMS. Wie man schon in der Informationsspalte sehen kann wird die SMS von dem Mobiltelefon(MS) an das Netzwerk(NW) geschickt. In dem Feld TP-USER-DATA kann man sich den geschickten Inhalt ansehen. Was in diesem Fall high ist. 
+In der Protokollanalyse sieht man, welche Datenpakete für den Versand einer SMS nötig sind. Die Grafik \ref{fig:sms1} zeigt das Paket das gesendet wird bei dem Veschicken einer SMS. Wie man schon in der Informationsspalte sehen kann wird die SMS von dem Mobiltelefon(MS) an das Netzwerk(NW) geschickt. In dem Feld TP-USER-DATA kann man sich den geschickten Inhalt ansehen. Was in diesem Fall high ist. 
 
 Die Grafik \ref{fig:sms2} zeigt die gleiche SMS. Der Unterschied ist, dass die SMS vom Netzwerk zum Mobiltelefon geschickt wird.
 %\begin{figure}[h]
