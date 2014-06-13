@@ -77,7 +77,7 @@ Interface configuration  & From global configuration mode, specify terminal then
 Im privileged EXEC mode müssen erst die Einstellungen des Switches zurück gesetzt werden. Dadurch wird vermieden, dass bereits bestehende Konfigurationen die Ergebnisse beeinflussen. Die Ausgabe ist ähnlich der Ausgabe \ref{routerZurueckSetzen}. Durch die Befehle \textit{delete flash : vlan.dat} und \textbf{erase startup-config} werden erst die Einstellungen zu den V-Lan gelöscht und anschließend wird die gesamte Konfiguration gelöscht. 
 
 \fbox{\parbox{\textwidth}{
-	\textbf{Der Unterschied zwischen \textit{erase startup-config} und \textit{erase running-config}:} Auf den ersten Blick haben beide Befehle die gleiche Wirkung. Der Unterschied ist, dass die Konfiguration nach einem Neustart des Geräts wieder hergestellt wird, wenn  \textit{erase running-config} genutzt wurde. Wurde \textit{erase startup-config} genutzt, ist die Konfiguration dauerhaft gelöscht. 
+	\textbf{Der Unterschied zwischen \textit{erase startup-config} und \textit{erase running-config}:} Auf den ersten Blick haben beide Befehle die gleiche Wirkung. Der Unterschied ist, dass die Konfiguration nach einem Neustart des Geräts wieder hergestellt wird, wenn  \textit{erase running-config} genutzt wurde. Wurde \textit{erase startup-config} genutzt, ist die Konfiguration dauerhaft gelöscht. Der genaue Unterschied wird nach dem Lesen der Erklärung von Speicherunterschieden \ref{aufzaehlungSpeichertypen} deutlicher.
 }}
 
 Nachdem die Konfiguration des Switches zurück gesetzt wurde, kommt die Aufforderung, den Switch zu konfigurieren. Diese Aufforderung wird mit einem \textit{n} quittiert. Dadurch wird die Konfiguration nicht durchgeführt und der Switch läuft mit seinen Default Konfigurationen. Der Switch ist jetzt bereit für den weiteren Versuch.
@@ -140,27 +140,7 @@ system operation may be compromised.
 Rounded IOMEM up to: 10Mb.
 Using 3 percent iomem. [10Mb/256Mb]
 
-              Restricted Rights Legend
-
-Use, duplication, or disclosure by the Government is
-subject to restrictions as set forth in subparagraph
-(c) of the Commercial Computer Software - Restricted
-Rights clause at FAR sec. 52.227-19 and subparagraph
-(c) (1) (ii) of the Rights in Technical Data and Computer
-Software clause at DFARS sec. 252.227-7013.
-
-           cisco Systems, Inc.
-           170 West Tasman Drive
-           San Jose, California 95134-1706
-
-
-
-Cisco IOS Software, 2800 Software (C2800NM-IPBASE-M), Version 12.4(15)T7, RELEAS
-E SOFTWARE (fc3)
-Technical Support: http://www.cisco.com/techsupport
-Copyright (c) 1986-2008 by Cisco Systems, Inc.
-Compiled Wed 13-Aug-08 17:09 by prod_rel_team
-Image text-base: 0x400AA288, data-base: 0x419C4610
+[...]
 
 Cisco 2811 (revision 49.46) with 251904K/10240K bytes of memory.
 Processor board ID FCZ131871SX
@@ -380,8 +360,9 @@ Da die Änderungen sich nur auf den flüchtigen Speicher beschränken, gehen sie be
 
 Um die Auswirkungen des nächsten Schritts zu verstehen, ist es sinnvoll sich die verschiedenen Sorten von Speicher in einem Cisco Router vor Augen zu führen. Die Erläuterungen zu den Speichersorten stammen von Cisco \ref{speicherTypen}
 
+\label{aufzaehlungSpeichertypen}
 \begin{itemize}
-	\item \textbf{RAM: }Random Access Memory ist der flüchtige Arbeitsspeicher, von Cisco auch als Dynamic RAM bezeichnet. Flüchtig bedeutet, dass die gespeicherten Informationen nach einem Spannungsverlust verloren gehen. Im RAM werden ARP Tabellen, Routing Tabellen, eine temporäre Konfiguration, Packet Queues, usw. gespeichert. Der Vorteil von RAM ist, dass er sehr schnell ist und für viele Schreib- und Lesevorgänge ausgelegt ist.
+	\item \textbf{RAM: }Random Access Memory ist der flüchtige Arbeitsspeicher, von Cisco auch als Dynamic RAM bezeichnet. Flüchtig bedeutet, dass die gespeicherten Informationen nach einem Spannungsverlust verloren gehen. Im RAM werden ARP Tabellen, Routing Tabellen, eine temporäre Konfiguration, Packet Queues, usw. gespeichert. Vor allem wird aber im RAM auch das entpackte Betriebssystem der Geräte vorgehalten. Der Vorteil von RAM ist, dass er sehr schnell ist und für viele Schreib- und Lesevorgänge ausgelegt ist.
 	\item \textbf{Flash: } Der Flash Speicher beinhaltet bei Cisco Produkten ein Image oder mehrere Images des Betriebssystems. Der Flash Speicher beispielsweise genutzt, wenn das Betriebssystem des Routers neu aufgesetzt werden muss. Dies geschieht aus dem komprimierten Image vom Flash.
 	\item \textbf{NVRAM: } Im NVRAM sind die Boot Konfigurationen gespeichert. Der Inhalt des NVRAMs geht nicht verloren, wenn der Router neu gestartet wird, oder durch einen Stromausfall unterversorgt wird. 
 	\item \textbf{ROM: } Der ROM speichert beispielsweise Informationen, die für den Selbsttest des Routers nötig sind. Für ein Software Update müssen die ROM Speichersteine ausgetauscht werden.
@@ -423,8 +404,10 @@ program load complete, entry point: 0x8000f000, size: 0xcb80
 program load complete, entry point: 0x8000f000, size: 0xcb80
 
 program load complete, entry point: 0x8000f000, size: 0x1859ee4
-Self decompressing the image : #################################################
-################################################################################
+Self decompressing the image : ######################
+###########################
+##############################
+##################################################
 ########### [OK]
 
 Smart Init is enabled
@@ -493,4 +476,95 @@ Auf der physikalischen Seite haben wir die Interfaces von Routern und Switchen k
 Auf der logischen Seite haben wir etwas über die interne Arbeitsweise von Routern und Switchen gelernt. Diese Aussage bezieht sich auf die Berechtigungen und auf die verschiedenen Speicher innerhalb eines Geräts. Neben dieser Erkenntnis war der Versuch aber auch eine gelungene Einführung in das Terminal von IOS. In diesem Zusammenhang ist mit IOS das Cisco Internetwork Operating System, also dem Standard Betriebssystem von Cisco Routern und Switchen gemeint. Eine Verwechselung kann mit dem gleichnamigen Apple iOS, iPhone Operating System, soll hiermit ausgeschlossen werden.  
 
 \section{Packet Tracer}
-Packet Tracer ist eine Netzwerk Simulationssoftware. 
+Packet Tracer ist eine Netzwerk Simulationssoftware der Firma Cisco Systems. Packet Tracer kann die Geräte der Firma simulieren und ermöglicht so einen unkomplizierten Aufbau von Netzwerken. Der Vorteil von einer Simulationssoftware gegenüber dem echten Aufbau ist, dass Fehler schnell korrigiert werden können und komplexe Zusammenhänge anschaulich visualisiert werden können. 
+
+Für den Versuch ist nur ein Computer nötig, der die entsprechende Software installiert hat.
+
+\subsection{Aufbau des Netzwerkes}
+\subsubsection{Geräte}
+Das virtuelle Netzwerk setzt sich aus zwei Computern, einem Switch und einem Router zusammen. Der Begriff \glqq virtuelles Netzwerk\grqq steht in diesem Fall nicht mit dem Begriff \glqq v-Lan\grqq im Zusammenhang, sondern soll ausdrücken, dass dieses Netzwerk und die Geräte von dem Programm simuliert werden. Der Aufbau wird in der Grafik \ref{fig:virtuellesNetzwerk} veranschaulicht.
+
+ \begin{figure}[htbp] 
+  \centering
+     \includegraphics[width=0.8\textwidth]{tkinhalt/rsp_bilder/aufbauVirtuellesNetzwerk.jpg}
+  \caption{Der Aufbau des virtuellen Netzwerks}
+  \label{fig:virtuellesNetzwerk}
+\end{figure}
+
+\subsubsection{Adressvergabe}
+Die in der Tabelle \ref{adresstabelle} dargestellten Adressen stammen aus der Aufgabenbeschreibung des Versuchs. Interessant an diesem Aufbau ist, dass bis auf den Wechsel zwischen zwei v-Lan alle Standardsituationen in einem Netzwerk simuliert werden. 
+ 
+\begin{table}
+\begin{tabular}{|*{6}{c|}}
+\hline
+Device & Hostname & Interface & IP-Address & Subnet Mask & Default Gateway \\
+\hline
+\hline
+PC0 & Labor-PC1 & Fast-Ethernet &  192.168.0.10 &  255.255.255.128 &  192.168.0.1 \\ 
+\hline
+Switch0 & Labor-Switch1 & FE0/1 u. FE0/2 & NA & NA & NA  \\
+\hline
+Router0 &  Labor-Router1 & FE0/0 &  192.168.0.1 & 255.255.255.128 & NA \\
+\hline
+ & &  FE0/1 & 10.10.10.1 &  255.255.255.224 & NA\\
+\hline
+PC1 & Labor-PC2 & Fast-Ethernet & 10.10.10.10 & 255.255.255.224 &  10.10.10.1 \\
+\hline
+\end{tabular}
+\caption{Adresstabelle des Netzwerks}
+\label{adresstabelle}
+\end{table}
+
+\subsubsection{Überprüfung des Testaufbaus}
+Vertrauen ist gut, Kontrolle ist besser. Deswegen wird das soeben aufgebaute Netzwerk durch geeignete Pings getestet. Ping sendet lediglich ein ICMP echo request, wartet auf den echo reply und misst die benötigte Zeit. ICMP ist ein Bestandteil des Internet Protokolls, wird aber, je nach Literatur, als eigenständiges Protokoll betrachtet. Es ist relativ zuverlässig und eine geeignete Möglichkeit zu testen, ob ein Host erreichbar ist.  
+
+
+\begin{table}
+\begin{tabular}{|*{5}{c|}}
+\hline
+\diagbox{Von}{Zu} & PC1 & PC2 & Router1 (FE0/0) & Router1 (FE0/1) \\
+\hline
+\hline
+PC1 &   &  & 78ms & 62ms \\ 
+\hline
+PC2 & 82ms & &  &  35ms   \\
+\hline
+\end{tabular}
+\caption{Ergebnisse des Ping}
+\label{ergebnissePing}
+\end{table}
+
+Die Ergebnisse der Pings sind in der Tabelle \ref{ergebnissePing} zusammengefasst. Diese Ergebnisse sind bei näherer Betrachtung interessant. Das Offensichtliche an den Ergebnissen ist, dass die Einrichtung des virtuellen Netzwerks scheinbar erfolgreich war. Betrachtet man die Zeiten genauer, fällt auf, dass es in jeder Zeile eine kleinere Zeit und eine größere Zeit gibt. In der Zeile PC2 fällt dieser Unterschied besonders deutlich aus. 
+Zu besseren Übersicht werden noch einmal die Hostnamen aufgelöst:
+
+\textbf{10.10.10.10 $\rightarrow$ 192.168.0.10} = 82ms. Bei diesem Ping wurde das Netzwerk 10.10.10.0 verlassen und die Datenpakete mussten weiter geroutet werden. An diesem Prozess waren beide PC, der Router und der Switch beteiligt. Alleine aus der Anzahl der Geräte ergibt sich eine Latenz, darauf addiert sich die Latenz des Routings.
+
+\textbf{10.10.10.10 $\rightarrow$ 10.10.10.1} = 32ms. Dieser Ping hat das Netzwerk 10.10.10.0 nicht verlassen. Daher fällt die Latenz des Routings weg. Auch, wenn durch die anderen Geräte nur geringe Latenzen entstehen, PC1 und der Switch waren bei diesem Ping am Sendeprozess nicht beteiligt.
+
+Die angegebenen Zeiten sind Mittelwerte, betrachtet man die Zeiten genauer, verstärkt sich der Eindruck.
+\begin{lstlisting}[captionpos=b, caption=Die genauen Zeiten ohne Routing , label=statisticsOhneRouting]
+Ping statistics for 10.10.10.1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 17ms, Maximum = 62ms, Average = 35ms
+\end{lstlisting}
+
+\begin{lstlisting}[captionpos=b, caption=Die genauen Zeiten mit Routing , label=statisticsMitRouting]
+Ping statistics for 192.168.0.10:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 65ms, Maximum = 94ms, Average = 82ms
+\end{lstlisting}
+
+\subsection{Simulieren und Analysieren eines ECHO REQUEST/ECHO REPLY}
+\subsubsection{Aufbau}
+Der einzige Unterschied zum vorhergehenden Aufbau ist, dass die Software in den Simulationsmodus gewechselt wird. Dadurch ist es möglich, die einzelnen Pakete grafisch darzustellen und ihren Weg durch das Netzwerk zu verfolgen. 
+
+\subsubsection{Ablauf des Versuchs}
+Von PC1 wird ein ein echo request zu PC2 gesendet. Dieser request soll von PC2 durch ein echo reply beantwortet werden. Dieser Weg entspricht einem Ping.
+
+\subsubsection{Auswertung des Versuchs}
+\todo{Auswertung schreiben}
+
+\subsection{Fazit}
+\todo{Kommt auch noch}
