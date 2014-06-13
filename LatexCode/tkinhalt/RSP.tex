@@ -3,32 +3,568 @@
 %=========================================
 
 \chapter{RSP Versuch}
-\section{Allgemeine Beschreibung des Versuchs}
-%Kurze Einleitung ins Thema
-Im folgenden Kapitel beschäftigen wir uns mit der Konfiguration eines Switch und einem Router von CISCO. Dazu werden wir einen Switch und einen Router an einen Rechner anschliesen und diese dann über eine Konsole konfigurieren. Darüber hinaus werden wir uns mit der Software Packet Tracer beschäftigen. Mit Packet Tracer lassen sich verschiedene Hardware-Szenarien nach spielen und virtuell aufbauen. Es stehen verschiedene Hardware-Produkte zur Verfügung die sich konfigurieren lassen und beliebig verkabeln lassen.
-\section{Switch und Router Konfiguration}
-%alles zum Downlink
-\subsection{Router start up running config}
+\section{Einleitung}
+Router und Switche begleiten uns im täglichen Leben. Auch wenn sie oft nicht wahrgenommen werden, sind sie doch allgegenwärtig. Ob mobiles Surfen, das Surfen am Computer oder auch telefonieren, diese Tätigkeiten sind ohne Router und Switche nicht möglich. Der Netzwerkausrüster Cisco Systems rechnet bis zu Jahr 2018 mit einem weltweiten Internettraffic von 1,6 Zettabyte \cite{cisco_traffic_schaetzung}. Die Netzwerke, die diesen Traffic behandeln und abwickeln sollen wachsen stetig mit ihren Aufgaben. Deswegen ist eine fundierte Ausbildung in der Netzwerktechnik und ein Verständnis der Komponenten für den Informatiker der Zukunft unausweichlich. \todo{Kann man das so schreiben?}
 
+Der folgende Versuch soll einen grundlegenden Einblick in den Aufbau eines Netzwerkes und die Konfiguration der Komponenten vermitteln.
 
+\subsection{Benötigte Hardware für den Versuch}
+Für den Versuch werden ein Cisco 2811 Router und ein Cisco 2960 Switch benötigt. Zusätzlich werden ein Windows Computer mit einem Terminal Emulationsprogramm und diverse Kabel benötigt.
 
-\section{Packet Tracer}
-Das Folgende Szenario soll erstellt und damit gearbeitet werden. 
-\begin{figure}[h]
+\subsubsection{Router}
+Die Aufgabe eines Routers, manchmal auch als Layer 3 Switch bezeichnet, ist es, zwischen mehreren Netzwerken der ISO/OSI Referenzmodells Schicht 3 zu vermitteln. Dazu besitzt ein Router mehrere (virtuelle) Ports, an denen die entsprechenden Netzwerke angeschlossen sind. Der Router, der für unseren Versuch zur Verfügung stand ist vom Netzwerkausrüster Cisco Systems und ist aus der Modellreihe 2811.
+
+\begin{figure}[htbp] 
   \centering
-  \includegraphics[width=1\textwidth]{tkinhalt/rsp/packettracer/versuchsaufbau.png}
-  \caption{SMS von Netzwerk an Mobilestation}
-  \label{fig:sms2}
+     \includegraphics[width=0.6\textwidth]{tkinhalt/rsp_bilder/router.jpg}
+  \caption{Ein Cisco 2800 Router \cite{cisco_2800_router}}
+  \label{fig:router}
 \end{figure}
 
+\subsubsection{Switch}
+Die Aufgabe eines Switches ist es, Netzwerksegmente miteinander zu verbinden. Das bedeutet, dass mehrere Kabel physikalisch miteinander verbunden werden können und die Datenpakete von einem Kabel in ein anderes weitergeleitet werden können. Logisch gesehen, werden die Datenpakete nur an die Kabel oder Ports weitergeleitet, die die Empfängeradresse dieses Pakets haben. Im Versuch stand uns ein Switch aus der Serie 2960 vom Netzwerkausrüster Cisco Systems zur Verfügung.
 
-\subsection{Versuchsaufbau}
+ \begin{figure}[htbp] 
+  \centering
+     \includegraphics[width=0.6\textwidth]{tkinhalt/rsp_bilder/switch.jpg}
+  \caption{Ein Cisco 2800 Router \cite{cisco_2960_switch}}
+  \label{fig:switch}
+\end{figure}
 
-\subsection{Messungen}
+\subsubsection{Kabel \label{kabel}}
+Bei den Kabeln gibt es verschiedene Typen. Bei den Kabeln zur Energieversorgung der Geräte handelt es sich um normale Kaltgerätekabel, diese brauchen an dieser Stelle nicht weiter beschrieben zu werden. Weiterhin waren RJ 45 Twisted Pair Kabel verwendet. Diese dienen der Verbindung zwischen den Routen, bzw, Switchen und den Computern. \todo{War da auch ein Crossover Kabel dabei?} Diese Verbindung dient dem Austausch von Nutzdaten. Die Konfiguration wurde über eine serielle Schnittstelle vorgenommen. Das dazugehörige Kabel hat auf der einen Seite einen female COM Port, auf der anderen Seite einen male RJ 45 Stecker. 
 
-\subsection{Simmulation Echo-Request/-Reply}
+\subsubsection{Hintergrund der seriellen Übertragung}
+Im Abschnitt \ref{kabel} wurde erwähnt, dass für die Konfiguration die serielle Schnittstelle genutzt wird. Dabei stellt sich die Frage, warum dieser Aufwand betrieben werden muss, obwohl ein Switch doch mit ausreichend Ethernet Ports ausgestattet sein sollte. Den Hintergrund möchten wir an dieser Stelle durch ein Beispiel beleuchten:
+\begin{enumerate}
+	\item Switch und Computer befinden sich im Netzwerk 192.168.0.0/16
+	\item Der Administrator will das Netzwerk in das Netzwerk 172.16.0.0/12 umbenennen
+	\item Der Administrator vertippt sich bei der Vergabe der Ip und gibt die Netzwerkadresse 172.36.0.0 ein
+\end{enumerate}
 
-%alles zu ARFCN
+Was wird nun passieren? Wir setzen voraus, dass im Netzwerk kein DHCP Server aktiviert ist und alle Ip Adressen statisch vergeben werden. Im ersten Schritt ist die Welt noch in Ordnung. Im zweiten Schritt ändert der Administrator die NW Adressen seines Computers und die des Routers. Im dritten Schritt bricht das Chaos aus. Mit dem Abspeichern der ersten Adresse, sei es Computer oder Switch, verliert der Administrator die Kontrolle über den Switch. Da sich mit einer geänderten Adresse der Switch und der Computer in verschieden Netzwerken befinden, ist dieser \glqq Fehler\grqq \~ vorhersehbar und leicht nachzuvollziehen. Der Administrator berücksichtigt diese Tatsache und speichert zuerst die Konfiguration des Switches. Nachdem er die Verbindung zum Switch verloren hat speichert er die neue Konfiguration im Computer. Obwohl sich Computer und Switch vermeintlich wieder in den gleichen Netzen befinden, hat er keinen Zugriff mehr auf den Switch.
 
-\section{Untersuchung des Paketflusses mit Wireshark}
+Ohne einen logischen Zugriff auf den Switch gestaltet sich die Suche nach dem Fehler sehr schwierig. Diese Problematik kann durch die Konfiguration über die serielle Schnittstelle vermieden werden. Ein weiterer Vorteil ist, dass die Konfigurationsschnittstelle des Switches vom Rest des Netzwerkes getrennt ist. Dadurch kann alleine schon durch die Trennung ein Angriff auf den Switch erschwert werden.
+\section{Der Umgang mit Physikalischen Geräten}
+Die physische Einrichtung des Systems ist in der Aufgabenstellung genau beschrieben. So viel sei zu sagen, jeder der beiden Computer ist per LAN Schnittstelle mit dem Switch verbunden. Je ein Computer ist über den COM Port (seriell) mit Router und Switch verbunden. Router und Switch sind über Gigabit Ethernet miteinander verbunden.
 
+Die logische Einrichtung des Systems geschieht über Hyper Terminal. Hyperterminal ist eine Terminal Emulationssoftware. Diese ermöglicht eine Verbindung zu anderen Computern oder Großrechnern über die serielle Schnittstelle. Diese Verbindung ist rein ASCII textbasiert. 
+
+\subsection{Einrichtung eines Switchs}
+Die Einrichtung des Switches beginnt mit dem Hochfahren des Geräts. Dabei kann im Hyperterminal überwacht werden, ob der Switch ordnungsgemäß startet. Nachdem die Selbstdiagnose durchgelaufen ist, kann in den Auführungsmodus, bzw. in den \glqq  privileged EXEC mode\grqq \~gewechselt werden.
+
+Die unterschiedlichen Kommando Modi sind in Tabelle \ref{ciscoCommandMode} aufgeführt.  
+
+\begin{table}
+\begin{tabular}{|p{0.15 \linewidth} | p{0.3 \linewidth} | p{.15\linewidth} | p{0.3 \linewidth} |}
+\hline
+Command Mode  & Access Method & Prompt & Exit \\
+\hline
+\hline
+User EXEC & This is the first level of access. Change terminal settings, perform basic tasks, and list system information. & \textit{ap>} & Enter the logout command.    \\ 
+\hline
+Privileged EXEC & From user EXEC mode, enter the enable command. & \textit{ap\#} & To exit to user EXEC mode, enter the disable command. \\
+\hline
+Global configuration  & From privileged EXEC mode, enter the configure command. & \textit{ap(config)\#} & To exit to privileged EXEC mode, enter the exit or end command, or press Ctrl-Z.  \\
+\hline
+Interface configuration  & From global configuration mode, specify terminal then specify an interface by entering the interface command followed by the interface type and number. & \textit{ap(config-if)\#} & To exit to privileged EXEC mode, enter the end command, or press Ctrl-Z. To exit to global configuration mode, enter the exit command.  \\
+\hline
+\end{tabular}
+\caption{Genutzte Nachrichten}
+\label{ciscoCommandMode}
+\end{table}
+
+Im privileged EXEC mode müssen erst die Einstellungen des Switches zurück gesetzt werden. Dadurch wird vermieden, dass bereits bestehende Konfigurationen die Ergebnisse beeinflussen. Die Ausgabe ist ähnlich der Ausgabe \ref{routerZurueckSetzen}. Durch die Befehle \textit{delete flash : vlan.dat} und \textbf{erase startup-config} werden erst die Einstellungen zu den V-Lan gelöscht und anschließend wird die gesamte Konfiguration gelöscht. 
+
+\fbox{\parbox{\textwidth}{
+	\textbf{Der Unterschied zwischen \textit{erase startup-config} und \textit{erase running-config}:} Auf den ersten Blick haben beide Befehle die gleiche Wirkung. Der Unterschied ist, dass die Konfiguration nach einem Neustart des Geräts wieder hergestellt wird, wenn  \textit{erase running-config} genutzt wurde. Wurde \textit{erase startup-config} genutzt, ist die Konfiguration dauerhaft gelöscht. Der genaue Unterschied wird nach dem Lesen der Erklärung von Speicherunterschieden \ref{aufzaehlungSpeichertypen} deutlicher.
+}}
+
+Nachdem die Konfiguration des Switches zurück gesetzt wurde, kommt die Aufforderung, den Switch zu konfigurieren. Diese Aufforderung wird mit einem \textit{n} quittiert. Dadurch wird die Konfiguration nicht durchgeführt und der Switch läuft mit seinen Default Konfigurationen. Der Switch ist jetzt bereit für den weiteren Versuch.
+
+
+\subsection{Konfiguration eines Routers}
+Das Zurücksetzen des Routers geschieht analog zu dem Zurücksetzen des Switches. 
+
+\begin{lstlisting}[captionpos=b, caption=Die Ausgabe des Zurücksetzens, label=routerZurueckSetzen]
+	Router#erase startup-config
+Erasing the nvram filesystem will remove all configuration files! Continue? [confirm]
+[OK]
+Erase of nvram: complete
+Router#
+*Jun  4 10:44:29.415: %SYS-7-NV_BLOCK_INIT: Initialized the geometry of nvram
+Router#re
+*Jun  4 10:45:30.887: %LINK-3-UPDOWN: Interface Serial0/0/0, changed state to do
+wn
+*Jun  4 10:45:31.887: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/
+0, changed state to do
+Router#reload
+Proceed with reload? [confirm]
+
+*Jun  4 10:45:44.707: %SYS-5-RELOAD: Reload requested  by console. Reload Reason
+: Reload Command.
+
+System Bootstrap, Version 12.4(13r)T11, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2009 by cisco Systems, Inc.
+
+Initializing memory for ECC
+.
+c2811 platform with 262144 Kbytes of main memory
+Main memory is configured to 64 bit mode with ECC enabled
+
+
+Upgrade ROMMON initialized
+program load complete, entry point: 0x8000f000, size: 0xcb80
+program load complete, entry point: 0x8000f000, size: 0xcb80
+
+program load complete, entry point: 0x8000f000, size: 0x1859ee4
+Self decompressing the image : #################################################
+###########################################
+#####################################
+########### [OK]
+
+Smart Init is enabled
+smart init is sizing iomem
+  ID            MEMORY_REQ                 TYPE
+0003E7          0X00473800 C2811 Mainboard
+                0X000021B8 Onboard USB
+                0X002C29F0 public buffer pools
+                0X00211000 public particle pools
+TOTAL:          0X009493A8
+
+If any of the above Memory Requirements are
+"UNKNOWN", you may be using an unsupported
+configuration or there is a software problem and
+system operation may be compromised.
+Rounded IOMEM up to: 10Mb.
+Using 3 percent iomem. [10Mb/256Mb]
+
+[...]
+
+Cisco 2811 (revision 49.46) with 251904K/10240K bytes of memory.
+Processor board ID FCZ131871SX
+2 FastEthernet interfaces
+2 Low-speed serial(sync/async) interfaces
+DRAM configuration is 64 bits wide with parity enabled.
+239K bytes of non-volatile configuration memory.
+62720K bytes of ATA CompactFlash (Read/Write)
+
+
+         --- System Configuration Dialog ---
+         
+\end{lstlisting}
+
+Nachdem der Router auf die Grundeinstellungen zurück gesetzt wurde, muss er neu konfiguriert werden. Der folgende Dialog startet die Konfiguration: 
+
+\begin{lstlisting}[captionpos=b, caption=Die Aufforderung zum neukonfigurieren des Routers, label=routerNeuKonfigurieren]
+Would you like to enter the initial configuration dialog? [yes/no]: yes
+
+At any point you may enter a question mark '?' for help.
+Use ctrl-c to abort configuration dialog at any prompt.
+Default settings are in square brackets '[]'.
+
+Basic management setup configures only enough connectivity
+for management of the system, extended setup will ask you
+to configure each interface on the system
+
+Would you like to enter basic management setup? [yes/no]: yes
+Configuring global parameters:
+\end{lstlisting}
+
+Im Gegensatz zum Switch wird der Router konfiguriert. Dies geschieht über den Befehl \textit{yes} oder einfach \textit{y}. Die Konfiguration wird nach den Vorgaben der Versuchsbeschreibung durchgeführt. Sowohl vor, als auch nach dem Konfigurieren wird das Kommando \textit{show running-config} aufgerufen. 
+\begin{lstlisting}[captionpos=b, caption=Die Ausgabe der Konfiguration vor dem Konfigurieren, label=konfigVor]
+Router#show running-config
+Building configuration...
+
+Current configuration : 1058 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Router
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$WPnk$wNZGar7F/KHiw5VcuCMtE.
+enable password cisco
+!
+no aaa new-model
+!
+!
+ip cef
+!
+!
+no ip domain lookup
+multilink bundle-name authenticated
+!
+!
+!
+archive
+ log config
+  hidekeys
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ description R1 LAN Default Gateway
+ ip address 192.168.1.1 255.255.255.128
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ description R1 WAN
+ ip address 192.168.1.193 255.255.255.252
+ clock rate 125000
+!
+interface Serial0/0/1
+ no ip address
+ shutdown
+ clock rate 125000
+!
+router rip
+ version 2
+ network 192.168.1.0
+!
+ip forward-protocol nd
+!
+!
+ip http server
+!
+!
+!
+control-plane
+!
+banner motd ^CUnauthorized Use Prohibited^C
+!
+line con 0
+ password cisco
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ password cisco
+ login
+!
+scheduler allocate 20000 1000
+!
+end\end{lstlisting}
+
+Nach dem Konfigurieren sieht die Ausgabe folgendermaßen aus:
+\begin{lstlisting}[captionpos=b, caption=Die Ausgabe des Zurücksetzens, label=routerZurueckSetzen]
+R1_HTW#show running-config
+Building configuration...
+
+Current configuration : 1058 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1_HTW
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$WPnk$wNZGar7F/KHiw5VcuCMtE.
+enable password cisco
+!
+no aaa new-model
+!
+!
+ip cef
+!
+!
+no ip domain lookup
+multilink bundle-name authenticated
+!
+!
+!
+archive
+ log config
+  hidekeys
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ description R1 LAN Default Gateway
+ ip address 192.168.1.1 255.255.255.128
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ description R1 WAN
+ ip address 192.168.1.193 255.255.255.252
+ clock rate 125000
+!
+interface Serial0/0/1
+ no ip address
+ shutdown
+ clock rate 125000
+!
+router rip
+ version 2
+ network 192.168.1.0
+!
+ip forward-protocol nd
+!
+!
+ip http server
+!
+!
+!
+control-plane
+!
+banner motd ^CUnauthorized Use Prohibited^C
+!
+line con 0
+ password cisco
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ password cisco
+ login
+!
+scheduler allocate 20000 1000
+!
+end\end{lstlisting}
+
+Zwischen den beiden Ausgaben gibt es augenscheinliche Merkmale:
+
+Der Unterschied zeigt sich im Hostname. Dieser Unterschied deckt sich mit den Erwartungen, da bis auf den Hostname nichts konfiguriert wurde.
+
+\todo{Keine Ahnung, was der in Step 2 will}
+
+Da die Änderungen sich nur auf den flüchtigen Speicher beschränken, gehen sie bei einem Neustart des Routers verloren.
+
+Um die Auswirkungen des nächsten Schritts zu verstehen, ist es sinnvoll sich die verschiedenen Sorten von Speicher in einem Cisco Router vor Augen zu führen. Die Erläuterungen zu den Speichersorten stammen von Cisco \ref{speicherTypen}
+
+\label{aufzaehlungSpeichertypen}
+\begin{itemize}
+	\item \textbf{RAM: }Random Access Memory ist der flüchtige Arbeitsspeicher, von Cisco auch als Dynamic RAM bezeichnet. Flüchtig bedeutet, dass die gespeicherten Informationen nach einem Spannungsverlust verloren gehen. Im RAM werden ARP Tabellen, Routing Tabellen, eine temporäre Konfiguration, Packet Queues, usw. gespeichert. Vor allem wird aber im RAM auch das entpackte Betriebssystem der Geräte vorgehalten. Der Vorteil von RAM ist, dass er sehr schnell ist und für viele Schreib- und Lesevorgänge ausgelegt ist.
+	\item \textbf{Flash: } Der Flash Speicher beinhaltet bei Cisco Produkten ein Image oder mehrere Images des Betriebssystems. Der Flash Speicher beispielsweise genutzt, wenn das Betriebssystem des Routers neu aufgesetzt werden muss. Dies geschieht aus dem komprimierten Image vom Flash.
+	\item \textbf{NVRAM: } Im NVRAM sind die Boot Konfigurationen gespeichert. Der Inhalt des NVRAMs geht nicht verloren, wenn der Router neu gestartet wird, oder durch einen Stromausfall unterversorgt wird. 
+	\item \textbf{ROM: } Der ROM speichert beispielsweise Informationen, die für den Selbsttest des Routers nötig sind. Für ein Software Update müssen die ROM Speichersteine ausgetauscht werden.
+\end{itemize}
+
+Die Konfiguration ist im aktuellen Stadium des Versuchs lediglich im RAM. Der Befehl \textit{copy running-config startup-config} kopiert die Konfiguration aus dem RAM in den NVRAM. 
+
+\begin{lstlisting}
+R1_HTW#copy running-config startup-config
+Destination filename [startup-config]?
+Building configuration...
+[OK]
+\end{lstlisting}
+
+\todo{Noch die config Files vergleichen}
+
+Um zu testen, ob das Kopieren der Konfig Datei vom RAM in den NVRAM bietet sich ein Neustart des Routers an. Da der RAM flüchtig ist, sollte ja die Konfiguration verworfen werden, wenn sie nur im RAM gespeichert ist. Den Router kann man mit dem Befehl \textit{reload} neu starten. Um die Aussage präziser zu machen, der Befehl reload stoppt nur das System. Wenn es als \textit{restart on error} konfiguriert ist, bzw. nicht anders konfiguriert wurde, startet es automatisch neu.
+
+Vor dem Test, ob die Konfiguration immer noch gültig ist, betrachten wir das Terminal beim Hochfahren des Routers.
+\begin{lstlisting}
+R1_HTW#reload
+Proceed with reload? [confirm]
+
+*May 28 11:12:44.035: %SYS-5-RELOAD: Reload requested  by console. Reload Reason
+: Reload Command.
+
+System Bootstrap, Version 12.4(13r)T11, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 2009 by cisco Systems, Inc.
+
+Initializing memory for ECC
+.
+c2811 platform with 262144 Kbytes of main memory
+Main memory is configured to 64 bit mode with ECC enabled
+
+
+Upgrade ROMMON initialized
+program load complete, entry point: 0x8000f000, size: 0xcb80
+program load complete, entry point: 0x8000f000, size: 0xcb80
+
+program load complete, entry point: 0x8000f000, size: 0x1859ee4
+Self decompressing the image : ######################
+###########################
+##############################
+##################################################
+########### [OK]
+
+Smart Init is enabled
+smart init is sizing iomem
+  ID            MEMORY_REQ                 TYPE
+0003E7          0X00473800 C2811 Mainboard
+                0X000021B8 Onboard USB
+                0X002C29F0 public buffer pools
+                0X00211000 public particle pools
+TOTAL:          0X009493A8
+
+If any of the above Memory Requirements are
+"UNKNOWN", you may be using an unsupported
+configuration or there is a software problem and
+system operation may be compromised.
+Rounded IOMEM up to: 10Mb.
+Using 3 percent iomem. [10Mb/256Mb]
+
+[...]
+
+
+
+Press RETURN to get started!
+
+
+*May 28 11:13:53.831: %LINK-3-UPDOWN: Interface FastEthernet0/0, changed state t
+o up
+*May 28 11:13:53.835: %LINK-3-UPDOWN: Interface FastEthernet0/1, changed state t
+o up
+*May 28 11:13:53.835: %LINK-3-UPDOWN: Interface Serial0/0/0, changed state to do
+wn
+*May 28 11:13:53.835: %LINK-3-UPDOWN: Interface Serial0/0/1, changed state to do
+wn
+*May 28 11:13:54.831: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthern
+et0/0, changed state to down
+*May 28 11:13:54.835: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthern
+et0/1, changed state to down
+*May 28 11:13:54.835: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/
+0, changed state to down
+*May 28 11:13:54.835: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/
+1, changed state to down
+*May 28 11:13:56.055: %SYS-5-CONFIG_I: Configured from memory by console
+*May 28 11:13:56.455: %SYS-5-RESTART: System restarted --
+Cisco IOS Software, 2800 Software (C2800NM-IPBASE-M), Version 12.4(15)T7, RELEAS
+E SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2008 by Cisco Systems, Inc.
+Compiled Wed 13-Aug-08 17:09 by prod_rel_team
+*May 28 11:13:56.463: %SNMP-5-COLDSTART: SNMP agent on host R1_HTW is undergoing
+ a cold start
+*May 28 11:13:56.759: %SYS-6-BOOTTIME: Time taken to reboot after reload =   73
+seconds
+*May 28 11:13:57.875: %LINK-5-CHANGED: Interface FastEthernet0/1, changed state
+to administratively down
+*May 28 11:13:57.939: %LINK-5-CHANGED: Interface Serial0/0/1, changed state to a
+dministratively down
+\end{lstlisting}
+
+\todo{Running Config}
+
+\subsection{Fazit des Versuchs}
+Der Versuch hat uns die grundsätzlich Einrichtung eines Cisco Routers näher gebracht. Die grundsätzliche Einrichtung umfasst sowohl die physikalische Verkabelung, als auch auch die Einrichtung der Software. 
+
+Auf der physikalischen Seite haben wir die Interfaces von Routern und Switchen kennen gelernt. Die Interfaces können sowohl für den Payload sein, aber auch für die Konfiguration. Gerade bei der Konfiguration ist uns aufgefallen, dass sich hier die Profimodelle deutlich von den Geräten für den Heimbedarf unterscheiden. Während die meisten Geräte für den Heimbedarf weder separate Interfaces für Payload und Konfiguration, noch einen Unterschied zwischen einer flüchtigen Konfiguration und einer dauerhaften Konfiguration haben, sind die Profigeräte doch bei der Konfiguration deutlich aufwändiger. Der höhere Aufwand ermöglich aber im Gegenzug eine deutlich feinere Konfiguration. 
+
+Auf der logischen Seite haben wir etwas über die interne Arbeitsweise von Routern und Switchen gelernt. Diese Aussage bezieht sich auf die Berechtigungen und auf die verschiedenen Speicher innerhalb eines Geräts. Neben dieser Erkenntnis war der Versuch aber auch eine gelungene Einführung in das Terminal von IOS. In diesem Zusammenhang ist mit IOS das Cisco Internetwork Operating System, also dem Standard Betriebssystem von Cisco Routern und Switchen gemeint. Eine Verwechselung kann mit dem gleichnamigen Apple iOS, iPhone Operating System, soll hiermit ausgeschlossen werden.  
+
+\section{Packet Tracer}
+Packet Tracer ist eine Netzwerk Simulationssoftware der Firma Cisco Systems. Packet Tracer kann die Geräte der Firma simulieren und ermöglicht so einen unkomplizierten Aufbau von Netzwerken. Der Vorteil von einer Simulationssoftware gegenüber dem echten Aufbau ist, dass Fehler schnell korrigiert werden können und komplexe Zusammenhänge anschaulich visualisiert werden können. 
+
+Für den Versuch ist nur ein Computer nötig, der die entsprechende Software installiert hat.
+
+\subsection{Aufbau des Netzwerkes}
+\subsubsection{Geräte}
+Das virtuelle Netzwerk setzt sich aus zwei Computern, einem Switch und einem Router zusammen. Der Begriff \glqq virtuelles Netzwerk\grqq steht in diesem Fall nicht mit dem Begriff \glqq v-Lan\grqq im Zusammenhang, sondern soll ausdrücken, dass dieses Netzwerk und die Geräte von dem Programm simuliert werden. Der Aufbau wird in der Grafik \ref{fig:virtuellesNetzwerk} veranschaulicht.
+
+ \begin{figure}[htbp] 
+  \centering
+     \includegraphics[width=0.8\textwidth]{tkinhalt/rsp_bilder/aufbauVirtuellesNetzwerk.jpg}
+  \caption{Der Aufbau des virtuellen Netzwerks}
+  \label{fig:virtuellesNetzwerk}
+\end{figure}
+
+\subsubsection{Adressvergabe}
+Die in der Tabelle \ref{adresstabelle} dargestellten Adressen stammen aus der Aufgabenbeschreibung des Versuchs. Interessant an diesem Aufbau ist, dass bis auf den Wechsel zwischen zwei v-Lan alle Standardsituationen in einem Netzwerk simuliert werden. 
+ 
+\begin{table}
+\begin{tabular}{|*{6}{c|}}
+\hline
+Device & Hostname & Interface & IP-Address & Subnet Mask & Default Gateway \\
+\hline
+\hline
+PC0 & Labor-PC1 & Fast-Ethernet &  192.168.0.10 &  255.255.255.128 &  192.168.0.1 \\ 
+\hline
+Switch0 & Labor-Switch1 & FE0/1 u. FE0/2 & NA & NA & NA  \\
+\hline
+Router0 &  Labor-Router1 & FE0/0 &  192.168.0.1 & 255.255.255.128 & NA \\
+\hline
+ & &  FE0/1 & 10.10.10.1 &  255.255.255.224 & NA\\
+\hline
+PC1 & Labor-PC2 & Fast-Ethernet & 10.10.10.10 & 255.255.255.224 &  10.10.10.1 \\
+\hline
+\end{tabular}
+\caption{Adresstabelle des Netzwerks}
+\label{adresstabelle}
+\end{table}
+
+\subsubsection{Überprüfung des Testaufbaus}
+Vertrauen ist gut, Kontrolle ist besser. Deswegen wird das soeben aufgebaute Netzwerk durch geeignete Pings getestet. Ping sendet lediglich ein ICMP echo request, wartet auf den echo reply und misst die benötigte Zeit. ICMP ist ein Bestandteil des Internet Protokolls, wird aber, je nach Literatur, als eigenständiges Protokoll betrachtet. Es ist relativ zuverlässig und eine geeignete Möglichkeit zu testen, ob ein Host erreichbar ist.  
+
+
+\begin{table}
+\begin{tabular}{|*{5}{c|}}
+\hline
+\diagbox{Von}{Zu} & PC1 & PC2 & Router1 (FE0/0) & Router1 (FE0/1) \\
+\hline
+\hline
+PC1 &   &  & 78ms & 62ms \\ 
+\hline
+PC2 & 82ms & &  &  35ms   \\
+\hline
+\end{tabular}
+\caption{Ergebnisse des Ping}
+\label{ergebnissePing}
+\end{table}
+
+Die Ergebnisse der Pings sind in der Tabelle \ref{ergebnissePing} zusammengefasst. Diese Ergebnisse sind bei näherer Betrachtung interessant. Das Offensichtliche an den Ergebnissen ist, dass die Einrichtung des virtuellen Netzwerks scheinbar erfolgreich war. Betrachtet man die Zeiten genauer, fällt auf, dass es in jeder Zeile eine kleinere Zeit und eine größere Zeit gibt. In der Zeile PC2 fällt dieser Unterschied besonders deutlich aus. 
+Zu besseren Übersicht werden noch einmal die Hostnamen aufgelöst:
+
+\textbf{10.10.10.10 $\rightarrow$ 192.168.0.10} = 82ms. Bei diesem Ping wurde das Netzwerk 10.10.10.0 verlassen und die Datenpakete mussten weiter geroutet werden. An diesem Prozess waren beide PC, der Router und der Switch beteiligt. Alleine aus der Anzahl der Geräte ergibt sich eine Latenz, darauf addiert sich die Latenz des Routings.
+
+\textbf{10.10.10.10 $\rightarrow$ 10.10.10.1} = 32ms. Dieser Ping hat das Netzwerk 10.10.10.0 nicht verlassen. Daher fällt die Latenz des Routings weg. Auch, wenn durch die anderen Geräte nur geringe Latenzen entstehen, PC1 und der Switch waren bei diesem Ping am Sendeprozess nicht beteiligt.
+
+Die angegebenen Zeiten sind Mittelwerte, betrachtet man die Zeiten genauer, verstärkt sich der Eindruck.
+\begin{lstlisting}[captionpos=b, caption=Die genauen Zeiten ohne Routing , label=statisticsOhneRouting]
+Ping statistics for 10.10.10.1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 17ms, Maximum = 62ms, Average = 35ms
+\end{lstlisting}
+
+\begin{lstlisting}[captionpos=b, caption=Die genauen Zeiten mit Routing , label=statisticsMitRouting]
+Ping statistics for 192.168.0.10:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 65ms, Maximum = 94ms, Average = 82ms
+\end{lstlisting}
+
+\subsection{Simulieren und Analysieren eines ECHO REQUEST/ECHO REPLY}
+\subsubsection{Aufbau}
+Der einzige Unterschied zum vorhergehenden Aufbau ist, dass die Software in den Simulationsmodus gewechselt wird. Dadurch ist es möglich, die einzelnen Pakete grafisch darzustellen und ihren Weg durch das Netzwerk zu verfolgen. 
+
+\subsubsection{Ablauf des Versuchs}
+Von PC1 wird ein ein echo request zu PC2 gesendet. Dieser request soll von PC2 durch ein echo reply beantwortet werden. Dieser Weg entspricht einem Ping.
+
+\subsubsection{Auswertung des Versuchs}
+\todo{Auswertung schreiben}
+
+\subsection{Fazit}
+\todo{Kommt auch noch}
