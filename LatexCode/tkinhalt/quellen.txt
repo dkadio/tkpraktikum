@@ -1,0 +1,6 @@
+Diese sind noch einzu binden 
+
+http://de.wikipedia.org/wiki/G.711						BA
+http://www.itwissen.info/definition/lexikon/bearer-capability-BC.html		BA GSM
+http://www.ciscopress.com/articles/article.asp?p=29737&seqNum=3			BA
+http://de.wikipedia.org/wiki/ISDN-Verbindungsaufbau				BA isdn Rufaufbau

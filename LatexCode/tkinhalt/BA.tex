@@ -90,21 +90,53 @@ Zur einfacheren und genaueren Auswertung des Versuchs sind in der Aufgabenbeschr
 	
 	
 	\item \textbf{Welche Kodierung des Sprachkanals wird gewählt?}\newline
-	ITU-T standardized coding hab ich hier aufm block stehen.
-	\item \textbf{Welche MSN-Nummer wird in welchem Rahmen übertragen?}\newline
-	\item \textbf{Wann ist der gesicherte Aufbau der Schicht 3 abgeschlossen?}\newline
-	\item \textbf{Welchen B-Kanal weist die Vermittlung der Verbindung zu?}\newline
-	B1 Channel (0x01)
-	\item \textbf{Wo wird die gerufene Telefonnummer übermittelt?}\newline
-	\item \textbf{Mit welchem Rahmen bestätigt die Vermittlung die Vollständigkeit der Rufnummer und beginn den angeforderten Teilnehmer anzuwählen?}\newline
-	Alerting
-	\item \textbf{Mit welchem Rahmen signalisiert die Vermittlung, dass der gerufene Teilnehmeranschluss ein Endgerät besitzt, das den Sprachdienst erfüllen kann und ein Rufsignal aussendet?}\newline
-	
-	\item \textbf{Wann sind die Schichten 3 und 2 jeweils wieder vollständig abgebaut?}\newline
-	\item \textbf{Bei ISDN gibt es die Möglichkeit, bei einem abgehenden Ruf die Zielrufnummer vor oder nach dem Abheben des Hörers einzugeben. Wodurch unterscheidet sich die Signalisierung auf Schicht 3 (SETUP- und INFO Nachricht) der Teilnehmerschnittstelle in diesen beiden Fällen?}\newline
-\end{enumerate}
+		Wie man auf dem nachfolgenden Bild in Grau hinterlegt erkennen kann wird der TU-T Standardized-Coding verwendet.
+		Diese Richtlinie gilt für das digitalisieren analoger Audiosignale mittels Puls-Code-Modulation. Der Einsatzbereich für dieses Codecs 			ist wie zu erwarten in der klassischen sowie in der IP-Telefonie.
+		\includegraphics[scale=1]{ba_bilder/ba/itu_code.png} 
 
-Nur dass das TODO die Tabelle nicht kaputt macht\todo{Haben wir den Versuch mit dem aufgelegten Hörer gemacht?}
+	\item \textbf{Welche MSN-Nummer wird in welchem Rahmen übertragen?}\newline
+	Im Setup Frame das man in der vorherigen Frage bereits betracheten konnte wird die MSN des anrufenden Teilnehmers übertragen. Zu finden ist 	diese unter dem Abschnitt Q.931 als Callin Party-Number.
+	Die MSN des Teilnehmers auf der anderen Seite steht die MSN in dem Connect Rahmen. Diese ist ebenfalls im Abschnitt Q.931 unter Connected 		Number zu sehen.
+		\includegraphics[scale=1]{ba_bilder/ba/connect_a5.png} 
+	
+	\item \textbf{Wann ist der gesicherte Aufbau der Schicht 3 abgeschlossen?}\newline
+	Die Schicht 3 ist Aufgebaut sobald \todo{Vielleuicht kann man hier mehr ins detail gehen} das Netzwerk dem User eine Seup-Acknoledgment-		Nachricht übersendet. Diese bestätigt die vom User gesendete Setup-Nachricht und das alles gut gegangen ist. 
+	\includegraphics[scale=1]{ba_bilder/ba/setup_acknoledge_a6.png} 
+
+
+	\item \textbf{Welchen B-Kanal weist die Vermittlung der Verbindung zu?}\newline
+	In dem Call Proceeding-Frame findet man die Angabe zu dem genutzten Channel. In unserem Fall wäre das unter Q.931, 
+	Information channel selection: B1 channel (0x01. Dies gibt an das der genutzte Channel hier der B1 ist. 
+	\includegraphics[scale=1]{ba_bilder/ba/call-proceeding_a7.png} 
+
+
+	\item \textbf{Wo wird die gerufene Telefonnummer übermittelt?}\newline
+	Die Information-Frames senden bereits Teile der Rufnummer bevor die eigentliche Vermittlung anfängt. In unserem Fall werden hier insgesamt 		drei Frames gesendet die jeweils einer Nummer enthalten. Aufgrund der Übersichtlichkeit sind die Frames stark gekürzt und direkt 				hintereinander gesetzt. 
+	\includegraphics[scale=1]{ba_bilder/ba/information_a8.png} 
+	
+
+	\item \textbf{Mit welchem Rahmen bestätigt die Vermittlung die Vollständigkeit der Rufnummer und beginn den angeforderten Teilnehmer anzuwählen?}\newline
+	Nachdem alle Ziffern gesendet worden sind und die Vermittlungstelle diese als gültige Rufnummer erkannt hat sendet Sie einen Call 				Proceeding-Frame an das Telefon und es wird keine weitere Ziffer mehr angenommen. Nun beginng die Anwahl des anderen Teilnehmers.
+	Der Call-Proceeding-Frame ist bereits zwei Fragen vorher gezeigt worden und wird deshalb hier nicht noch einmal aufgeführt.
+
+	\item \textbf{Mit welchem Rahmen signalisiert die Vermittlung, dass der gerufene Teilnehmeranschluss ein Endgerät besitzt, das den Sprachdienst erfüllen kann und ein Rufsignal aussendet?}\newline
+	Jedes Endgerät das den Anruf annehmen kann sendet eine Alerting Nachricht und beginnt darauf hin zu Klingeln.
+	
+	\includegraphics[scale=1]{ba_bilder/ba/alerting_a9.png} 
+
+
+	\item \textbf{Wann sind die Schichten 3 und 2 jeweils wieder vollständig abgebaut?}\newline
+	Nachdem das Netzwerk eine Realease Complete Nachricht gesendet hat sind alle vorher belegten Kanäle wieder frei und Schicht 3, sowie 		Schicht 2 wieder abgebaut.
+	
+	\includegraphics[scale=1]{ba_bilder/ba/Release-Complete.png} 
+	
+
+	\item \textbf{Bei ISDN gibt es die Möglichkeit, bei einem abgehenden Ruf die Zielrufnummer vor oder nach dem Abheben des Hörers einzugeben. Wodurch unterscheidet sich die Signalisierung auf Schicht 3 (SETUP- und INFO Nachricht) der Teilnehmerschnittstelle in diesen beiden Fällen?}\newline
+Durch Abnehmen des Hörers wird für gewöhnlich eine Setup Nachricht gesendet wodurch bereits eine Verbindung zur Vermittlungsstelle aufgebaut wird. Nimmt der Teilnehmer also erst den Hörer ab können bereits die ersten Ziffern überliefert werden. Dieser Vorgang ist durch den Versuch gut nachvollziehbar. Im Gegensatz dazu kann der Nutzer ebenfalls die Ziffern erst tippen und dann den Hörer abnehmen. Dies hat zur Folge das die benötigten Ziffern bereits vorhanden sind bevor die Setup-Nachricht gesendet wird. Dadurch können die Ziffern direkt in der Setup-Nachricht mit gesendet werden. Der folgende Frame zeigt das bereits die Called-Party-Number eingetragen ist. Hier wird das Endgerät mit der Nummer 100 von dem Endgerät mir der Nummer 200 Angerufen. Der Frame wurde aufgrund der Größe etwas zugeschnitten, er enthält jedoch alle wichtigen Informationen.
+	
+	\includegraphics[scale=1]{ba_bilder/ba/letzte_setup_block.png} 	
+	
+\end{enumerate}
 
 \begin{table}
 \begin{tabular}{|p{0.20 \linewidth}||*{9}{p{0.07 \linewidth}|}}

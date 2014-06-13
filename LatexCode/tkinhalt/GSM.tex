@@ -267,10 +267,10 @@ Die Pakete die auf den verschiedenen Layern gesendet werden sind die folgenden:
 \end{itemize}
 
 
-Da OpenBTS alle höheren Protokolle terminiert, erscheinen in Wireshark nicht nur die RR Nachrichten sondern auch Mobility Management und Call Management Nachrichten als Layer 3 Nachrichten welche in Wireshark als LAPDm gekennzeichnet sind.
+Da OpenBTS alle höheren Protokolle terminiert, erscheinen in Wireshark nicht nur die RR Nachrichten sondern auch Mobility Management und Call Management Nachrichten als Layer 3 Nachrichten welche in Wireshark als LAPDm gekennzeichnet sind. 
 Im folgenden werden die für den Versuch wichtigen Pakete untersucht.\newline
 
-GSMTAP ist ein Pseudoheader für das Um Interface der in UDP Pakete gekapselt wird. Dieser Übernimmt die Aufgabe der fehlerfreien Übertragung, sowie die Verteilung der Kanäle.
+GSMTAP ist ein Pseudoheader für das Um Interface der die Daten von der Funkschnittstelle in UDP Pakete kapselt. Der Layer 1 Übernimmt die Aufgabe der fehlerfreien Übertragung, sowie die Verteilung der Kanäle.
 Im Header werden Informationen zu der verwendeten Version, der länge des Headers, der Type der übertragenden Daten, sowie die ARFCN und nähere Informationen zur Signalstärke angegeben.
 
   \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/gsmtap_header.png}\captionof{figure}{GSMTAP-Header}
@@ -280,7 +280,7 @@ Im Header werden Informationen zu der verwendeten Version, der länge des Headers
 Unser Hauptaugenmerk legen wir auf die Pakete die als SIP gekennzeichnet sind. Hier kann man am besten nachverfolgen was gerade für eine Aktion durchgeführt wird. 
 Da als erstes eine Verbindung aufgebaut werden muss damit man mit dem Echo-Server interagieren kann wird zuerst eine Invite Nachricht gesendet. \newline
 Bevor das jedoch passiert wird vorher auf dem Layer 2 eine Setup Nachricht gesendet. Wie man in \ref{Lapdm Setup Nachricht} sehen kann wird hier ebenfalls die Bearer Capability angefordert. Die Bearer Capability bedeutet das ein Gerät in unserem Fall die MS eine bestimmte Transportleistung vom Netz anfordert. 
-\todo{in bin einzubinden http://www.itwissen.info/definition/lexikon/bearer-capability-BC.html}
+
  
   \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/lapdm_setup.png}\captionof{figure}{Setup Nachricht auf dem Layer 2}
   \label{fig:Lapdm Setup Nachricht}
