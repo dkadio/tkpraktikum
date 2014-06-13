@@ -74,15 +74,19 @@ Interface configuration  & From global configuration mode, specify terminal then
 \label{ciscoCommandMode}
 \end{table}
 
-Im privileged EXEC mode müssen erst die Einstellungen des Switches zurück gesetzt werden. Dadurch wird vermieden, dass bereits bestehende Konfigurationen die Ergebnisse beeinflussen. Die Ausgabe ist ähnlich der Ausgabe \ref{routerZurueckSetzen}.
+Im privileged EXEC mode müssen erst die Einstellungen des Switches zurück gesetzt werden. Dadurch wird vermieden, dass bereits bestehende Konfigurationen die Ergebnisse beeinflussen. Die Ausgabe ist ähnlich der Ausgabe \ref{routerZurueckSetzen}. Durch die Befehle \textit{delete flash : vlan.dat} und \textbf{erase startup-config} werden erst die Einstellungen zu den V-Lan gelöscht und anschließend wird die gesamte Konfiguration gelöscht. 
+
+\fbox{\parbox{\textwidth}{
+	\textbf{Der Unterschied zwischen \textit{erase startup-config} und \textit{erase running-config}:} Auf den ersten Blick haben beide Befehle die gleiche Wirkung. Der Unterschied ist, dass die Konfiguration nach einem Neustart des Geräts wieder hergestellt wird, wenn  \textit{erase running-config} genutzt wurde. Wurde \textit{erase startup-config} genutzt, ist die Konfiguration dauerhaft gelöscht. 
+}}
+
 Nachdem die Konfiguration des Switches zurück gesetzt wurde, kommt die Aufforderung, den Switch zu konfigurieren. Diese Aufforderung wird mit einem \textit{n} quittiert. Dadurch wird die Konfiguration nicht durchgeführt und der Switch läuft mit seinen Default Konfigurationen. Der Switch ist jetzt bereit für den weiteren Versuch.
 
 
 \subsection{Einrichtung des Routers}
+Das Zurücksetzen des Routers geschieht analog zu dem Zurücksetzen des Switches. 
 
-Das Zurücksetzen des Routers geschieht analog zu dem Zurücksetzen des Switches.
-
-\begin{lstlisting}[captionpos=b, caption="Die Ausgabe des Zurücksetzens", label=routerZurueckSetzen]
+\begin{lstlisting}[captionpos=b, caption=Die Ausgabe des Zurücksetzens, label=routerZurueckSetzen]
 	Router#erase startup-config
 Erasing the nvram filesystem will remove all configuration files! Continue? [confirm]
 [OK]
@@ -173,7 +177,7 @@ DRAM configuration is 64 bits wide with parity enabled.
 
 Nachdem der Router auf die Grundeinstellungen zurück gesetzt wurde, muss er neu konfiguriert werden. Der folgende Dialog startet die Konfiguration: 
 
-\begin{lstlisting}[captionpos=b, caption="Die Aufforderung zum neukonfigurieren des Routers", label=routerNeuKonfigurieren]
+\begin{lstlisting}[captionpos=b, caption=Die Aufforderung zum neukonfigurieren des Routers, label=routerNeuKonfigurieren]
 Would you like to enter the initial configuration dialog? [yes/no]: yes
 
 At any point you may enter a question mark '?' for help.
@@ -188,5 +192,195 @@ Would you like to enter basic management setup? [yes/no]: yes
 Configuring global parameters:
 \end{lstlisting}
 
-Die Konfiguration wird nach den Vorgaben der Versuchsbeschreibung durchgeführt. Nach der Konfiguration wird erneut das Kommando \textit{show running-config} aufgerufen.
+Im Gegensatz zum Switch wird der Router konfiguriert. Dies geschieht über den Befehl \textit{yes} oder einfach \textit{y}. Die Konfiguration wird nach den Vorgaben der Versuchsbeschreibung durchgeführt. Sowohl vor, als auch nach dem Konfigurieren wird das Kommando \textit{show running-config} aufgerufen. 
+\begin{lstlisting}[captionpos=b, caption=Die Ausgabe der Konfiguration vor dem Konfigurieren, label=konfigVor]
+Router#show running-config
+Building configuration...
 
+Current configuration : 1058 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Router
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$WPnk$wNZGar7F/KHiw5VcuCMtE.
+enable password cisco
+!
+no aaa new-model
+!
+!
+ip cef
+!
+!
+no ip domain lookup
+multilink bundle-name authenticated
+!
+!
+!
+archive
+ log config
+  hidekeys
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ description R1 LAN Default Gateway
+ ip address 192.168.1.1 255.255.255.128
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ description R1 WAN
+ ip address 192.168.1.193 255.255.255.252
+ clock rate 125000
+!
+interface Serial0/0/1
+ no ip address
+ shutdown
+ clock rate 125000
+!
+router rip
+ version 2
+ network 192.168.1.0
+!
+ip forward-protocol nd
+!
+!
+ip http server
+!
+!
+!
+control-plane
+!
+banner motd ^CUnauthorized Use Prohibited^C
+!
+line con 0
+ password cisco
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ password cisco
+ login
+!
+scheduler allocate 20000 1000
+!
+end\end{lstlisting}
+
+Nach dem Konfigurieren sieht die Ausgabe folgendermaßen aus:
+\begin{lstlisting}[captionpos=b, caption=Die Ausgabe des Zurücksetzens, label=routerZurueckSetzen]
+R1_HTW#show running-config
+Building configuration...
+
+Current configuration : 1058 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1_HTW
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$WPnk$wNZGar7F/KHiw5VcuCMtE.
+enable password cisco
+!
+no aaa new-model
+!
+!
+ip cef
+!
+!
+no ip domain lookup
+multilink bundle-name authenticated
+!
+!
+!
+archive
+ log config
+  hidekeys
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ description R1 LAN Default Gateway
+ ip address 192.168.1.1 255.255.255.128
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ description R1 WAN
+ ip address 192.168.1.193 255.255.255.252
+ clock rate 125000
+!
+interface Serial0/0/1
+ no ip address
+ shutdown
+ clock rate 125000
+!
+router rip
+ version 2
+ network 192.168.1.0
+!
+ip forward-protocol nd
+!
+!
+ip http server
+!
+!
+!
+control-plane
+!
+banner motd ^CUnauthorized Use Prohibited^C
+!
+line con 0
+ password cisco
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ password cisco
+ login
+!
+scheduler allocate 20000 1000
+!
+end\end{lstlisting}
+
+Zwischen den beiden Ausgaben gibt es augenscheinliche Merkmale:
+
+Der Unterschied zeigt sich im Hostname. Dieser Unterschied deckt sich mit den Erwartungen, da bis auf den Hostname nichts konfiguriert wurde.
+
+\todo{Keine Ahnung, was der in Step 2 will}
+
+Da die Änderungen sich nur auf den flüchtigen Speicher beschränken, gehen sie bei einem Neustart des Routers verloren. Dieser Tatsache kann durch das Kopieren des flüchtigen Speichers in den NVRAM. 
+
+Bei der Gelegenheit ist zu erwähnen, dass ein Cisco Router verschiedene Sorten Speicher nutzt. Vor der Erklärung des nächsten Arbeitsschritts möchten wir diese kurz erläutern. Die Erläuterungen stammen von Cisco 
+
+\bebin{itemize}
+	\item \textbf{RAM: }Random Access Memory ist der flüchtige Arbeitsspeicher, von Cisco auch als Dynamic RAM bezeichnet. Flüchtig bedeutet, dass die gespeicherten Informationen nach einem Spannungsverlust verloren gehen. Im RAM werden ARP Tabellen, Routing Tabellen, eine temporäre Konfiguration, Packet Queues, usw. gespeichert. Der Vorteil von RAM ist, dass er sehr schnell ist und für viele Schreib- und Lesevorgänge ausgelegt ist.
+	\item \textbf{Flash: } Der Flash Speicher beinhaltet bei Cisco Produkten ein Image oder mehrere Images des Betriebssystems. Der Flash Speicher beispielsweise genutzt, wenn das Betriebssystem des Routers neu aufgesetzt werden muss. Dies geschieht aus dem komprimierten Image vom Flash.
+	\item \textbf{NVRAM: } Der NVRAM beinhaltet das installierte Betriebssystem des Routers. Dort sind die Boot Konfigurationen gespeichert. Der Inhalt des NVRAMs geht nicht verloren, wenn der Router neu gestartet wird, oder durch einen Stromausfall unterversorgt wird. 
