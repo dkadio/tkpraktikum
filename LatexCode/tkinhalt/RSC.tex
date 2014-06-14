@@ -240,3 +240,15 @@ Um die Fragen der Versuchsbeschreibung zu beantworten:
 \end{itemize}
 
 \subsection{Konfigurieren der Interfaces}
+Nachdem der Router für die Benutzung konfiguriert wurde und grundlegende Sicherheitsmaßnahmen ergriffen wurden, muss nun der Betrieb ermöglicht werden. Damit die Hosts mit den Routern und die Router untereinander kommunizieren können, müssen die Interfaces konfiguriert werden. Die Befehle
+\begin{lstlisting}[captionpos=b, caption=Konfigurieren des seriellen Interface, label=configSerialInterface]
+R1(config)#interface serial 0/0/0 
+R1(config-if)#description WAN link to R2 
+R1(config-if)#ip address 172.17.0.1 255.255.0.0 
+R1(config-if)#clock rate 64000R1(config-if)#no shutdown 
+R1(config-if)#exit 
+R1(config)#exit
+\end{lstlisting}
+konfigurieren das serielle Interface. 
+
+Die ersten 3 Zeilen sind leicht verständlich. Dort wird bestimmt, welches Interface mit welcher IP und welchem Kommentar konfiguriert werden soll.\todo{was zum Teufel ist die Clockrate?}
