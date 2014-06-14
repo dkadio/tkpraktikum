@@ -174,6 +174,8 @@ Configuring global parameters:
 
 Im Gegensatz zum Switch wird der Router konfiguriert. Dies geschieht über den Befehl \textit{yes} oder einfach \textit{y}. Die Konfiguration wird nach den Vorgaben der Versuchsbeschreibung durchgeführt. Sowohl vor, als auch nach dem Konfigurieren wird das Kommando \textit{show running-config} aufgerufen. 
 \begin{lstlisting}[captionpos=b, caption=Die Ausgabe der Konfiguration vor dem Konfigurieren, label=konfigVor]
+Password:
+Router#enable
 Router#show running-config
 Building configuration...
 
@@ -259,10 +261,11 @@ line vty 0 4
 !
 scheduler allocate 20000 1000
 !
-end\end{lstlisting}
+end
+\end{lstlisting}
 
 Nach dem Konfigurieren sieht die Ausgabe folgendermaßen aus:
-\begin{lstlisting}[captionpos=b, caption=Die Ausgabe des Zurücksetzens, label=routerZurueckSetzen]
+\begin{lstlisting}[captionpos=b, caption=Die Ausgabe der Konfiguration nach dem Konfigurieren, label=configRouterKonfiguriert]
 R1_HTW#show running-config
 Building configuration...
 
@@ -348,15 +351,100 @@ line vty 0 4
 !
 scheduler allocate 20000 1000
 !
-end\end{lstlisting}
+end
+\end{lstlisting}
 
 Zwischen den beiden Ausgaben gibt es augenscheinliche Merkmale:
 
 Der Unterschied zeigt sich im Hostname. Dieser Unterschied deckt sich mit den Erwartungen, da bis auf den Hostname nichts konfiguriert wurde.
 
-\todo{Keine Ahnung, was der in Step 2 will}
+\begin{lstlisting}[captionpos=b, caption=Die Ausgabe der Startup Config]
+R1_HTW#show startup-config
+Using 1039 out of 245752 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Router
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$WPnk$wNZGar7F/KHiw5VcuCMtE.
+enable password cisco
+!
+no aaa new-model
+!
+!
+ip cef
+!
+!
+no ip domain lookup
+multilink bundle-name authenticated
+!
+!
+!
+archive
+ log config
+  hidekeys
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ description R1 LAN Default Gateway
+ ip address 192.168.1.1 255.255.255.128
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ description R1 WAN
+ ip address 192.168.1.193 255.255.255.252
+!
+interface Serial0/0/1
+ no ip address
+ shutdown
+ clock rate 125000
+!
+router rip
+ version 2
+ network 192.168.1.0
+!
+ip forward-protocol nd
+!
+!
+ip http server
+!
+!
+!
+control-plane
+!
+banner motd ^CUnauthorized Use Prohibited^C
+!
+line con 0
+ password cisco
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ password cisco
+ login
+!
+scheduler allocate 20000 1000
+!
+end
+\end{lstlisting}
 
-Da die Änderungen sich nur auf den flüchtigen Speicher beschränken, gehen sie bei einem Neustart des Routers verloren.
+Ein Unterschied zwischen \textit{show running-config} und \textit{show startup-config} ist der Unterschied der Hostnamen. Der Unterschied zwischen der running config und der startup config besteht darin, dass die startup config im NVRAM des Routers gespeichert ist, die running config ist im RAM gespeichert. Da die Änderungen sich nur auf den flüchtigen Speicher beschränken, gehen sie bei einem Neustart des Routers verloren.
 
 Um die Auswirkungen des nächsten Schritts zu verstehen, ist es sinnvoll sich die verschiedenen Sorten von Speicher in einem Cisco Router vor Augen zu führen. Die Erläuterungen zu den Speichersorten stammen von Cisco \ref{speicherTypen}
 
@@ -377,7 +465,94 @@ Building configuration...
 [OK]
 \end{lstlisting}
 
-\todo{Noch die config Files vergleichen}
+Betrachten wir nun die startup config, sollte die Ausgabe wie die Ausgabe \ref{configRouterKonfiguriert} aussehen. 
+
+\begin{lstlisting}[caption=Die Startup Config nach dem Kopieren in den NVRAM]
+R1_HTW#show startup-config
+Using 1058 out of 245752 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1_HTW
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$WPnk$wNZGar7F/KHiw5VcuCMtE.
+enable password cisco
+!
+no aaa new-model
+!
+!
+ip cef
+!
+!
+no ip domain lookup
+multilink bundle-name authenticated
+!
+!
+!
+archive
+ log config
+  hidekeys
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ description R1 LAN Default Gateway
+ ip address 192.168.1.1 255.255.255.128
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ description R1 WAN
+ ip address 192.168.1.193 255.255.255.252
+ clock rate 125000
+!
+interface Serial0/0/1
+ no ip address
+ shutdown
+ clock rate 125000
+!
+router rip
+ version 2
+ network 192.168.1.0
+!
+ip forward-protocol nd
+!
+!
+ip http server
+!
+!
+!
+control-plane
+!
+banner motd ^CUnauthorized Use Prohibited^C
+!
+line con 0
+ password cisco
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ password cisco
+ login
+!
+scheduler allocate 20000 1000
+!
+end
+\en{lstlisting}
 
 Um zu testen, ob das Kopieren der Konfig Datei vom RAM in den NVRAM bietet sich ein Neustart des Routers an. Da der RAM flüchtig ist, sollte ja die Konfiguration verworfen werden, wenn sie nur im RAM gespeichert ist. Den Router kann man mit dem Befehl \textit{reload} neu starten. Um die Aussage präziser zu machen, der Befehl reload stoppt nur das System. Wenn es als \textit{restart on error} konfiguriert ist, bzw. nicht anders konfiguriert wurde, startet es automatisch neu.
 
@@ -465,8 +640,6 @@ to administratively down
 *May 28 11:13:57.939: %LINK-5-CHANGED: Interface Serial0/0/1, changed state to a
 dministratively down
 \end{lstlisting}
-
-\todo{Running Config}
 
 \subsection{Fazit des Versuchs}
 Der Versuch hat uns die grundsätzlich Einrichtung eines Cisco Routers näher gebracht. Die grundsätzliche Einrichtung umfasst sowohl die physikalische Verkabelung, als auch auch die Einrichtung der Software. 
