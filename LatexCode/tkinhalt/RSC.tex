@@ -1,0 +1,242 @@
+%=========================================
+% 	   Einleitung     		 =
+%=========================================
+
+\chapter{RSP Versuch \label{rscVersuch}}
+\section{Einleitung}
+Im Versuch \ref{rspVersuch} haben wir die grundsätzliche Funktionsweise der Cisco Prompt kennen gelernt. In diesem Versuch wurde der Hostname konfiguriert und über Packet Tracer ein Netzwerk aufgebaut. 
+
+Da die Konfiguration im letzten Versuch noch nicht einmal die Oberfläche der Möglichkeiten angekratzt hat, möchten wir in diesem Versuch tiefer in die Konfiguration von Cisco Geräten einsteigen.
+
+\section{Aufbau des Versuchs}
+\subsection{Benötigte Geräte}
+\begin{itemize}
+	\item Zwei Router
+	\item Ein Switch
+	\item Zwei PC mit Hyper Terminal
+	\item Zwei Patchabel
+	\item Ein Crossover Kabel
+	\item Ein Serielles Kabel mit je einem DCE und einem DTE Anschluss
+\end{itemize}
+
+Der erste PC wird über ein serielles Kabel und über ein Patchkabel mit einem Switch verbunden. Der Zweite PC wird mit einem seriellen Kabel und einem Crossover Kabel mit dem Router 2 verbunden. Die seriellen Kabel dienen der Konfiguration der Geräte. Das Patchkabel und das Crossoverkabel sind für den Transport von Payload. Der Switch wird mit einem Patchkabel mit dem Router verbunden.
+
+Die Router werden untereinander mit dem seriellen Kabel verbunden. Zu beachten ist hierbei, dass der Bustakt vom DCE (female) Port kommt. Der DTE (male) Port benötigt diesen Bustakt, damit eine Kommunikation möglich ist. 
+
+Die Router bekommen für ihre einzelnen Ports unterschiedliche IP Adressen:
+
+\begin{table}
+\begin{tabular}{|*{5}{c|}}
+\hline
+Device & Hostname & Interface & IP-Address & Subnet Mask \\
+\hline
+\hline
+R1 & R1 & Serial 0/0/0 (DCE) &  172.17.0.1 &  255.255.0.0 \\ 
+\hline
+ &  & FE0/1 u. FE0/0 & 172.16.0.1 & 255.255.0.0  \\
+\hline
+R2 &  R2 & Serial 0/0/0 (DTE) &  172.17.0.2 & 255.255.0.0 \\
+\hline
+ & &  FE0/0 & 172.18.0.1 &  255.255.0.0\\
+\hline
+\end{tabular}
+\caption{Adresstabelle des Netzwerks}
+\label{adresstabelle}
+\end{table}
+
+Nachdem die Geräte verkabelt und gestartet sind, müssen noch die NVRAM der Geräte gelöscht werden. Dadurch kann sichergestellt werden, dass keine alten Konfigurationen mehr gespeichert sind. Diese könnten sonst im Laufe des Versuchs Fehler produzieren. Eine Ausgabe der Geräte wurde bereits im Versuch \ref{rspVersuch} dargestellt.
+
+Bevor eine Kommunikation stattfinden kann, müssen erst noch die Hosts konfiguriert werden. Da im Netz kein DHCP Server läuft, müssen die Netzwerkeinstellungen der Hosts manuell vergeben werden.
+
+\begin{table}
+\begin{tabular}{|*{5}{c|}}
+\hline
+Device & IP-Address & Subnet Mask & Default Gateway \\
+\hline
+\hline
+H1 & ???? & 255.255.0.0 & 172.17.0.1 \\ 
+\hline
+ H2 & ??? & 255.255.0.0 & 172.18.0.1  \\
+\hline
+\end{tabular}
+\caption{Einstellungen der Hosts}
+\label{hostEinstellungen}
+\end{table}
+
+\section{Versuch}
+Im folgenden wird nicht mehr beschrieben, dass zum Ändern von Konfigurationen in einen Konfigurationsmodus, wie beispielsweise den \glqq Global configuration\grqq~Modus gewechselt werden muss.
+\subsection{Konfigurieren der Router Basiseinstellungen}
+Der erste Schritt der Konfiguration ist das konfigurieren der Hostnamen. Diese können mit dem Befehl \textit{hostname <Name>} konfiguriert werden. Der Router 1 bekommt den Hostname R1, der Router 2 den Hostname R2.
+
+Nach dem Konfigurieren folgt das Setzen der Passwörter. Typische Zugriffspunkte für ein Cisco Gerät sind die Terminal Leitungen (auch Virtual Terminal Lines oder VTYs genannt), der Konsolen Port sowie der Hilfs Port (AUX). Die Terminal Leitungen sind über telnet oder ssh erreichbar und haben den Vorteil, dass kein Serielles Kabel benötigt wird. Die Nachteile einer solchen Konfiguration wurden im Versuch \ref{rspVersuch} erläutert. Die Zugänge müssen separat konfiguriert werden. 
+Das Passwort des Konsolen Ports wird mit folgender Sequenz gesetzt:
+\begin{lstlisting}[captionpos=b, caption=Die Eingabe zum Setzen des Konsolen Port Passworts, label=konsolenPasswortSetzen]R1(config)#line console 0 
+R1(config-line)#password cisco 
+R1(config-line)#login 
+R1(config-line)#exit
+\end{lstlisting}
+Nach dieser Sequenz wird für die Konfiguration über die Konsole ein Passwort benötigt. Dieses ist in dem Fall cisco. Der Router kann aber trotzdem ohne Passwort über eine Terminal Leitung konfiguriert werden. Um hierfür ein Passwort zu setzen ist folgende Sequenz nötig.
+\begin{lstlisting}[captionpos=b, caption=Die Eingabe zum Setzen des Terminal Passworts, label=terminalPasswortSetzen]R1(config)#line vty 0 4 
+R1(config-line)#password cisco 
+R1(config-line)#login 
+R1(config-line)#exit
+\end{lstlisting}
+Nach dieser Sequenz wird auch für das Konfigurieren über eine Terminal Leitung ein Passwort benötigt. 
+
+In IOS werden die Passwörter per default im Klartext gespeichert. Daraus ergibt sich ein Sicherheitsrisiko. Die Passwörter können von jedem, der Zugang zum Router hat, im Klartext ausgelesen werden. Aktuell sind auch nur die Zugänge passwortgeschützt. Sobald man eine Verbindung (VTY oder Konsole) zum Router hat, ist man automatisch berechtigt, den Router zu konfigurieren. Mit dem Befehl \textit{enable passwort <Passwort>} wird sichergestellt, dass man auch ein Passwort braucht, wenn man in einen der Konfigurationsmodi will. Mit dem Befehl \textit{enable secret <Passwort>} wird das Passwort verschlüsselt gespeichert.
+
+\begin{lstlisting}[captionpos=b, caption=Die Eingabe zum Aktivieren und Verschlüsseln des Passworts, label=terminalPasswortSetzen]R1(config)#enable password cisco 
+R1(config)#enable secret class 
+R1(config)#exit
+\end{lstlisting}
+
+Nach dieser Befehlssequenz ist ein Passwort zum Wechsel in den Konfigurationsmodus gesetzt, dieses ist auch verschlüsselt gespeichert. 
+
+Da jetzt Passwörter gesetzt sind macht es Sinn, dass Benutzer aufgefordert werden, diese einzugeben. Diese Aufforderung kann mit dem Befehl \textit{banner motd <delimiter> message <delimiter>} konfiguriert werden. Die delimiter zeigen den Start und das Ende der Nachricht an. Sie dürfen nicht in der Nachricht genutzt werden und die Zeichen "'  und  \% dürfen nicht genutzt werden. Ein Blank wird nicht funktionieren.
+\begin{lstlisting}[captionpos=b, caption=Setzen der Passwort Aufforderung, label=passWortAufforderung]
+R1(config)#banner motd #Unauthorized Use Prohibited#
+\end{lstlisting}
+
+Router mit IOS sind standardmässig so konfiguriert, dass sie versuchen, jedes Wort, das sie nicht kennen, in einem DNS Server mit der Broadcastadresse 255.255.255.255 aufzulösen.
+Eine Folge ist, dass bei einer falschen Befehlseingabe sehr lange Wartezeiten und eine unnötige Netzwerklast auftreten, weil der Router versucht die Zeichenfolge in eine IP Adresse aufzulösen. Durch
+\begin{lstlisting}[captionpos=b, caption=Deaktivieren des DNS im Terminal, label=dnsDeaktivieren]
+R1(config)#no ip domain lookup
+\end{lstlisting}
+wird dieses Verhalten abgestellt.
+
+Der letzte Schritt der Basiseinstellung verhindert, dass Fehlermeldungen die aktuelle Eingabe in die Prompt unterbrechen.
+\begin{lstlisting}
+R1(config)#line console 0 R1(config-line)#logging synchronous
+\end{lstlisting}
+
+Ob die Einstellungen korrekt waren, kann mit dem \textit{show running-config} Befehl überprüft werden.
+\begin{lstlisting}[captionpos=b, caption=Ausgabe der Config nach dem Konfigurieren der Basiseinstellungen, label=nachBasiseinstellungen]
+R1#show running-config
+Building configuration...
+
+Current configuration : 931 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$HQCF$50Cteo3yxGrpQwwSNdUIz.
+enable password cisco
+!
+no aaa new-model
+!
+!
+ip cef
+!
+!
+no ip domain lookup
+multilink bundle-name authenticated
+!
+!
+!
+archive
+ log config
+  hidekeys
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ ip address 172.17.0.1 255.255.0.0
+ no fair-queue
+ clock rate 125000
+!
+interface Serial0/0/1
+ no ip address
+ shutdown
+ clock rate 125000
+!
+ip forward-protocol nd
+!
+!
+ip http server
+!
+!
+!
+control-plane
+!
+banner motd #Unauthorized Use Prohibited#
+!
+line con 0
+ password cisco
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ password cisco
+ login
+!
+scheduler allocate 20000 1000
+!
+end
+\end{lstlisting}
+
+An den Zeilen
+\begin{lstlisting}
+hostname R1
+\end{lstlisting}
+
+\begin{lstlisting}
+enable secret 5 $1$HQCF$50Cteo3yxGrpQwwSNdUIz.
+enable password cisco
+\end{lstlisting}
+
+\begin{lstlisting}
+no ip domain lookup
+\end{lstlisting}
+\begin{lstlisting}
+banner motd #Unauthorized Use Prohibited#
+\end{lstlisting}
+\begin{lstlisting}
+line con 0
+password cisco
+logging synchronous
+login
+\end{lstlisting}
+
+\begin{lstlisting}
+line aux 0
+\end{lstlisting}
+
+\begin{lstlisting}
+line vty 0 4
+password cisco
+login
+\end{lstlisting}
+
+kann man erkennen, dass das Konfigurieren erfolgreich war. Und dass der Router weiterhin ohne Passwort über den Hilfs Port (AUX) erreicht werden kann. Eine Konfiguration wird aber über diesen Port nicht möglich sein.
+
+Auffällig ist auch, dass sowohl das verschlüsselte, als auch das unverschlüsselte Passwort in der Ausgabe stehen. Diese Tasche wirft Fragen auf. Welches Passwort ist nun gültig? Und warum kann man überhaupt ein unverschlüsseltes Passwort eingeben? Die Antwort auf diese Fragen bringt die Homepage des Herstellers. Die erste Frage ist leicht beantwortet, das verschlüsselte Passwort wird bevorzugt, das heißt, dass man sich nur mit diesem anmelden kann. Die zweite Frage hat einen geschichtlichen Hintergrund. Wenn man eine alte Version von IOS bootet, oder veraltete boot ROM nutzt, kann es Probleme mit verschlüsselten Passwörtern geben. In diesem Fall sind unverschlüsselte Passwörter zu nutzen.
+
+Um die Fragen der Versuchsbeschreibung zu beantworten:
+\begin{itemize}
+	\item \textbf{s there an encrypted password?} Yes, the password to enter the config mode ist encrypted. The passphrase \glqq class\grqq~ became \glqq 5 \$1\$HQCF\$50Cteo3yxGrpQwwSNdUIz.\grqq . According to the cisco homepage ist the \glqq 5\grqq an indicator for an encrypted password.
+	\item \textbf{Are there any other passwords?} Yes, there are the passwords for the configuration ports. And the decrypted password \glqq cisco\grqq.
+	\item \textbf{Are any of the other passwords encrypted?} No, the other passwords are not encrypted. If you want to encrypt all of the passwords, you have to enter the command \textit{service password-encryption}. If this service ist activated, all of the passwords will become encrypted.
+\end{itemize}
+
+\subsection{Konfigurieren der Interfaces}
