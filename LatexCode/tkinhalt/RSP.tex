@@ -558,13 +558,70 @@ Approximate round trip times in milli-seconds:
 
 \subsection{Simulieren und Analysieren eines ECHO REQUEST/ECHO REPLY}
 \subsubsection{Aufbau}
-Der einzige Unterschied zum vorhergehenden Aufbau ist, dass die Software in den Simulationsmodus gewechselt wird. Dadurch ist es möglich, die einzelnen Pakete grafisch darzustellen und ihren Weg durch das Netzwerk zu verfolgen. 
+Der einzige Unterschied zum vorhergehenden Aufbau ist, dass die Software in den Simulationsmodus gewechselt wird. Dadurch ist es möglich, die einzelnen Pakete grafisch darzustellen und ihren Weg durch das Netzwerk zu verfolgen. Zur Erinnerung, der Aufbau des virtuellen Netzwerks ist in der Grafik \ref{fig:virtuellesNetzwerk} dargestellt.
 
 \subsubsection{Ablauf des Versuchs}
-Von PC1 wird ein ein echo request zu PC2 gesendet. Dieser request soll von PC2 durch ein echo reply beantwortet werden. Dieser Weg entspricht einem Ping.
+Von PC1 wird ein ein echo request zu PC2 gesendet. Dieser request soll von PC2 durch ein echo reply beantwortet werden. Dieser Weg entspricht einem Ping. Durch die Visualisierung von Packet Tracer kann anschaulich überprüft werden, wie sich die Pakete und Frames bei den Übergängen zwischen den einzelnen Geräten verhalten.
 
 \subsubsection{Auswertung des Versuchs}
-\todo{Auswertung schreiben}
+ \begin{figure}[htbp] 
+  \centering
+     \includegraphics[width=0.8\textwidth]{tkinhalt/rsp_bilder/echoRequestStart.jpg}
+  \caption{Der Beginn des echo request}
+  \label{fig:startEchoRequest}
+\end{figure}
+
+Das Echo Paket befindet sich noch im PC1. Die Detailsicht ist in der Grafik \ref{fig:detailEchoRequestPC1} zu sehen. Dort sind sind die drei relevanten OSI Layer dargestellt. Im Layer 3 ist die IP Adresse von PC1 als Quelladresse und die IP Adresse von PC2 als Zieladresse zu sehen. Die Grafik \ref{fig:EchoRequestPC1} zeigt die gleiche ICMP Nachricht in der OSI Modell Darstellung. Da dort die relevanten Informationen zusammengefasst sind, werden wir uns im folgenden auf diese Ansicht beschränken. 
+
+Die Ansicht, wie die ICMP Nachricht im Router aussieht ist in der Grafik \ref{fig:EchoRequestRouter}. Offensichtlich hat sich auf Layer 3 nichts geändert. Das war auch zu erwarten, da es sich immer noch um den gleichen echo request handelt. Die Quelle ist weiterhin PC1 und das Ziel ist PC2. 
+
+Wo eine Veränderung stattgefunden hat ist auf Layer 2. Dort ist die Quell Adresse die Zieladresse aus der Grafik \ref{fig:EchoRequestPC1}. Auch diese Beobachtung deckt sich mit den Erwartungen. Die ICMP Nachricht befindet sich im Layer 3. Da der Layer 3 auf die Sicherungsschicht, bzw. Layer 2, angewiesen ist, muss die ICMP Nachricht in ein Ethernet Frame verpackt werden. Der Router packt diesen Ethernet Frame wieder aus, da er anhand des Layer 3 Routingentscheidungen treffen muss. 
+
+Der Ethernet Frame erreicht den Router am Interface FE0/1. Dieses Interface hängt im Netzwerk 10.10.10.0. Anhand des Layer 3 Headers weiß der Router, dass dieses Paket in das Netzwerk 192.168.0.0 geroutet werden muss. Dieses Netzwerk ist am Interface FE0/0 hinterlegt und somit direkt erreichbar. Er verpackt die ICMP Nachricht wieder einen Ethernet Frame. Dieses Frame wird in das andere Netzwerk, also auf den anderen Port gesendet. Dieses Senden zwischen den Ports erkennt man einfach, wenn man die In-  und Out Layers in der Grafik  \ref{fig:EchoRequestRouter} vergleicht. Dort ändern sich auf Layer 2 die Adressen und auf Layer 1 ist auch ausgeschrieben, dass die Ports gewechselt werden.
+
+Die Grafik \ref{fig:EchoRequestSwitch} ist umspektakulär. Der Layer 3 kann nicht eingesehen werden und auf Layer 2 ändert sich nichts. Die Änderung findet auf Layer 1 statt. Dieses Ergebnis ist einfach zu erklären. Ein Switch beherrscht nur die Layer 1 und 2. Die Logik, die ein Switch auf Layer 2 leistet, ist zu entscheiden, an welchen Port ein Ethernet Frame weitergeleitet werden soll. Diese Aussage ist eigentlich unvollständig, da ein Switch auch für die Einhaltung v-Lan übernimmt und verschiedene Modi der Weiterleitung(bsp. Cut-through oder Store-and-Forward) hat. An dieser Stelle beschränken wir uns aber um das reine Weiterleiten auf einen anderen Port. Für anderen Teilnehmer ist ein Switch aber transparent, also nahezu unsichtbar. Auf Layer 1 ist zu sehen, dass der Switch den Port wechselt. Der Hintergrund ist, dass das Kabel des Routers an einem Port hängt, als das Kabel von PC0.
+
+In der Grafik \ref{fig:EchoRequestPCNULL} ändert sich zwischen In Layers und Out Layers auf Layer 3 der Header. Dort werden Quell- und Zieladresse vertauscht und der ICMP Message Type ändert sich von 8 auf 0. Diese Änderung ergibt sich daraus, dass ein echo request empfangen wurde. Die Quelle dieses Pakets ist PC 1, das Ziel ist PC 0. Der Message Type ist 8, dieser Message Type bedeutet echo request. Die Antwort hat die Quelle PC 0, da dieser antwortet und das Ziel PC 1, da dieser angefragt hat und nun die Antwort erhält. Der Message Type ist 0, dieser hat die Bedeutung echo reply. Die Änderung auf Layer 2 ist, dass die Ziel- und Quelladressen vertauscht werden. Der Hintergrund ist, dass der Ethernet Frame vom Router zu PC 0 geschickt wurde. Die Antwort wird wird von PC 0 zum Router geschickt.
+
+\begin{figure}[htbp] 
+  \centering
+     \includegraphics[width=0.4\textwidth]{tkinhalt/rsp_bilder/echoAnPc_detail.jpg}
+  \caption{Detailansicht der ICMP Nachricht in PC1}
+  \label{fig:detailEchoRequestPC1}
+\end{figure}
+
+\begin{figure}[htbp] 
+  \centering
+     \includegraphics[width=0.5\textwidth]{tkinhalt/rsp_bilder/echoAnPc.jpg}
+  \caption{Ansicht der ICMP Nachricht in PC1}
+  \label{fig:EchoRequestPC1}
+\end{figure}
+
+
+\begin{figure}[htbp] 
+  \centering
+     \includegraphics[width=0.5\textwidth]{tkinhalt/rsp_bilder/echoAnRouter.jpg}
+  \caption{Ansicht der ICMP Nachricht im Router}
+  \label{fig:EchoRequestRouter}
+\end{figure}
+
+\begin{figure}[htbp] 
+  \centering
+     \includegraphics[width=0.5\textwidth]{tkinhalt/rsp_bilder/echoAnSwitch.jpg}
+  \caption{Ansicht der ICMP Nachricht im Switch}
+  \label{fig:EchoRequestSwitch}
+\end{figure}
+
+\begin{figure}[htbp] 
+  \centering
+     \includegraphics[width=0.5\textwidth]{tkinhalt/rsp_bilder/echoAnPcNULL.jpg}
+  \caption{Ansicht der ICMP Nachricht im PC0}
+  \label{fig:EchoRequestPCNULL}
+\end{figure}
+
+
+Der Weg des echo reply verläuft analog zu dem Weg des echo request. Deswegen wird er nicht weiter beschrieben.
+
 
 \subsection{Fazit}
-\todo{Kommt auch noch}
+Der Versuch mit Packet Tracer hat eine klare Verbindung zu früheren Vorlesungen hergestellt. Die Sachverhalte wurden bereits theoretisch vermittelt. Die Theorie wurde aber während des Versuchs sehr anschaulich dargestellt und letzte Unklarheiten wurden ausgeräumt. 
