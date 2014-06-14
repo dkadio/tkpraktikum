@@ -4,7 +4,7 @@
 
 \chapter{RSP Versuch}
 \section{Einleitung}
-Router und Switche begleiten uns im täglichen Leben. Auch wenn sie oft nicht wahrgenommen werden, sind sie doch allgegenwärtig. Ob mobiles Surfen, das Surfen am Computer oder auch telefonieren, diese Tätigkeiten sind ohne Router und Switche nicht möglich. Der Netzwerkausrüster Cisco Systems rechnet bis zu Jahr 2018 mit einem weltweiten Internettraffic von 1,6 Zettabyte \cite{cisco_traffic_schaetzung}. Die Netzwerke, die diesen Traffic behandeln und abwickeln sollen wachsen stetig mit ihren Aufgaben. Deswegen ist eine fundierte Ausbildung in der Netzwerktechnik und ein Verständnis der Komponenten für den Informatiker der Zukunft unausweichlich. \todo{Kann man das so schreiben?}
+Router und Switche begleiten uns im täglichen Leben. Auch wenn sie oft nicht wahrgenommen werden, sind sie doch allgegenwärtig. Ob mobiles Surfen, das Surfen am Computer oder auch telefonieren, diese Tätigkeiten sind ohne Router und Switche nicht möglich. Der Netzwerkausrüster Cisco Systems rechnet bis zum Jahr 2018 mit einem weltweiten Internettraffic von 1,6 Zettabyte \cite{cisco_traffic_schaetzung}. Die Netzwerke, die diesen Traffic behandeln und abwickeln sollen wachsen stetig mit ihren Aufgaben. Deswegen ist eine fundierte Ausbildung in der Netzwerktechnik und ein Verständnis der Komponenten für den Informatiker der Zukunft unausweichlich. \todo{Kann man das so schreiben?}
 
 Der folgende Versuch soll einen grundlegenden Einblick in den Aufbau eines Netzwerkes und die Konfiguration der Komponenten vermitteln.
 
@@ -12,7 +12,7 @@ Der folgende Versuch soll einen grundlegenden Einblick in den Aufbau eines Netzw
 Für den Versuch werden ein Cisco 2811 Router und ein Cisco 2960 Switch benötigt. Zusätzlich werden ein Windows Computer mit einem Terminal Emulationsprogramm und diverse Kabel benötigt.
 
 \subsubsection{Router}
-Die Aufgabe eines Routers, manchmal auch als Layer 3 Switch bezeichnet, ist es, zwischen mehreren Netzwerken der ISO/OSI Referenzmodells Schicht 3 zu vermitteln. Dazu besitzt ein Router mehrere (virtuelle) Ports, an denen die entsprechenden Netzwerke angeschlossen sind. Der Router, der für unseren Versuch zur Verfügung stand ist vom Netzwerkausrüster Cisco Systems und ist aus der Modellreihe 2811.
+Die Aufgabe eines Routers, manchmal auch als Layer 3 Switch bezeichnet, ist es, zwischen mehreren Netzwerken der ISO/OSI Referenzmodell Schicht 3 zu vermitteln. Dazu besitzt ein Router mehrere (virtuelle) Ports, an denen die entsprechenden Netzwerke angeschlossen sind. Der Router, der für unseren Versuch zur Verfügung stand ist vom Netzwerkausrüster Cisco Systems und ist aus der Modellreihe 2811.
 
 \begin{figure}[htbp] 
   \centering
@@ -27,7 +27,7 @@ Die Aufgabe eines Switches ist es, Netzwerksegmente miteinander zu verbinden. Da
  \begin{figure}[htbp] 
   \centering
      \includegraphics[width=0.6\textwidth]{tkinhalt/rsp_bilder/switch.jpg}
-  \caption{Ein Cisco 2800 Router \cite{cisco_2960_switch}}
+  \caption{Ein Cisco 2960 Switch \cite{cisco_2960_switch}}
   \label{fig:switch}
 \end{figure}
 
@@ -37,21 +37,21 @@ Bei den Kabeln gibt es verschiedene Typen. Bei den Kabeln zur Energieversorgung 
 \subsubsection{Hintergrund der seriellen Übertragung}
 Im Abschnitt \ref{kabel} wurde erwähnt, dass für die Konfiguration die serielle Schnittstelle genutzt wird. Dabei stellt sich die Frage, warum dieser Aufwand betrieben werden muss, obwohl ein Switch doch mit ausreichend Ethernet Ports ausgestattet sein sollte. Den Hintergrund möchten wir an dieser Stelle durch ein Beispiel beleuchten:
 \begin{enumerate}
-	\item Switch und Computer befinden sich im Netzwerk 192.168.0.0/16
+	\item Router und Computer befinden sich im Netzwerk 192.168.0.0/16
 	\item Der Administrator will das Netzwerk in das Netzwerk 172.16.0.0/12 umbenennen
 	\item Der Administrator vertippt sich bei der Vergabe der Ip und gibt die Netzwerkadresse 172.36.0.0 ein
 \end{enumerate}
 
-Was wird nun passieren? Wir setzen voraus, dass im Netzwerk kein DHCP Server aktiviert ist und alle Ip Adressen statisch vergeben werden. Im ersten Schritt ist die Welt noch in Ordnung. Im zweiten Schritt ändert der Administrator die NW Adressen seines Computers und die des Routers. Im dritten Schritt bricht das Chaos aus. Mit dem Abspeichern der ersten Adresse, sei es Computer oder Switch, verliert der Administrator die Kontrolle über den Switch. Da sich mit einer geänderten Adresse der Switch und der Computer in verschieden Netzwerken befinden, ist dieser \glqq Fehler\grqq \~ vorhersehbar und leicht nachzuvollziehen. Der Administrator berücksichtigt diese Tatsache und speichert zuerst die Konfiguration des Switches. Nachdem er die Verbindung zum Switch verloren hat speichert er die neue Konfiguration im Computer. Obwohl sich Computer und Switch vermeintlich wieder in den gleichen Netzen befinden, hat er keinen Zugriff mehr auf den Switch.
+Was wird nun passieren? Wir setzen voraus, dass im Netzwerk kein DHCP Server aktiviert ist und alle Ip Adressen statisch vergeben werden. Im ersten Schritt ist die Welt noch in Ordnung. Im zweiten Schritt ändert der Administrator die NW Adressen seines Computers und die des Routers. Im dritten Schritt bricht das Chaos aus. Mit dem Abspeichern der ersten Adresse, sei es Computer oder Router, verliert der Administrator die Kontrolle über den Router. Da sich mit einer geänderten Adresse der Router und der Computer in verschieden Netzwerken befinden, ist dieser \glqq Fehler\grqq~ vorhersehbar und leicht nachzuvollziehen. Der Administrator berücksichtigt diese Tatsache und speichert zuerst die Konfiguration des Switches. Nachdem er die Verbindung zum Router verloren hat speichert er die neue Konfiguration im Computer. Obwohl sich Computer und Router vermeintlich wieder in den gleichen Netzen befinden, hat er keinen Zugriff mehr auf den Router.
 
-Ohne einen logischen Zugriff auf den Switch gestaltet sich die Suche nach dem Fehler sehr schwierig. Diese Problematik kann durch die Konfiguration über die serielle Schnittstelle vermieden werden. Ein weiterer Vorteil ist, dass die Konfigurationsschnittstelle des Switches vom Rest des Netzwerkes getrennt ist. Dadurch kann alleine schon durch die Trennung ein Angriff auf den Switch erschwert werden.
+Ohne einen logischen Zugriff auf den Switch gestaltet sich die Suche nach dem Fehler sehr schwierig. Diese Problematik kann durch die Konfiguration über die serielle Schnittstelle vermieden werden. Ein weiterer Vorteil ist,  dass die Konfigurationsschnittstelle des Switches vom Rest des Netzwerkes getrennt ist. Dadurch kann alleine schon durch die Trennung ein Angriff auf den Switch erschwert werden.
 \section{Der Umgang mit Physikalischen Geräten}
 Die physische Einrichtung des Systems ist in der Aufgabenstellung genau beschrieben. So viel sei zu sagen, jeder der beiden Computer ist per LAN Schnittstelle mit dem Switch verbunden. Je ein Computer ist über den COM Port (seriell) mit Router und Switch verbunden. Router und Switch sind über Gigabit Ethernet miteinander verbunden.
 
 Die logische Einrichtung des Systems geschieht über Hyper Terminal. Hyperterminal ist eine Terminal Emulationssoftware. Diese ermöglicht eine Verbindung zu anderen Computern oder Großrechnern über die serielle Schnittstelle. Diese Verbindung ist rein ASCII textbasiert. 
 
 \subsection{Einrichtung eines Switchs}
-Die Einrichtung des Switches beginnt mit dem Hochfahren des Geräts. Dabei kann im Hyperterminal überwacht werden, ob der Switch ordnungsgemäß startet. Nachdem die Selbstdiagnose durchgelaufen ist, kann in den Auführungsmodus, bzw. in den \glqq  privileged EXEC mode\grqq \~gewechselt werden.
+Die Einrichtung des Switches beginnt mit dem Hochfahren des Geräts. Dabei kann im Hyperterminal überwacht werden, ob der Switch ordnungsgemäß startet. Nachdem die Selbstdiagnose durchgelaufen ist, kann in den Auführungsmodus, bzw. in den \glqq  privileged EXEC mode\grqq ~gewechselt werden.
 
 Die unterschiedlichen Kommando Modi sind in Tabelle \ref{ciscoCommandMode} aufgeführt.  
 
@@ -70,17 +70,17 @@ Global configuration  & From privileged EXEC mode, enter the configure command. 
 Interface configuration  & From global configuration mode, specify terminal then specify an interface by entering the interface command followed by the interface type and number. & \textit{ap(config-if)\#} & To exit to privileged EXEC mode, enter the end command, or press Ctrl-Z. To exit to global configuration mode, enter the exit command.  \\
 \hline
 \end{tabular}
-\caption{Genutzte Nachrichten}
+\caption{Die unterschiedlichen Command Modi von IOS}
 \label{ciscoCommandMode}
 \end{table}
 
-Im privileged EXEC mode müssen erst die Einstellungen des Switches zurück gesetzt werden. Dadurch wird vermieden, dass bereits bestehende Konfigurationen die Ergebnisse beeinflussen. Die Ausgabe ist ähnlich der Ausgabe \ref{routerZurueckSetzen}. Durch die Befehle \textit{delete flash : vlan.dat} und \textbf{erase startup-config} werden erst die Einstellungen zu den V-Lan gelöscht und anschließend wird die gesamte Konfiguration gelöscht. 
+Im privileged EXEC mode müssen erst die Einstellungen des Switches zurückgesetzt werden. Dadurch wird vermieden, dass bereits bestehende Konfigurationen die Ergebnisse beeinflussen. Die Ausgabe ist ähnlich der Ausgabe \ref{routerZurueckSetzen}. Durch die Befehle \textit{delete flash : vlan.dat} und \textit{erase startup-config} werden erst die Einstellungen zu den V-Lan gelöscht und anschließend wird die gesamte Konfiguration gelöscht. 
 
 \fbox{\parbox{\textwidth}{
 	\textbf{Der Unterschied zwischen \textit{erase startup-config} und \textit{erase running-config}:} Auf den ersten Blick haben beide Befehle die gleiche Wirkung. Der Unterschied ist, dass die Konfiguration nach einem Neustart des Geräts wieder hergestellt wird, wenn  \textit{erase running-config} genutzt wurde. Wurde \textit{erase startup-config} genutzt, ist die Konfiguration dauerhaft gelöscht. Der genaue Unterschied wird nach dem Lesen der Erklärung von Speicherunterschieden \ref{aufzaehlungSpeichertypen} deutlicher.
 }}
 
-Nachdem die Konfiguration des Switches zurück gesetzt wurde, kommt die Aufforderung, den Switch zu konfigurieren. Diese Aufforderung wird mit einem \textit{n} quittiert. Dadurch wird die Konfiguration nicht durchgeführt und der Switch läuft mit seinen Default Konfigurationen. Der Switch ist jetzt bereit für den weiteren Versuch.
+Nachdem die Konfiguration des Switches zurückgesetzt wurde, kommt die Aufforderung, den Switch zu konfigurieren. Diese Aufforderung wird mit einem \textit{n} quittiert. Dadurch wird die Konfiguration nicht durchgeführt und der Switch läuft mit seinen Default Konfigurationen. Der Switch ist jetzt bereit für den weiteren Versuch.
 
 
 \subsection{Konfiguration eines Routers}
@@ -451,9 +451,9 @@ Um die Auswirkungen des nächsten Schritts zu verstehen, ist es sinnvoll sich die
 \label{aufzaehlungSpeichertypen}
 \begin{itemize}
 	\item \textbf{RAM: }Random Access Memory ist der flüchtige Arbeitsspeicher, von Cisco auch als Dynamic RAM bezeichnet. Flüchtig bedeutet, dass die gespeicherten Informationen nach einem Spannungsverlust verloren gehen. Im RAM werden ARP Tabellen, Routing Tabellen, eine temporäre Konfiguration, Packet Queues, usw. gespeichert. Vor allem wird aber im RAM auch das entpackte Betriebssystem der Geräte vorgehalten. Der Vorteil von RAM ist, dass er sehr schnell ist und für viele Schreib- und Lesevorgänge ausgelegt ist.
-	\item \textbf{Flash: } Der Flash Speicher beinhaltet bei Cisco Produkten ein Image oder mehrere Images des Betriebssystems. Der Flash Speicher beispielsweise genutzt, wenn das Betriebssystem des Routers neu aufgesetzt werden muss. Dies geschieht aus dem komprimierten Image vom Flash.
+	\item \textbf{Flash: } Der Flash Speicher beinhaltet bei Cisco Produkten ein Image oder mehrere Images des Betriebssystems. Der Flash Speicher beispielsweise genutzt, wenn das Betriebssystem des Routers neu aufgesetzt werden muss. Dies geschieht aus dem komprimierten Image vom Flash. Aber auch beim Starten des Switches wird ein Image vom Flash Speicher in den RAM geladen.
 	\item \textbf{NVRAM: } Im NVRAM sind die Boot Konfigurationen gespeichert. Der Inhalt des NVRAMs geht nicht verloren, wenn der Router neu gestartet wird, oder durch einen Stromausfall unterversorgt wird. 
-	\item \textbf{ROM: } Der ROM speichert beispielsweise Informationen, die für den Selbsttest des Routers nötig sind. Für ein Software Update müssen die ROM Speichersteine ausgetauscht werden.
+	\item \textbf{ROM: } Der ROM speichert beispielsweise Informationen, die für den Selbsttest des Routers nötig sind. Da aus dem ROM nur gelesen werden kann, müssen für ein Software Update einige ROM Speichersteine ausgetauscht werden.
 \end{itemize}
 
 Die Konfiguration ist im aktuellen Stadium des Versuchs lediglich im RAM. Der Befehl \textit{copy running-config startup-config} kopiert die Konfiguration aus dem RAM in den NVRAM. 
@@ -646,16 +646,18 @@ Der Versuch hat uns die grundsätzlich Einrichtung eines Cisco Routers näher gebr
 
 Auf der physikalischen Seite haben wir die Interfaces von Routern und Switchen kennen gelernt. Die Interfaces können sowohl für den Payload sein, aber auch für die Konfiguration. Gerade bei der Konfiguration ist uns aufgefallen, dass sich hier die Profimodelle deutlich von den Geräten für den Heimbedarf unterscheiden. Während die meisten Geräte für den Heimbedarf weder separate Interfaces für Payload und Konfiguration, noch einen Unterschied zwischen einer flüchtigen Konfiguration und einer dauerhaften Konfiguration haben, sind die Profigeräte doch bei der Konfiguration deutlich aufwändiger. Der höhere Aufwand ermöglich aber im Gegenzug eine deutlich feinere Konfiguration. 
 
-Auf der logischen Seite haben wir etwas über die interne Arbeitsweise von Routern und Switchen gelernt. Diese Aussage bezieht sich auf die Berechtigungen und auf die verschiedenen Speicher innerhalb eines Geräts. Neben dieser Erkenntnis war der Versuch aber auch eine gelungene Einführung in das Terminal von IOS. In diesem Zusammenhang ist mit IOS das Cisco Internetwork Operating System, also dem Standard Betriebssystem von Cisco Routern und Switchen gemeint. Eine Verwechselung kann mit dem gleichnamigen Apple iOS, iPhone Operating System, soll hiermit ausgeschlossen werden.  
+Auf der logischen Seite haben wir etwas über die interne Arbeitsweise von Routern und Switchen gelernt. Diese Aussage bezieht sich auf die Berechtigungen und auf die verschiedenen Speicher innerhalb eines Geräts. Neben dieser Erkenntnis war der Versuch aber auch eine gelungene Einführung in das Terminal von IOS. In diesem Zusammenhang ist mit IOS das Cisco Internetwork Operating System, also das Standard Betriebssystem von Cisco Routern und Switchen gemeint. Eine Verwechselung mit dem gleichnamigen Apple iOS, iPhone Operating System, soll hiermit ausgeschlossen werden.  
 
 \section{Packet Tracer}
 Packet Tracer ist eine Netzwerk Simulationssoftware der Firma Cisco Systems. Packet Tracer kann die Geräte der Firma simulieren und ermöglicht so einen unkomplizierten Aufbau von Netzwerken. Der Vorteil von einer Simulationssoftware gegenüber dem echten Aufbau ist, dass Fehler schnell korrigiert werden können und komplexe Zusammenhänge anschaulich visualisiert werden können. 
 
 Für den Versuch ist nur ein Computer nötig, der die entsprechende Software installiert hat.
 
+Im folgenden wechseln die Namen der eingerichteten Computer. Dies ist der Versuchsbeschreibung geschuldet. An Passagen, an denen ein Wechsel des Namens die Ergebnisse des Versuchs unverständlich machen kann, wird aufgrund der geänderten Namen genauer erklärt. \todo{Oder habe ich mich irgendwo verhaspelt?}
+
 \subsection{Aufbau des Netzwerkes}
 \subsubsection{Geräte}
-Das virtuelle Netzwerk setzt sich aus zwei Computern, einem Switch und einem Router zusammen. Der Begriff \glqq virtuelles Netzwerk\grqq steht in diesem Fall nicht mit dem Begriff \glqq v-Lan\grqq im Zusammenhang, sondern soll ausdrücken, dass dieses Netzwerk und die Geräte von dem Programm simuliert werden. Der Aufbau wird in der Grafik \ref{fig:virtuellesNetzwerk} veranschaulicht.
+Das virtuelle Netzwerk setzt sich aus zwei Computern, einem Switch und einem Router zusammen. Der Begriff \glqq virtuelles Netzwerk\grqqsteht in diesem Fall nicht mit dem Begriff \glqq v-Lan\grqq~im Zusammenhang, sondern soll ausdrücken, dass dieses Netzwerk und die Geräte von dem Programm simuliert werden. Der Aufbau wird in der Grafik \ref{fig:virtuellesNetzwerk} veranschaulicht.
 
  \begin{figure}[htbp] 
   \centering
@@ -689,7 +691,7 @@ PC1 & Labor-PC2 & Fast-Ethernet & 10.10.10.10 & 255.255.255.224 &  10.10.10.1 \\
 \end{table}
 
 \subsubsection{Überprüfung des Testaufbaus}
-Vertrauen ist gut, Kontrolle ist besser. Deswegen wird das soeben aufgebaute Netzwerk durch geeignete Pings getestet. Ping sendet lediglich ein ICMP echo request, wartet auf den echo reply und misst die benötigte Zeit. ICMP ist ein Bestandteil des Internet Protokolls, wird aber, je nach Literatur, als eigenständiges Protokoll betrachtet. Es ist relativ zuverlässig und eine geeignete Möglichkeit zu testen, ob ein Host erreichbar ist.  
+Vertrauen ist gut, Kontrolle ist besser. Deswegen wird das soeben aufgebaute Netzwerk durch geeignete Pings getestet. Ping sendet lediglich ein ICMP echo request, wartet auf den echo reply und misst die benötigte Zeit. ICMP ist ein Bestandteil des Internet Protokolls, wird aber, je nach Literatur, als eigenständiges Protokoll betrachtet. Es ist relativ zuverlässig und eine geeignete Möglichkeit zu testen, ob ein Host erreichbar ist. 
 
 
 \begin{table}
@@ -752,9 +754,9 @@ Wo eine Veränderung stattgefunden hat ist auf Layer 2. Dort ist die Quell Adress
 
 Der Ethernet Frame erreicht den Router am Interface FE0/1. Dieses Interface hängt im Netzwerk 10.10.10.0. Anhand des Layer 3 Headers weiß der Router, dass dieses Paket in das Netzwerk 192.168.0.0 geroutet werden muss. Dieses Netzwerk ist am Interface FE0/0 hinterlegt und somit direkt erreichbar. Er verpackt die ICMP Nachricht wieder einen Ethernet Frame. Dieses Frame wird in das andere Netzwerk, also auf den anderen Port gesendet. Dieses Senden zwischen den Ports erkennt man einfach, wenn man die In-  und Out Layers in der Grafik  \ref{fig:EchoRequestRouter} vergleicht. Dort ändern sich auf Layer 2 die Adressen und auf Layer 1 ist auch ausgeschrieben, dass die Ports gewechselt werden.
 
-Die Grafik \ref{fig:EchoRequestSwitch} ist umspektakulär. Der Layer 3 kann nicht eingesehen werden und auf Layer 2 ändert sich nichts. Die Änderung findet auf Layer 1 statt. Dieses Ergebnis ist einfach zu erklären. Ein Switch beherrscht nur die Layer 1 und 2. Die Logik, die ein Switch auf Layer 2 leistet, ist zu entscheiden, an welchen Port ein Ethernet Frame weitergeleitet werden soll. Diese Aussage ist eigentlich unvollständig, da ein Switch auch für die Einhaltung v-Lan übernimmt und verschiedene Modi der Weiterleitung(bsp. Cut-through oder Store-and-Forward) hat. An dieser Stelle beschränken wir uns aber um das reine Weiterleiten auf einen anderen Port. Für anderen Teilnehmer ist ein Switch aber transparent, also nahezu unsichtbar. Auf Layer 1 ist zu sehen, dass der Switch den Port wechselt. Der Hintergrund ist, dass das Kabel des Routers an einem Port hängt, als das Kabel von PC0.
+Die Grafik \ref{fig:EchoRequestSwitch} ist umspektakulär. Der Layer 3 kann im Switch nicht eingesehen werden und auf Layer 2 ändert sich nichts. Die Änderung findet auf Layer 1 statt. Dieses Ergebnis ist einfach zu erklären. Ein Switch beherrscht nur die Layer 1 und 2. Die Logik, die ein Switch auf Layer 2 leistet, ist zu entscheiden, an welchen Port ein Ethernet Frame weitergeleitet werden soll. Diese Aussage ist eigentlich unvollständig, da ein Switch auch für die Einhaltung v-Lan übernimmt und verschiedene Modi der Weiterleitung(bsp. Cut-through oder Store-and-Forward) hat. An dieser Stelle beschränken wir uns aber um das reine Weiterleiten auf einen anderen Port. Für anderen Teilnehmer ist ein Switch aber transparent, also nahezu unsichtbar. Auf Layer 1 ist zu sehen, dass der Switch den Port wechselt. Der Hintergrund ist, dass das Kabel des Routers an einem Port hängt, als das Kabel von PC0.
 
-In der Grafik \ref{fig:EchoRequestPCNULL} ändert sich zwischen In Layers und Out Layers auf Layer 3 der Header. Dort werden Quell- und Zieladresse vertauscht und der ICMP Message Type ändert sich von 8 auf 0. Diese Änderung ergibt sich daraus, dass ein echo request empfangen wurde. Die Quelle dieses Pakets ist PC 1, das Ziel ist PC 0. Der Message Type ist 8, dieser Message Type bedeutet echo request. Die Antwort hat die Quelle PC 0, da dieser antwortet und das Ziel PC 1, da dieser angefragt hat und nun die Antwort erhält. Der Message Type ist 0, dieser hat die Bedeutung echo reply. Die Änderung auf Layer 2 ist, dass die Ziel- und Quelladressen vertauscht werden. Der Hintergrund ist, dass der Ethernet Frame vom Router zu PC 0 geschickt wurde. Die Antwort wird wird von PC 0 zum Router geschickt.
+In der Grafik \ref{fig:EchoRequestPCNULL} ändert sich zwischen In Layers und Out Layers auf Layer 3 der Header. Dort werden Quell- und Zieladresse vertauscht und der ICMP Message Type ändert sich von 8 auf 0. Diese Änderung ergibt sich daraus, dass ein echo request empfangen wurde. Die Quelle dieses Pakets ist PC 1, das Ziel ist PC 0. Der Message Type ist 8, dieser Message Type bedeutet echo request. Die Antwort hat die Quelle PC 0, da dieser antwortet und das Ziel PC 1, da dieser angefragt hat und nun die Antwort erhält. Der Message Type ist 0, dieser hat die Bedeutung echo reply. Die Änderung auf Layer 2 ist, dass die Ziel- und Quelladressen vertauscht werden. Der Hintergrund ist, dass der Ethernet Frame vom Router (über den Switch) zu PC 0 geschickt wurde. Die Antwort wird wird von PC 0 (über den Switch) zum Router geschickt.
 
 \begin{figure}[htbp] 
   \centering
