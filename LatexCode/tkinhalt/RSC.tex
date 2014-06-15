@@ -70,13 +70,15 @@ Der erste Schritt der Konfiguration ist das konfigurieren der Hostnamen. Diese k
 
 Nach dem Konfigurieren folgt das Setzen der Passwörter. Typische Zugriffspunkte für ein Cisco Gerät sind die Terminal Leitungen (auch Virtual Terminal Lines oder VTYs genannt), der Konsolen Port sowie der Hilfs Port (AUX). Die Terminal Leitungen sind über telnet oder ssh erreichbar und haben den Vorteil, dass kein Serielles Kabel benötigt wird. Die Nachteile einer solchen Konfiguration wurden im Versuch \ref{rspVersuch} erläutert. Die Zugänge müssen separat konfiguriert werden. 
 Das Passwort des Konsolen Ports wird mit folgender Sequenz gesetzt:
-\begin{lstlisting}[captionpos=b, caption=Die Eingabe zum Setzen des Konsolen Port Passworts, label=konsolenPasswortSetzen]R1(config)#line console 0 
+\begin{lstlisting}[captionpos=b, caption=Die Eingabe zum Setzen des Konsolen Port Passworts, label=konsolenPasswortSetzen]
+R1(config)#line console 0 
 R1(config-line)#password cisco 
 R1(config-line)#login 
 R1(config-line)#exit
 \end{lstlisting}
 Nach dieser Sequenz wird für die Konfiguration über die Konsole ein Passwort benötigt. Dieses ist in dem Fall cisco. Der Router kann aber trotzdem ohne Passwort über eine Terminal Leitung konfiguriert werden. Um hierfür ein Passwort zu setzen ist folgende Sequenz nötig.
-\begin{lstlisting}[captionpos=b, caption=Die Eingabe zum Setzen des Terminal Passworts, label=terminalPasswortSetzen]R1(config)#line vty 0 4 
+\begin{lstlisting}[captionpos=b, caption=Die Eingabe zum Setzen des Terminal Passworts, label=terminalPasswortSetzen]
+R1(config)#line vty 0 4 
 R1(config-line)#password cisco 
 R1(config-line)#login 
 R1(config-line)#exit
@@ -85,7 +87,8 @@ Nach dieser Sequenz wird auch für das Konfigurieren über eine Terminal Leitung e
 
 In IOS werden die Passwörter per default im Klartext gespeichert. Daraus ergibt sich ein Sicherheitsrisiko. Die Passwörter können von jedem, der Zugang zum Router hat, im Klartext ausgelesen werden. Aktuell sind auch nur die Zugänge passwortgeschützt. Sobald man eine Verbindung (VTY oder Konsole) zum Router hat, ist man automatisch berechtigt, den Router zu konfigurieren. Mit dem Befehl \textit{enable passwort <Passwort>} wird sichergestellt, dass man auch ein Passwort braucht, wenn man in einen der Konfigurationsmodi will. Mit dem Befehl \textit{enable secret <Passwort>} wird das Passwort verschlüsselt gespeichert.
 
-\begin{lstlisting}[captionpos=b, caption=Die Eingabe zum Aktivieren und Verschlüsseln des Passworts, label=terminalPasswortSetzen]R1(config)#enable password cisco 
+\begin{lstlisting}[captionpos=b, caption=Die Eingabe zum Aktivieren und Verschlüsseln des Passworts, label=terminalPasswortSetzen]
+R1(config)#enable password cisco 
 R1(config)#enable secret class 
 R1(config)#exit
 \end{lstlisting}
@@ -106,7 +109,8 @@ wird dieses Verhalten abgestellt.
 
 Der letzte Schritt der Basiseinstellung verhindert, dass Fehlermeldungen die aktuelle Eingabe in die Prompt unterbrechen.
 \begin{lstlisting}
-R1(config)#line console 0 R1(config-line)#logging synchronous
+R1(config)#line console 0 
+R1(config-line)#logging synchronous
 \end{lstlisting}
 
 Ob die Einstellungen korrekt waren, kann mit dem \textit{show running-config} Befehl überprüft werden.
@@ -239,16 +243,262 @@ Um die Fragen der Versuchsbeschreibung zu beantworten:
 	\item \textbf{Are any of the other passwords encrypted?} No, the other passwords are not encrypted. If you want to encrypt all of the passwords, you have to enter the command \textit{service password-encryption}. If this service ist activated, all of the passwords will become encrypted.
 \end{itemize}
 
-\subsection{Konfigurieren der Interfaces}
+\subsection{Konfigurieren der seriellen Interfaces}
 Nachdem der Router für die Benutzung konfiguriert wurde und grundlegende Sicherheitsmaßnahmen ergriffen wurden, muss nun der Betrieb ermöglicht werden. Damit die Hosts mit den Routern und die Router untereinander kommunizieren können, müssen die Interfaces konfiguriert werden. Die Befehle
 \begin{lstlisting}[captionpos=b, caption=Konfigurieren des seriellen Interface, label=configSerialInterface]
 R1(config)#interface serial 0/0/0 
 R1(config-if)#description WAN link to R2 
 R1(config-if)#ip address 172.17.0.1 255.255.0.0 
-R1(config-if)#clock rate 64000R1(config-if)#no shutdown 
+R1(config-if)#clock rate 64000
+R1(config-if)#no shutdown 
 R1(config-if)#exit 
 R1(config)#exit
 \end{lstlisting}
 konfigurieren das serielle Interface. 
 
 Die ersten 3 Zeilen sind leicht verständlich. Dort wird bestimmt, welches Interface mit welcher IP und welchem Kommentar konfiguriert werden soll.\todo{was zum Teufel ist die Clockrate?}
+
+Der Befehl \textit{no shutdown} aktiviert das Interface.
+
+Nachdem diese Befehlssequenz eingegeben wurde, kann man sich mit dem Befehl \textit{show interfaces serial 0/0/0} anzeigen lassen, ob die Konfiguration erfolgreich war:
+\begin{lstlisting}[captionpos=b, caption=Konfiguration des seriellen Interface, label=configSerialInterfaceNach]
+R1#show interfaces serial 0/0/0
+Serial0/0/0 is up, line protocol is up
+Hardware is GT96K Serial
+Description: WAN link to R2
+Internet address is 172.17.0.1/16
+MTU 1500 bytes, BW 128 Kbit/sec, DLY 20000 usec,
+reliability 255/255, txload 1/255, rxload 1/255
+Encapsulation HDLC, loopback not set
+Keepalive set (10 sec)
+Last input 00:00:04, output 00:00:07, output hang never
+Last clearing of "show interface" counters 00:24:04
+Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+Queueing strategy: fifo
+Output queue: 0/40 (size/max)
+5 minute input rate 0 bits/sec, 0 packets/sec
+5 minute output rate 0 bits/sec, 0 packets/sec
+167 packets input, 11406 bytes, 0 no buffer
+Received 161 broadcasts, 0 runts, 0 giants, 0 throttles
+0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+197 packets output, 13012 bytes, 0 underruns
+0 output errors, 0 collisions, 4 interface resets
+0 output buffer failures, 0 output buffers swapped out
+1 carrier transitions
+DCD=up  DSR=up  DTR=up  RTS=up  CTS=up
+\end{lstlisting}
+
+Um die eigenen Änderungen zu kontrollieren sind die Zeilen
+\begin{lstlisting}
+Serial0/0/0 is up, line protocol is up
+Hardware is GT96K Serial
+Description: WAN link to R2
+Internet address is 172.17.0.1/16
+
+DCD=up  DSR=up  DTR=up  RTS=up  CTS=up
+\end{lstlisting}
+
+Fragen aus der Versuchsanleitung:
+\begin{itemize}
+	\item \textbf{What did you discover by issuing the show interfaces command?} 
+	\begin{itemize}
+		\item Serial 0/0/0 status is up
+		\item Line protocol up
+		\item Internet address is 172.17.0.1/16
+		\item Encapsulation HDLC
+	\end{itemize}
+	\item \textbf{To which OSI layer is the encapsulation referring?} HDLC is a bit-oriented synchronous data link layer protocol. So the encapsulation is referring to OSI Layer 2.
+	\item \textbf{If the serial interface was configured, why did the show interfaces serial 0/0/0 indicate that the interface is down?} \todo{Das ist doch konfiguriert. Wat will der von Mir?}
+\end{itemize}
+
+Da der Router 2 eine andere Ip Adresse vorgegeben hat, sieht hier die Konfiguration ein wenig anders:
+\begin{lstlisting}[captionpos=b, caption=Die Einstellungen für das serielle Interface von R2]R2(config)#interface serial 0/0/0 
+R2(config-if)#description WAN link to R1 
+R2(config-if)#ip address 172.17.0.2 255.255.0.0 
+R2(config-if)#no shutdownR2(config-if)#exit 
+R2(config)#exit
+\end{lstlisting}
+
+Nach dem Konfigurieren werden die Einstellungen überprüft:
+\begin{lstlisting}[captionpos=b, caption=show interfaces bei an R2]
+Serial0/0/0 is up, line protocol is up
+Hardware is GT96K Serial
+Description: WAN link to R1
+Internet address is 172.17.0.2/16
+MTU 1500 bytes, BW 1544 Kbit/sec, DLY 20000 usec,
+reliability 255/255, txload 1/255, rxload 1/255
+Encapsulation HDLC, loopback not set
+Keepalive set (10 sec)
+Last input 00:00:02, output 00:00:09, output hang never
+Last clearing of "show interface" counters 00:19:00
+Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+Queueing strategy: fifo
+Output queue: 0/40 (size/max)
+5 minute input rate 0 bits/sec, 0 packets/sec
+5 minute output rate 0 bits/sec, 0 packets/sec
+30 packets input, 1462 bytes, 0 no buffer
+Received 30 broadcasts, 0 runts, 0 giants, 0 throttles
+0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+19 packets output, 1607 bytes, 0 underruns
+0 output errors, 0 collisions, 2 interface resets
+3 unknown protocol drops
+0 output buffer failures, 0 output buffers swapped out
+10 carrier transitions
+DCD=up  DSR=up  DTR=up  RTS=up  CTS=up
+\end{lstlisting}
+
+Analog zum Router 1 gibt es in der Versuchsbeschreibung auch Fragen zum Router 2:
+
+\begin{itemize}
+	\item \textbf{What did you discover by issuing the show interfaces command?}
+	\begin{itemize}
+		\item Serial 0/0/0 status is up
+		\item Line protocol is up
+		\item Internet address is 172.17.0.2/16
+		\item Encapsulation HDLC
+	\end{itemize}
+	\item \textbf{To which OSI layer is the encapsulation referring?} See above
+	 \item \textbf{Why did the show interfaces serial 0/0/0 indicate that the interface is up?} The interface is physically connected to another device (R1). Additionally is is configured an with the command \textit{no shutdown} enabled. If we started this test with R2, there was no connection, because R2 needs the clock of R1.
+\end{itemize}	 
+	
+Laut den Einstellungen sind die Interfaces konfiguriert und arbeiten. Ob, alles korrekt funktioniert, kann einfach durch einen Ping getestet werden.
+\begin{lstlisting}[captionpos=b, caption=Ping von R1 an das serielle Interface von R2]
+R1#ping 172.17.0.2
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 172.17.0.2, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 28/28/32 ms
+\end{lstlisting}
+
+\begin{lstlisting}[captionpos=b, caption=Ping von R2 an das serielle Interface von R1]
+R2>ping 172.17.0.1
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 172.17.0.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 28/28/32 ms
+\end{lstlisting}
+
+Beide Ping haben funktioniert, das bedeutet, dass die Interfaces korrekt konfiguriert wurden. Damit ist das Konfigurieren der seriellen Interfaces erfolgreich abgeschlossen.
+
+\subsection{Konfigurieren der Fast Ethernet Interfaces}
+Das FE Interface 0/0 wird wird laut der Versuchsbeschreibung konfiguriert. Die folgende Befehlssequenz konfiguriert das Interface.
+\begin{lstlisting}[captionpos=b, caption=Die Befehle zum Konfigurieren des FE 0/0 Interface von R1]
+R1(config)#interface FastEthernet 0/0 
+R1(config-if)#description R1 LAN Default Gateway 
+R1(config-if)#ip address 172.16.0.1 255.255.0.0 
+R1(config-if)#no shutdownR1(config-if)#exitR1(config)#exit
+\end{lstlisting}
+
+Die Befehle sind analog der mit denen die seriellen Interfaces konfiguriert werden. Der Unterschied ist, dass hier keine clock rate eingestellt werden muss. Die Einstellungen können wieder mit dem Befehl \textit{show interfaces FastEthernet 0/0} überprüft werden:
+\begin{lstlisting}[captionpos=b, caption=Anzeige der FE 0/0 Einstellungen von R1]
+R1#show interfaces FastEthernet 0/0
+FastEthernet0/0 is up, line protocol is up
+Hardware is MV96340 Ethernet, address is 0025.456d.c780 (bia 0025.456d.c780)
+Description: R1 LAN Default Gateway
+Internet address is 172.16.0.1/16
+MTU 1500 bytes, BW 100000 Kbit/sec, DLY 100 usec,
+reliability 255/255, txload 1/255, rxload 1/255
+Encapsulation ARPA, loopback not set
+Keepalive set (10 sec)
+Full-duplex, 100Mb/s, 100BaseTX/FX
+ARP type: ARPA, ARP Timeout 04:00:00
+Last input 00:00:02, output 00:00:01, output hang never
+Last clearing of "show interface" counters never
+Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+Queueing strategy: fifo
+Output queue: 0/40 (size/max)
+5 minute input rate 0 bits/sec, 0 packets/sec
+5 minute output rate 0 bits/sec, 0 packets/sec
+50 packets input, 29595 bytes
+Received 50 broadcasts, 0 runts, 0 giants, 0 throttles
+0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+0 watchdog
+0 input packets with dribble condition detected
+93 packets output, 33415 bytes, 0 underruns
+0 output errors, 0 collisions, 1 interface resets
+0 babbles, 0 late collision, 0 deferred
+0 lost carrier, 0 no carrier
+0 output buffer failures, 0 output buffers swapped out
+\end{lstlisting}
+
+In der Versuchsbeschreibung werden folgende Fragen gestellt:
+\begin{itemize}
+	\item \textbf{What did you discover by issuing the show interfaces command?}
+	\begin{itemize}
+		\item Fast Ethernet 0/0 status is up
+		\item Line protocol is up
+		\item Internet address is 172.16.0.1/16
+		\item Encapsulation ARPA
+	\end{itemize}
+	\item \textbf{To which OSI layer is the encapsulation referring?} ARPA is the short form of \glqq Advanced Research Projects Agency\grqq, also called Ethernet 2 or DIX Ethernet. Ethernet 2 is a protocol of the  Data Link Layer, or Layer 2.
+	\item \textbf{Why did the show interfaces FastEthernet 0/0 command show that the interface is up?} The explanation is the same, like the serial Interfaces. Think of the physical to H1 an the configuration some lines before. 
+\end{itemize}
+
+Laut den Einstellungen ist das FE 0/0 Interface von R1 nun korrekt konfiguriert. Im nächsten Schritt wird das FA 0/0 Interface von R2 konfiguriert. Hierfür sind diese Befehle nötig:
+\begin{lstlisting}[captionpos=b, caption=Die Befehle zum Konfigurieren des FE 0/0 Interface von R2]
+R2(config)#interface FastEthernet 0/0 
+R2(config-if)#description R2 LAN Default Gateway 
+R2(config-if)#ip address 172.18.0.1 255.255.0.0 
+R2(config-if)#no shutdownR2(config-if)#exitR2(config)#exit
+\end{lstlisting}
+
+Das Ergebnis dieser Befehle wird wieder kontrolliert:
+\begin{lstlisting}[captionpos=b, caption=Anzeige der FE 0/0 Einstellungen von R2]
+R2#show interfaces
+FastEthernet0/0 is up, line protocol is up
+Hardware is MV96340 Ethernet, address is 58bc.2738.7c50 (bia 58bc.2738.7c50)
+Description: R2 LAN Default Gateway
+Internet address is 172.18.0.1/16
+MTU 1500 bytes, BW 100000 Kbit/sec, DLY 100 usec,
+reliability 255/255, txload 1/255, rxload 1/255
+Encapsulation ARPA, loopback not set
+Keepalive set (10 sec)
+Full-duplex, 100Mb/s, 100BaseTX/FX
+ARP type: ARPA, ARP Timeout 04:00:00
+Last input 00:00:02, output 00:00:01, output hang never
+Last clearing of "show interface" counters never
+Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+Queueing strategy: fifo
+Output queue: 0/40 (size/max)
+5 minute input rate 0 bits/sec, 0 packets/sec
+5 minute output rate 0 bits/sec, 0 packets/sec
+50 packets input, 29595 bytes
+Received 50 broadcasts, 0 runts, 0 giants, 0 throttles
+0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+0 watchdog
+0 input packets with dribble condition detected
+93 packets output, 33415 bytes, 0 underruns
+0 output errors, 0 collisions, 1 interface resets
+0 babbles, 0 late collision, 0 deferred
+0 lost carrier, 0 no carrier
+0 output buffer failures, 0 output buffers swapped out
+...
+R2#
+\end{lstlisting}
+
+\todo{Entweder Ausgabe faken, oder trobleshooting beschreiben}
+
+In der Versuchsbeschreibung werden folgende Fragen gestellt:
+\begin{itemize}
+	\item \textbf{What did you discover by issuing the show interfaces command?}
+	\begin{itemize}
+		\item FastEthernet0/0 is up
+		\item Line protocol is up %%%%%%%%Da mal checken, wie wir faken
+		\item Internet address is 172.18.0.1/16 %%Hier auch
+		\item Encapsulation ARPA
+	\end{itemize}
+	\item \textbf{To which OSI layer is the encapsulation referring?} see above
+	\item \textbf{Why did the show interfaces FastEthernet 0/0 command show that the interface is up?} see above
+\end{itemize}
+
+Um zu testen, ob die Konfiguration wirklich erfolgreich war, pingen wir wieder. Das Pingen auf die FA Interfaces ist am sinnvollsten, wenn es von den Hosts ausgeführt wird.
+\begin{lstlisting}[captionpos=b, caption=Ping von R1 an das serielle Interface von R2]
+//Keine Ping Datei
+R2>\end{lstlisting}
+
+\begin{lstlisting}[captionpos=b, caption=Ping von R2 an das serielle Interface von R1]
+//Keine Ping Datei
+\end{lstlisting}
+\todo{Die Pings finde ich nicht. Evtl. müssen die mit nem Windows Rechner gefaket oder sonstwo abgeschrieben werden}
