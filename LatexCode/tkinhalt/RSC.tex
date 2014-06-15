@@ -662,3 +662,145 @@ sieht man, dass die Konfiguration erfolgreich war. Die IP der Hosts und die IP d
 \begin{lstlisting}
 CustomerSwitch#copy running-config startup-config
 \end{lstlisting}
+Laut der Ausgabe der Konfiguration scheint alles korrekt konfiguriert zu sein. Um zu testen, ob alles wirklich korrekt konfiguriert und angeschlossen ist, bieten sich einige Pings und eine Verbindung via Telnet an.
+\begin{lstlisting}[captionpos=b, caption=Das Ergebnis des Pings von Switch zu Router]
+CustomSwitch#ping 192.168.1.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/202/1007 ms
+CustomSwitch#
+\end{lstlisting}
+
+\begin{lstlisting}[captionpos=b, caption=Das Ergebnis des Pings von H1 zu Switch]
+//Dafür noch ne Ausgabe "suchen"
+\end{lstlisting}
+
+Wird eine telnet Sitzung auf das Switch Management VLAN1 gestartet, ergibt sich folgendes Ergebnis:
+\todo{Keine Ahnung, welches Ergebnis}
+
+\begin{lstlisting}[captionpos=b, caption=Die Ausgabe von show version über Telnet]
+CustomSwitch#show version
+Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(35)SE5, RELEA
+SE SOFTWARE (fc1)
+Copyright (c) 1986-2007 by Cisco Systems, Inc.
+Compiled Thu 19-Jul-07 20:06 by nachen
+Image text-base: 0x00003000, data-base: 0x00D40000
+
+ROM: Bootstrap program is C2960 boot loader
+BOOTLDR: C2960 Boot Loader (C2960-HBOOT-M) Version 12.2(25r)SEE6, RELEASE SOFTWA
+RE (fc1)
+
+CustomSwitch uptime is 2 hours, 49 minutes
+System returned to ROM by power-on
+System image file is "flash:c2960-lanbase-mz.122-35.SE5/c2960-lanbase-mz.122-35.
+SE5.bin"
+
+cisco WS-C2960-24TT-L (PowerPC405) processor (revision F0) with 61440K/4088K byt
+es of memory.
+Processor board ID FOC1310W4F8
+Last reset from power-on
+1 Virtual Ethernet interface
+24 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+The password-recovery mechanism is enabled.
+
+64K bytes of flash-simulated non-volatile configuration memory.
+Base ethernet MAC Address       : 00:24:F9:8A:E7:00
+Motherboard assembly number     : 73-11473-05
+Power supply part number        : 341-0097-02
+Motherboard serial number       : FOC131016QE
+Power supply serial number      : AZS130807AL
+Model revision number           : F0
+Motherboard revision number     : A0
+Model number                    : WS-C2960-24TT-L
+System serial number            : FOC1310W4F8
+Top Assembly Part Number        : 800-29859-02
+Top Assembly Revision Number    : A0
+Version ID                      : V05
+CLEI Code Number                : COM3L00BRD
+Hardware Board Revision Number  : 0x01
+
+
+Switch   Ports  Model              SW Version              SW Image
+------   -----  -----              ----------              ----------
+*    1   26     WS-C2960-24TT-L    12.2(35)SE5             C2960-LANBASE-M
+
+
+Configuration register is 0xF
+\end{lstlisting}
+Dieser Switch nutzt das IOS Release \glqq Version 12.2(35)SE5, RELEA\grqq.
+
+In der Versuchsbeschreibung wird gefragt, welche Mac Adressen die Hosts haben.
+\todo{Die Mac Adresse für Host 3 muss noch "gesucht" werden}
+\begin{table}[h]
+\begin{tabular}{|*{2}{c|}}
+\hline
+Device & Layer 2 Address \\
+\hline
+\hline
+H1 &  \\ 1cc1.de5f.b7b3 
+\hline
+ H2 &  \\ 1cc1.de5f.b9fa
+\hline
+H3 &  \\
+\hline
+\end{tabular}
+\caption{Übersicht der Netzwerkadressen}
+\label{adresstabelleTeil2}
+\end{table}
+
+Diese Mac Adressen können mit der mac address table des Switches verglichen werden. Diese Tabelle kann man sich mit dem Befehl \textit{show mac-address-table} ausgeben lassen.
+\begin{lstlisting}[captionpos=b, caption=Die Mac Adress Tabelle des Switches]
+CustomSwitch#sh mac-address-table
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+ All    0100.0ccc.cccc    STATIC      CPU
+ All    0100.0ccc.cccd    STATIC      CPU
+ All    0180.c200.0000    STATIC      CPU
+ All    0180.c200.0001    STATIC      CPU
+ All    0180.c200.0002    STATIC      CPU
+ All    0180.c200.0003    STATIC      CPU
+ All    0180.c200.0004    STATIC      CPU
+ All    0180.c200.0005    STATIC      CPU
+ All    0180.c200.0006    STATIC      CPU
+ All    0180.c200.0007    STATIC      CPU
+ All    0180.c200.0008    STATIC      CPU
+ All    0180.c200.0009    STATIC      CPU
+ All    0180.c200.000a    STATIC      CPU
+ All    0180.c200.000b    STATIC      CPU
+ All    0180.c200.000c    STATIC      CPU
+ All    0180.c200.000d    STATIC      CPU
+ All    0180.c200.000e    STATIC      CPU
+ All    0180.c200.000f    STATIC      CPU
+ All    0180.c200.0010    STATIC      CPU
+ All    ffff.ffff.ffff    STATIC      CPU
+   1    0025.456d.c781    DYNAMIC     Fa0/5
+   1    1cc1.de5f.b7b3    DYNAMIC     Fa0/11
+   1    1cc1.de5f.b9fa    DYNAMIC     Fa0/18
+Total Mac Addresses for this criterion: 23
+\end{lstlisting}
+
+Diese Liste enthält drei dynamische Mac Adressen. Diese Mac Adressen können H1, H2 und dem Router zugeordnet werden. \todo{Das mit H1 und H2 ist frei erfunden, weil ich die ipconfig dieser Dinger von hier übernommen habe} Mit dem Befehl
+\begin{lstlisting}
+mac address-table static 1cc1.de5f.b9fa interface fastethernet 0/18 vlan 1
+\end{lstlisting}
+kann die Adresse von H2 fest an diesen Port vergeben werden. Dieser Eintrag kann mit dem Befehl \textit{sh mac-address-table} überprüft werden.
+\begin{lstlisting}[captionpos=b, caption=Die Mac Adress Tabelle des Switches nach dem Vergeben eines statischen Ports]
+CustomSwitch#show mac-address-table
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+[...]
+ All    ffff.ffff.ffff    STATIC      CPU
+   1    0025.456d.c781    DYNAMIC     Fa0/5
+   1    1cc1.de5f.b7b3    DYNAMIC     Fa0/11
+   1    1cc1.de5f.b9fa    STATIC      Fa0/18
+Total Mac Addresses for this criterion: 23
+\end{lstlisting}
+Es sind immer noch 23 Mac Adressen eingetragen. Der Unterschied ist, dass die Adresse  1cc1.de5f.b9fa nun statisch eingetragen ist.
