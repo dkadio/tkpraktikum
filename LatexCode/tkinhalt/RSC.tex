@@ -2,7 +2,7 @@
 % 	   Einleitung     		 =
 %=========================================
 
-\chapter{RSP Versuch \label{rscVersuch}}
+\chapter{RSC Versuch \label{rscVersuch}}
 \section{Einleitung}
 Im Versuch \ref{rspVersuch} haben wir die grundsätzliche Funktionsweise der Cisco Prompt kennen gelernt. In diesem Versuch wurde der Hostname konfiguriert und über Packet Tracer ein Netzwerk aufgebaut. 
 
@@ -63,7 +63,7 @@ H1 & ???? & 255.255.0.0 & 172.17.0.1 \\
 \label{hostEinstellungen}
 \end{table}
 
-\section{Versuch}
+\section{Versuch - Teil 1}
 Im folgenden wird nicht mehr beschrieben, dass zum Ändern von Konfigurationen in einen Konfigurationsmodus, wie beispielsweise den \glqq Global configuration\grqq~Modus gewechselt werden muss.
 \subsection{Konfigurieren der Router Basiseinstellungen}
 Der erste Schritt der Konfiguration ist das konfigurieren der Hostnamen. Diese können mit dem Befehl \textit{hostname <Name>} konfiguriert werden. Der Router 1 bekommt den Hostname R1, der Router 2 den Hostname R2.
@@ -312,10 +312,12 @@ Fragen aus der Versuchsanleitung:
 \end{itemize}
 
 Da der Router 2 eine andere Ip Adresse vorgegeben hat, sieht hier die Konfiguration ein wenig anders:
-\begin{lstlisting}[captionpos=b, caption=Die Einstellungen für das serielle Interface von R2]R2(config)#interface serial 0/0/0 
+\begin{lstlisting}[captionpos=b, caption=Die Einstellungen für das serielle Interface von R2]
+R2(config)#interface serial 0/0/0 
 R2(config-if)#description WAN link to R1 
 R2(config-if)#ip address 172.17.0.2 255.255.0.0 
-R2(config-if)#no shutdownR2(config-if)#exit 
+R2(config-if)#no shutdown
+R2(config-if)#exit 
 R2(config)#exit
 \end{lstlisting}
 
@@ -388,7 +390,9 @@ Das FE Interface 0/0 wird wird laut der Versuchsbeschreibung konfiguriert. Die f
 R1(config)#interface FastEthernet 0/0 
 R1(config-if)#description R1 LAN Default Gateway 
 R1(config-if)#ip address 172.16.0.1 255.255.0.0 
-R1(config-if)#no shutdownR1(config-if)#exitR1(config)#exit
+R1(config-if)#no shutdown
+R1(config-if)#exit
+R1(config)#exit
 \end{lstlisting}
 
 Die Befehle sind analog der mit denen die seriellen Interfaces konfiguriert werden. Der Unterschied ist, dass hier keine clock rate eingestellt werden muss. Die Einstellungen können wieder mit dem Befehl \textit{show interfaces FastEthernet 0/0} überprüft werden:
@@ -441,7 +445,9 @@ Laut den Einstellungen ist das FE 0/0 Interface von R1 nun korrekt konfiguriert.
 R2(config)#interface FastEthernet 0/0 
 R2(config-if)#description R2 LAN Default Gateway 
 R2(config-if)#ip address 172.18.0.1 255.255.0.0 
-R2(config-if)#no shutdownR2(config-if)#exitR2(config)#exit
+R2(config-if)#no shutdown
+R2(config-if)#exit
+R2(config)#exit
 \end{lstlisting}
 
 Das Ergebnis dieser Befehle wird wieder kontrolliert:
@@ -478,15 +484,13 @@ Received 50 broadcasts, 0 runts, 0 giants, 0 throttles
 R2#
 \end{lstlisting}
 
-\todo{Entweder Ausgabe faken, oder trobleshooting beschreiben}
-
 In der Versuchsbeschreibung werden folgende Fragen gestellt:
 \begin{itemize}
 	\item \textbf{What did you discover by issuing the show interfaces command?}
 	\begin{itemize}
 		\item FastEthernet0/0 is up
-		\item Line protocol is up %%%%%%%%Da mal checken, wie wir faken
-		\item Internet address is 172.18.0.1/16 %%Hier auch
+		\item Line protocol is up 
+		\item Internet address is 172.18.0.1/16
 		\item Encapsulation ARPA
 	\end{itemize}
 	\item \textbf{To which OSI layer is the encapsulation referring?} see above
@@ -501,4 +505,160 @@ R2>\end{lstlisting}
 \begin{lstlisting}[captionpos=b, caption=Ping von R2 an das serielle Interface von R1]
 //Keine Ping Datei
 \end{lstlisting}
-\todo{Die Pings finde ich nicht. Evtl. müssen die mit nem Windows Rechner gefaket oder sonstwo abgeschrieben werden}
+\todo{Die Pings finde ich nicht. Evtl. müssen die mit nem Windows Rechner gefaket oder sonstwo abgeschrieben werden und die Frage muss beantwortet werden}
+
+\section{Versuch Teil 2}
+Für den zweiten Teil des Versuchs muss der Aufbau geändert. Die Geräte entsprechen grundsätzlich Teil 1 des Versuchs, es wird lediglich nur noch ein Router benötigt. Die beiden Hosts werden mit dem Switch verbunden, der Host H1 hat eine serielle Verbindung zum Switch. 
+Vor Beginn des Versuchs wird sichergestellt, dass die Konfigurationen von Router und Switch zurückgesetzt sind. Ist das nicht der Fall können unerwartete Ergebnisse auftreten. \todo{Wie soll ein Roter ohne serielles Kabel zurück gesetzt werden? Evtl. anmerken, dass da doch ein serielles Kabel dran hängt}
+\begin{table}[h]
+\begin{tabular}{|*{7}{c|}}
+\hline
+Dev & Hostname & IF & IP-Address & SN Mask & Def GW & Switch P \\
+\hline
+\hline
+S1 & CustomerSwitch & VLAN 1 & 192.168.1.5 & 255.255.255.0 & 192.168.1.1 & N/A \\
+\hline
+ R1 & CustomerRouter & Fa0/1 & 192.168.1.1 & 255.255.255.0 & N/A & Fa0/5 \\ 
+\hline
+H1 & H1 & NIC & 192.168.1.2 & 255.255.255.0 & 192.168.1.1 & Fa0/11 \\
+\hline
+H2 & H2 & NIC & 192.168.1.4 & 255.255.255.0 & 192.168.1.1 & Fa0/18 \\ 
+\hline
+H3 & H3 & NIC & 192.168.1.6 & 255.255.255.0 & 192.168.1.1 & None \\ 
+\hline
+\end{tabular}
+\caption{Übersicht der Netzwerkadressen}
+\label{adresstabelleTeil2}
+\end{table}
+
+Die Hosts werden nach der Adresstabelle konfiguriert. Im Router werden die Grundeinstellungen konfiguriert, das Interface Fa0/1 wird nach der Tabelle konfiguriert.
+
+Nachdem die Vorbereitungen abgeschlossen sind, wird der Switch konfiguriert. Die grundsätzliche Konfiguration entspricht der Konfiguration von Routern.
+\begin{lstlisting}[captionpos=b, caption=Die Befehle zum Konfigurieren des Switches]
+Switch(config)#hostname CustomerSwitch
+CustomerSwitch(config)#enable password cisco
+CustomerSwitch(config)#enable secret cisco123
+CustomerSwitch(config)#line console 0 
+CustomerSwitch(config-line)#password cisco123
+CustomerSwitch(config-line)#login
+CustomerSwitch(config-line)#line vty 0 15CustomerSwitch(config-line)#password cisco123
+CustomerSwitch(config-line)#login 
+CustomerSwitch(config-line)#end
+\end{lstlisting}
+
+Die Auswirkungen dieser Befehle sind im Teil 1 des Versuchs beschrieben. Jetzt folgen die Einstellungen zum Interface. Bei diesen Einstellungen wird ein v-Lan konfiguriert. Ein v-Lan ist ein logisches Teilnetz innerhalb eines Netzwerks. Bei Cisco Geräten ist das VLAN1 auf allen Ports per default konfiguriert. Der Befehl 
+\begin{lstlisting}CustomerSwitch(config)#interface vlan 1 
+\end{lstlisting} 
+konfiguriert dieses Interface. Damit werden alle Ports konfiguriert. \todo{Stimmt das so?}
+Dieses Interface wird mit den Befehlen 
+\begin{lstlisting}[captionpos=b, caption=Die Befehle zum Konfigurieren des VLAN1 Interfaces]CustomerSwitch(config-if)#ip address 192.168.1.5 255.255.255.0 
+CustomerSwitch(config-if)#no shutdown 
+CustomerSwitch(config-if)#exitCustomerSwitch(config)#ip default-gateway 192.168.1.1 
+CustomerSwitch(config)#end\end{lstlisting}
+konfiguriert. Um zu überprüfen, ob die Konfiguration erfolgreich war, bietet sich der Befehl \textit{show running-configuration} an. An der Ausgabe
+\begin{lstlisting}[captionpos=b, caption=Die Ausgabe der running configuration nach dem Konfigurieren des VLAN1 Interfaces]CustomSwitch#show run
+Building configuration...
+
+Current configuration : 1418 bytes
+!
+version 12.2
+no service pad
+service timestamps debug uptime
+service timestamps log uptime
+no service password-encryption
+!
+hostname CustomSwitch
+!
+enable secret 5 $1$BRz6$AhGrgo3ovcz9Px5pGe75p.
+enable password cisco
+!
+no aaa new-model
+system mtu routing 1500
+ip subnet-zero
+!
+!
+!
+!
+no file verify auto
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ ip address 192.168.1.5 255.255.255.0
+ no ip route-cache
+!
+ip default-gateway 192.168.1.1
+ip http server
+!
+control-plane
+!
+!
+line con 0
+ password cisco123
+ login
+line vty 0 4
+ password cisco123
+ login
+line vty 5 15
+ password cisco123
+ login
+!
+end\end{lstlisting}
+sieht man, dass die Konfiguration erfolgreich war. Die IP der Hosts und die IP des Interface befinden sich im gleichen Netzwerk. Um die Konfiguration dauerhaft im NVRAM zu sichern, muss noch die running-config in die startup-config kopiert werden.
+\begin{lstlisting}
+CustomerSwitch#copy running-config startup-config
+\end{lstlisting}
