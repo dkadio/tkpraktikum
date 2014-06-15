@@ -731,6 +731,7 @@ Configuration register is 0xF
 \end{lstlisting}
 Dieser Switch nutzt das IOS Release \glqq Version 12.2(35)SE5, RELEA\grqq.
 
+\subsection{Konfigurieren der Switch Ports}
 In der Versuchsbeschreibung wird gefragt, welche Mac Adressen die Hosts haben.
 \todo{Die Mac Adresse für Host 3 muss noch "gesucht" werden}
 \begin{table}[h]
@@ -739,9 +740,9 @@ In der Versuchsbeschreibung wird gefragt, welche Mac Adressen die Hosts haben.
 Device & Layer 2 Address \\
 \hline
 \hline
-H1 &  \\ 1cc1.de5f.b7b3 
+H1 &   1cc1.de5f.b7b3 \\
 \hline
- H2 &  \\ 1cc1.de5f.b9fa
+ H2 &   1cc1.de5f.b9fa \\
 \hline
 H3 &  \\
 \hline
@@ -803,4 +804,139 @@ Vlan    Mac Address       Type        Ports
    1    1cc1.de5f.b9fa    STATIC      Fa0/18
 Total Mac Addresses for this criterion: 23
 \end{lstlisting}
-Es sind immer noch 23 Mac Adressen eingetragen. Der Unterschied ist, dass die Adresse  1cc1.de5f.b9fa nun statisch eingetragen ist.
+Es sind immer noch 23 Mac Adressen eingetragen. Der Unterschied ist, dass die Adresse  1cc1.de5f.b9fa nun statisch eingetragen ist. Da jetzt der Switch grundsätzlich konfiguriert ist, kommen jetzt die Sicherheitseinstellungen. Im Folgenden soll die Port Security eingerichtet werden. Port Security bedeutet, dass für einen Port berechtigte Mac Adressen eingetragen werden. Nur noch Devices mit berechtigten Mac Adressen dürfen dann noch über diesen Port kommunizieren. Die Befehle 
+\begin{lstlisting}
+CustomerSwitch(config)#interface fastEthernet 0/18 
+CustomerSwitch(config-if)#switchport port-security ?
+\end{lstlisting}
+listen die verfügbaren Möglichkeiten zum Thema port security auf. Bevor die port security aktiviert wird, wird der statische Port Fa0/18 wieder dynamisch gemacht. Dies geschieht mit dem Befehl: 
+\begin{lstlisting}
+no mac address-table static 1cc1.de5f.b9fa interface fastethernet 0/18 vlan 1
+\end{lstlisting}
+
+\subsection{Port Security}
+
+Anschließend wir die port security für den Port Fa0/18 eingerichtet. Dies geschieht mit den Befehlen:
+\begin{lstlisting}[captionpos=b, caption=Aktivieren der Port Security für den Port Fa0/18]
+CustomerSwitch(config-if)#switchport mode access 
+CustomerSwitch(config-if)#switchport port-security 
+CustomerSwitch(config-if)#switchport port-security mac-address sticky 
+CustomerSwitch(config-if)#end\end{lstlisting}
+Der erste Befehl bringt das Interface in den access mode. Im access mode ist das trunking permanent deaktiviert. Im trunked mode ist keine port security möglich. Der Befehl \textit{switchport port-security} aktiviert aktiviert die port security auf diesem Interface. Mit \textit{switchport port-security mac-address sticky} wird das automatische Lernen von Mac Adressen aktiviert. Im Lern Modus werden alle erkannten Mac Adressen als erlaubt gespeichert.
+
+Den Erfolg dieser Befehle kann man mit den Befehlen \textit{show port-security} oder \textit{show port-security interface fa0/18 address} sofort kontrollieren.
+\todo{Fuck, hierfür gibt es keine Datei. Die sollten wir auftreiben oder aus der Versuchsbeschreibung kopieren} 
+
+Aus dieser Ausgabe lässt sich ableiten, dass die security action \glqq Shutdown\grqq ist und dass die Anzahl der secure addresses ist 1. Der maximum secure address count gibt an, wie viele Mac Adressen gelernt werden dürfen. Bei einer falschen Mac Adresse wird der Port deaktiviert \todo{das mit dem maximalen Lernen habe ich quasi erfunden. Stimmt das?}
+
+Die neuen Einstellungen sind auch in der running config einzusehen:
+\begin{lstlisting}[captionpos=b, caption=Ansicht der running config nach dem Aktivieren der port security]
+CustomSwitch#show running-config
+Building configuration...
+
+Current configuration : 1573 bytes
+!
+version 12.2
+no service pad
+service timestamps debug uptime
+service timestamps log uptime
+no service password-encryption
+!
+hostname CustomSwitch
+!
+enable secret 5 $1$BRz6$AhGrgo3ovcz9Px5pGe75p.
+enable password cisco
+!
+no aaa new-model
+system mtu routing 1500
+ip subnet-zero
+!
+!
+!
+!
+no file verify auto
+spanning-tree mode pvst
+spanning-tree extend system-id
+[...]
+interface FastEthernet0/18
+ switchport mode access
+ switchport port-security
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1cc1.de5f.b9fa
+!
+[..]
+interface Vlan1
+ ip address 192.168.1.5 255.255.255.0
+ no ip route-cache
+!
+ip default-gateway 192.168.1.1
+ip http server
+!
+control-plane
+!
+!
+line con 0
+ password cisco123
+ login
+line vty 0 4
+ password cisco123
+ login
+line vty 5 15
+ password cisco123
+ login
+!
+end
+\end{lstlisting}
+
+In dieser Ansicht sind direkt einige Sicherheitsvorkehrungen erkennbar.
+\begin{lstlisting}
+enable secret 5 $1$BRz6$AhGrgo3ovcz9Px5pGe75p.
+\end{lstlisting}
+Diese Zeile zeigt, dass die Konfiguration des Switches durch ein verschlüsseltes Passwort gesichert ist. Die Zeilen
+\begin{lstlisting}
+interface FastEthernet0/18
+ switchport mode access
+ switchport port-security
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1cc1.de5f.b9fa
+ \end{lstlisting}
+ zeigen an, dass das Interface FE0/18 durch eine port security gesichert ist. Diese port security ist im Lern Modus. Die Zeilen
+ \begin{lstlisting}
+ line con 0
+ password cisco123
+ login
+ \end{lstlisting}
+ \begin{lstlisting}
+ line vty 0 4
+ password cisco123
+ login
+ \end{lstlisting}
+ \begin{lstlisting}
+ line vty 5 15
+ password cisco123
+ login
+ \end{lstlisting}
+ zeigen, dass die Zugänge zum Switch auch passwortgeschützt sind. Diese Passwörter sind aber nicht verschlüsselt.
+ 
+Das Verhalten des Switch bei Verstößen gegen die port security kann durch einen einfachen Versuch getestet werden. Auf dem Port von H2 (FE0/18) wird der Host 3 angeschlossen. Die Mac Adresse dieses Hots ist dem Switch bis jetzt unbekannt. Das Ergebnis ist, dass dieser Host trotz korrekter Einstellungen keine Verbindung zum Netzwerk aufbauen kann. 
+\todo{Da hätten wir was messen sollen Step9 b)}
+
+Die Status des Interface sind: \todo{Keine Aufzeichnung. Mist!}
+
+Da der Port durch die unberechtigte Mac Adresse deaktiviert wurde, muss er wieder aktiviert werden. Bevor dies passiert, wird die gelernte Mac Adresse wieder gelöscht. Dies geschieht mit dem Befehl: 
+\begin{lstlisting}
+CustomerSwitch#clear port-security sticky interface fa0/18 access\end{lstlisting}
+
+Anschließend wird das Interface wieder aktiviert. Dazu wird das Interface erst manuell deaktiviert und dann wieder manuell aktiviert. 
+\begin{lstlisting}CustomerSwitch(config)#interface fa0/18 
+CustomerSwitch(config-if)#shutdown 
+CustomerSwitch(config-if)#no shutdown
+\end{lstlisting}
+
+\todo{Was bedeutet das geht nicht in der Datei?} 
+
+\subsection{Geschwindigkeits- und Duplexeinstellungen des Switchs}
+Die Ports eines Switches haben per default die Einstellungen auto duplex und auto speed. Das bedeutet, dass der Switch anhand des angeschlossenen Device die Geschwindigkeit und den Übertragungsmodus. 
+
+In diesem Teil des Versuchs soll diese Eigenschaft konfiguriert werden. Vor Beginn dieser Konfiguration werden erst die Interfaces betrachtet. Dadurch ist es möglich zu überprüfen, ob die Änderungen erfolgreich waren.
+  
