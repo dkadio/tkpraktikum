@@ -921,7 +921,10 @@ interface FastEthernet0/18
 Das Verhalten des Switch bei Verstößen gegen die port security kann durch einen einfachen Versuch getestet werden. Auf dem Port von H2 (FE0/18) wird der Host 3 angeschlossen. Die Mac Adresse dieses Hots ist dem Switch bis jetzt unbekannt. Das Ergebnis ist, dass dieser Host trotz korrekter Einstellungen keine Verbindung zum Netzwerk aufbauen kann. 
 \todo{Da hätten wir was messen sollen Step9 b)}
 
-Die Status des Interface sind: \todo{Keine Aufzeichnung. Mist!}
+Die Status des Interface sind: 
+\begin{lstlisting}
+FastEthernet0/18 is down, line protocol is down (err-disabled)
+\end{lstlisting}
 
 Da der Port durch die unberechtigte Mac Adresse deaktiviert wurde, muss er wieder aktiviert werden. Bevor dies passiert, wird die gelernte Mac Adresse wieder gelöscht. Dies geschieht mit dem Befehl: 
 \begin{lstlisting}
@@ -939,4 +942,118 @@ CustomerSwitch(config-if)#no shutdown
 Die Ports eines Switches haben per default die Einstellungen auto duplex und auto speed. Das bedeutet, dass der Switch anhand des angeschlossenen Device die Geschwindigkeit und den Übertragungsmodus. 
 
 In diesem Teil des Versuchs soll diese Eigenschaft konfiguriert werden. Vor Beginn dieser Konfiguration werden erst die Interfaces betrachtet. Dadurch ist es möglich zu überprüfen, ob die Änderungen erfolgreich waren.
-  
+\todo{Die Ausgabe von FE0/18 ist gefaked(Der Port wurde in Step10 nicht freigeschaltet). Vor Abgabe checken, ob das plausibel ist}
+\begin{lstlisting}[captionpos=b, caption=Die Interface Informationen vor der Konfiguration der Sende Modi]
+ FastEthernet0/5 is up, line protocol is up (connected)
+  Hardware is Fast Ethernet, address is 0024.f98a.e705 (bia 0024.f98a.e705)
+  MTU 1500 bytes, BW 100000 Kbit, DLY 100 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Full-duplex, 100Mb/s, media type is 10/100BaseTX
+  input flow-control is off, output flow-control is unsupported
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:07, output 00:00:00, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/40 (size/max)
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     284 packets input, 29831 bytes, 0 no buffer
+     Received 42 broadcasts (0 multicasts)
+     0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     0 watchdog, 40 multicast, 0 pause input
+     0 input packets with dribble condition detected
+     1465 packets output, 115081 bytes, 0 underruns
+     0 output errors, 0 collisions, 1 interface resets
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier, 0 PAUSE output
+     0 output buffer failures, 0 output buffers swapped out
+
+FastEthernet0/11 is up, line protocol is up (connected)
+  Hardware is Fast Ethernet, address is 0024.f98a.e70b (bia 0024.f98a.e70b)
+  MTU 1500 bytes, BW 100000 Kbit, DLY 100 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Full-duplex, 100Mb/s, media type is 10/100BaseTX
+  input flow-control is off, output flow-control is unsupported
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input never, output 00:00:01, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/40 (size/max)
+  5 minute input rate 1000 bits/sec, 1 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     140 packets input, 18837 bytes, 0 no buffer
+     Received 71 broadcasts (0 multicasts)
+     0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     0 watchdog, 4 multicast, 0 pause input
+     0 input packets with dribble condition detected
+     1574 packets output, 122260 bytes, 0 underruns
+     0 output errors, 0 collisions, 1 interface resets
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier, 0 PAUSE output
+     0 output buffer failures, 0 output buffers swapped out
+
+FastEthernet0/18 is up, line protocol is up (connected)
+  Hardware is Fast Ethernet, address is 0024.f98a.e712 (bia 0024.f98a.e712)
+  MTU 1500 bytes, BW 10000 Kbit, DLY 1000 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Auto-duplex, Auto-speed, media type is 10/100BaseTX
+  input flow-control is off, output flow-control is unsupported
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input never, output 00:07:37, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/40 (size/max)
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     131 packets input, 14849 bytes, 0 no buffer
+     Received 19 broadcasts (0 multicasts)
+     0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     0 watchdog, 0 multicast, 0 pause input
+     0 input packets with dribble condition detected
+     1296 packets output, 102046 bytes, 0 underruns
+     0 output errors, 0 collisions, 1 interface resets
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier, 0 PAUSE output
+     0 output buffer failures, 0 output buffers swapped out
+\end{lstlisting}
+
+\begin{table}[h]
+\begin{tabular}{|*{4}{c|}}
+\hline
+Interface & Duplex Modus & Geschwindigkeit & Media Typ \\
+\hline
+\hline
+FE0/5 & Full-duplex & 100 Mb/s & 10/100BaseTX \\
+\hline
+FE0/11 & Full-duplex & 100 Mb/s & 10/100BaseTX \\
+\hline
+FE0/18 & Auto-duplex & Auto-Speed & 10/100BaseTX  \\
+\hline
+\end{tabular}
+\caption{Die Übertragungsmodi in der Übersicht}
+\label{showInterfacesVor}
+\end{table}
+\todo{Die Zeile von FE0/18 kann aber auch falsch sein, weil das Interface down ist(Ich habe nur die erste Zeile manipuliert)}
+
+
+\todo{Die Teile c und d machen keinen Sinn. Warum soll ich FE0/10 konfigurieren und auf FA0/5 achten? Außerdem fehlt die Ausgabe}
+
+\subsection{Reflection}
+Zum Ende des Versuchs gibt es noch einige Fragen, die prüfen sollen, ob der Versuch verstanden wurde. 
+\begin{enumerate}
+	\item \textbf{Which password needs to be entered to switch from user mode to privilege exec mode on the Cisco switch, and why?} The password \glqq cisco123\grqq is the correct password.  In step 3 we set two passwords. \glqq cisco\grqq and \glqq cisco123\grqq The second one was set als encrypted password. IOS prefers the encrypted passwords. If a decrypted and an encrypted password is set, IOS will just use the encrypted one.
+	\item \textbf{Which symbol is used to show a successful ping in the Cisco IOS software?} Our successful ping commands had every time the sequence \textit{!!!!!} after the prompt, that 5 pings being send. After these 5 ! was the prompt with the success rate. So the symbol to show a successful ping ist the \glqq !\grqq.
+	\item \textbf{What is the benefit of using port security?} The benefit of port security is a higher security in your network. %%%Da weiterschreiben
+\end{enumerate}
