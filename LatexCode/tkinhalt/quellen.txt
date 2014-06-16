@@ -4,3 +4,7 @@ http://de.wikipedia.org/wiki/G.711						BA
 http://www.itwissen.info/definition/lexikon/bearer-capability-BC.html		BA GSM
 http://www.ciscopress.com/articles/article.asp?p=29737&seqNum=3			BA
 http://de.wikipedia.org/wiki/ISDN-Verbindungsaufbau				BA isdn Rufaufbau
+http://www.elektrorevue.cz/clanky/05035/english.htm				SDH
+http://de.wikipedia.org/wiki/Synchrone_Digitale_Hierarchie			SDh
+http://www.cisco.com/c/en/us/support/docs/optical/synchronous-digital-hierarchy-sdh/5462-sdh-overview.html sdh
+http://www.birds-eye.net/definition/acronym/?id=1153081346 			sdh
