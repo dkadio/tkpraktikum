@@ -29,9 +29,9 @@ theoretisch eine Entfernung von gut 50Km schaffen würden. Da Elmi
 leider nicht von Siemens ist, ist es auch nicht möglich direkt über
 die Software zu sehen wie Elmi sich als Multiplexer verhält.
 
-
-\includegraphics[scale=1]{tkinhalt/sdh/versuchsaufbau.png}
-
+\vspace{0.5 cm}
+\includegraphics[width=1\textwidth]{tkinhalt/sdh/versuchsaufbau.png}\caption{Versuchsaufbau}\label{versuchsaufbau}
+\vspace{0.5 cm}
 
 \section{Versuchsgegenstände im Detail}
 
@@ -47,9 +47,8 @@ zum einspeisen von Fehlern ins Netz um zu betrachten wie sich das SDH
 darauf verhält. Wie oben bereits erwähnt ist er selbst ebenfalls Teil
 des Netzes in Form von einem Multiplexers. Folgende Grafiken erläutern
 wie mit dem Gerät um zu gehen ist.
-
-\includegraphics[scale=1]{tkinhalt/sdh/elmi_start.png}
-
+\includegraphics[width=1\textwidth]{tkinhalt/sdh/elmi_start.png}\caption{Startbildschirm GN Elmi EST 2100}\label{startbildschirm_elmi}
+\vspace{0.5 cm}
 
 Es gibt es veschiedene Möglichkeiten das Netz zu beeinflussen. Da Elmi
 einen eigenen internen Systemtakt besitzt, kann man diesen auch
@@ -67,9 +66,8 @@ kann man entweder als Burst, das bedeutete über einen bestimmten
 Zeitrahmen, oder kontinuierlich setzen. Für unserem Versuch werden nur
 diese zwei Sektionen benötigt deswegen wird hier nicht weiter auf die
 Funktionalität von Elmi eingegangen.
-
-\includegraphics[scale=1]{tkinhalt/sdh/elmi_fehler.png}
-
+\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/elmi_fehler.png}\caption{Fehlermenu GN Elmi EST 2100}\label{fehlermenu_elmi}
+\vspace{0.5 cm}
 
 \subsection{TMNS}
 
@@ -79,9 +77,9 @@ dargestellt. Klickt man nun auf unser Testnetz \textit{Köln}
 
 auf die Performancemessung gelangt man in die für den Versuch
 interessante Performanceansicht. \todo{stimmt das?}
-
-\includegraphics[scale=1]{tkinhalt/sdh/tnms.jpg}
-
+\vspace{0.5 cm}
+\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/tnms.jpg}\caption{Telecommunications-Management-Network-Software}\label{TMNS}
+\vspace{0.5 cm}
 
 Im Hauptfenster werden sämtliche Komponenten angezeigt die zu dem Netz
 gehören bis auf Elmi. Hier werden bei einkommenden Fehlern, durch
@@ -91,18 +89,18 @@ Folgenden Abbildung ist zu sehen wie die Komponente in dem Steckplatz
 ebenfalls rot markiert jedoch weil die Ports konfiguriert sind aber
 kein Kabel angeschlossen ist. Also können wir diese einfach
 ignorieren.
-
-\includegraphics[scale=1]{tkinhalt/sdh/Fehler2.jpg}
-
+\vspace{0.5 cm}
+\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/Fehler2.jpg}\caption{Einkommender Fehler im TMNS}\label{tms_incoming}
+\vspace{0.5 cm}
 
 Bei einem ankommenden Fehler kann man sich nun die Komponente genauer
 anschauen indem man den entsprechenden Port sich unter die Lupe nimmt.
 Durch Auswahl der Submenu-View gelangt man in eine Ansicht in der man
 genauer sehen kann wo der Fehler entstanden ist.
 
-
-\includegraphics[scale=1]{tkinhalt/sdh/komponent-performance.jpg}
-
+\vspace{0.5 cm}
+\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/komponent-performance.jpg}\caption{Traffic Flow Fenster}\label{traficflow_fenster}
+\vspace{0.5 cm}
 
 Hier hat man nun je nach Fehler die Auswahl. Wenn es um Pointer geht
 wird hier im Normalfall das AU-4 Fenster anfangen zu Blinken, wenn ein
@@ -112,9 +110,9 @@ Diese schauen wir uns hier noch im Detail an.
 
 Zuerst sehen wir hier die Performance-Ansicht von dem AU-4 Fenster.
 
-
-\includegraphics[scale=1]{tkinhalt/sdh/Pointerview_detail.jpg}
-
+\vspace{0.5 cm}
+\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/Pointerview_detail.jpg}\caption{Pointerview zur überwachung der Aktivitäten in AU4}\label{pointerview}
+\vspace{0.5 cm}
 %zur pointerview was schreiben
 
 Dieses beinhaltet:
@@ -145,8 +143,9 @@ finden.
 Um im genau zu sehen was im STM-1 vor sich geht kann man sich hier
 ebenfalls die Performance-Ansicht anzeigen lassen.
 
-\includegraphics[scale=1]{tkinhalt/sdh/ms-near-end.jpg}
-
+\vspace{0.5 cm}
+\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/ms-near-end.jpg}\caption{STM1 Performance Fenster}\label{stm1_fenster}
+\vspace{0.5 cm}
 
 Folgende Daten werden angezeigt:
 
@@ -218,8 +217,7 @@ Frames.
 OOF (Out of Frame) ist.
 
 \item OOF - Out of Frame tritt auf wenn die Bytes A1 und A2 länger als
-%624 \mu s  fehlerhaft sind 
-\todo{Ich habe den Fehler auskommentiert}
+624 $\mu$ s  fehlerhaft sind 
 \end{itemize}
 
 
@@ -242,9 +240,9 @@ Zuerst werden wir die Fehler kontinuierlich einspeisen. Nach dem
 feuern der Fehler fängt die entsprechende Komponente an zu Blinken und
 wir klicken uns bis in das STM-1\_performance-Fenster durch.
 
-
-\includegraphics[scale=1]{tkinhalt/sdh/stm1-konti.jpg}
-
+\vspace{0.5 cm}
+\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/stm1-konti.jpg}\caption{STM1 Performance Fenster mit hoher UAS-Rate}\label{stm1_hohe_uas}
+\vspace{0.5 cm}
 
 Die Ergebnisse sind alle wie zu erwarten gleich. Alle drei
 Fehlermeldungen lassen den UAS-Counter solange ansteigen bis man
@@ -297,7 +295,7 @@ LOS & 1 s & 4 & 4 & 0 & STM1 \\
 LOS & 7 s & 0 & 0 & 14 & STM1 \\
 \hline 
 \end{tabular}
-
+\vspace{1 cm}
 
 Wie man anhand der Tabelle sehen kann löst die MS-AIS lediglich
 maximal 8 SES aus und somit wird die Leitung nicht als Unavailable
@@ -334,8 +332,8 @@ man einstellen ob man die Pointer-Justierung dauerhaft alle 1500 ms
 oder manuell durchführen will.
 
 
-\includegraphics[scale=1]{tkinhalt/sdh/IMG_1937.JPG}
-
+\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/IMG_1937.JPG}\caption{Dekrementieren des Pointers}\label{dekrement_pointer}
+\vspace{0.5 cm}
 
 Zuerst Dekrementieren wir den Pointer was ein Pointer Justification
 Event auslöst und in TMNS im Performance Menu von AU-4 als
