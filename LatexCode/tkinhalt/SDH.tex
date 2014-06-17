@@ -267,16 +267,16 @@ LOS & Kontinuierlich & 0 & 0 & ++ & STM1 \\
 LOF & Kontinuierlich & 0 & 0 & ++ & STM1 \\
 \hline
 \end{tabular}
-\caption{Irgend eine Unterschrift}
+\centering
+\caption{Kontinuierliches steigen der UAS solange die Fehlermeldung eingespeist wird}
 \end{table}
-\todo{Caption der Table ändern}
 \subsubsection{Burst Fehlereinspeisung}
 
 
 Als zweites Verursachen wir eine MS-AIS und ein LOS jeweils innerhalb
 von 100ms, einer Sekunde, und sieben Sekunden.
 
-
+\begin{table}
 \begin{tabular}{|*{6}{c|}} 
 \hline 
 Fehlermeldung & Burst-Time & ES & SES & UAS & Fenster \\
@@ -295,6 +295,9 @@ LOS & 1 s & 4 & 4 & 0 & STM1 \\
 LOS & 7 s & 0 & 0 & 14 & STM1 \\
 \hline 
 \end{tabular}
+\centering
+\caption{Konsequenzen auf verschieden lange Fehlermeldungen}
+\end{table}
 \vspace{1 cm}
 
 Wie man anhand der Tabelle sehen kann löst die MS-AIS lediglich
@@ -373,7 +376,8 @@ ausgleich zwischen den unterschiedlichen Takten erreichen. In dem
 Versuch haben wir beobachtet wie sich die Pointerjustierung auswirkt.
 Dies ist hier noch einmal Tabellarsich aufgeführt.
 
-
+\vspace{1 cm}
+\begin{table}
 \begin{tabular}{|*{2}{c|}}
 \hline
 Justierung & PointerAktivität \\
@@ -385,7 +389,10 @@ Dekrementierung & 3 Pointer pro Sekunde \\
 Ohne & 4 Pointer pro Sekunde \\
 \hline
 \end{tabular}
-
+\centering
+\caption{Änderungen der Pointeraktivitäten bei internem Takt}
+\end{table}
+\vspace{1 cm}
 
 Die Tabelle zeigt auf das mit einer Positiven Justierung des Pointers
 zusätlich zu dem unteschiedlichen Takt eine noch höhere
