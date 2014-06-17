@@ -148,7 +148,7 @@ Auf der folgenden Abbildung ist zu sehen welche Frequenzen in Deutschland von we
   \label{fig:frequtabelle}
 \end{figure} 
 
-Wenn man die Tabelle \ref{tab:empfangeneFreqzenzen} und die Grafik \ref{fig:frequtabelle} vergleicht, ergibt sich Tabelle \ref{frequenzAnbieter}. Auffällig ist, dass keine Signale des Anbieters Vodafone empfangen werden, dafür aber mehrere militärische Kanäle.
+Wenn man die Tabelle \ref{tab:empfangeneFreqzenzen} und die Grafik \ref{fig:frequtabelle} vergleicht, ergibt sich Tabelle \ref{tab:frequenzAnbieter}. Auffällig ist, dass keine Signale des Anbieters Vodafone empfangen werden, dafür aber mehrere militärische Kanäle.
 
 \begin{table}[h!]
  
@@ -283,7 +283,7 @@ Im Header werden Informationen zu der verwendeten Version, der länge des Headers
 
 Unser Hauptaugenmerk legen wir auf die Pakete die als SIP gekennzeichnet sind. Hier kann man am besten nachverfolgen was gerade für eine Aktion durchgeführt wird. 
 Da als erstes eine Verbindung aufgebaut werden muss damit man mit dem Echo-Server interagieren kann wird zuerst eine Invite Nachricht gesendet. \newline
-Bevor das jedoch passiert wird vorher auf dem Layer 2 eine Setup Nachricht gesendet. Wie man in \ref{Lapdm Setup Nachricht} sehen kann wird hier ebenfalls die Bearer Capability angefordert. Die Bearer Capability bedeutet das ein Gerät in unserem Fall die MS eine bestimmte Transportleistung vom Netz anfordert. 
+Bevor das jedoch passiert wird vorher auf dem Layer 2 eine Setup Nachricht gesendet. Wie man in \ref{fig:Lapdm Setup Nachricht} sehen kann wird hier ebenfalls die Bearer Capability angefordert. Die Bearer Capability bedeutet das ein Gerät in unserem Fall die MS eine bestimmte Transportleistung vom Netz anfordert. 
 
   \vspace{0.5cm} 
   \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/lapdm_setup.png}\captionof{figure}{Setup Nachricht auf dem Layer 2}
@@ -296,7 +296,7 @@ Diese sind, wie man im Header sehen kann, von wem die Nachricht gestellt wird, a
   \label{fig:SIP invite Nachricht}
   \vspace{1cm}
 
-Vorrausgesetzt das diese Daten nicht fehlerhaft sind wird versucht eine Verbindung zu dem Server herzustellen. Diese kann man in \ref{SIP trying Nachricht} sehen. Dort wird mit dem Status-Code 100 gekennzeichnet.
+Vorrausgesetzt das diese Daten nicht fehlerhaft sind wird versucht eine Verbindung zu dem Server herzustellen. Diese kann man in \ref{fig:SIP trying Nachrichtl} sehen. Dort wird mit dem Status-Code 100 gekennzeichnet.
 
   
   \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_trying_2.png}\captionof{figure}{trying Nachricht im SIP Protokoll}
@@ -315,7 +315,7 @@ Daraufhin erfolgt die Bestätigung und die Verbindung ist somit aufgebaut und ber
   \label{fig:SIP acknowledge Nachricht}
     \vspace{1cm}
 Nun werden die Daten via RTP zwischen Server und User ausgetauscht. RTP is das Real-Time-Transport Protocol das dazu dient audiovisuelle Daten über IP-basierte Netzwerke zu versenden. 
-Wir legen nun auf das bedeutet wir möchten die Verbindung trennen. Das erfolgt durch einen Bye-nachricht (\ref{SIP bye Nachricht}. In dieser meldet der User dem Server das er die Verbindung nun trennt um dem Server bescheid zu geben. da ebenfalls die Layer 2 Verbindung wieder getrennt werden muss erfolgt hier eine Disconnect Nachricht wie in \ref{LAPDm Disconnect Nachricht}.
+Wir legen nun auf das bedeutet wir möchten die Verbindung trennen. Das erfolgt durch einen Bye-nachricht (\ref{fig:SIP bye Nachricht}. In dieser meldet der User dem Server das er die Verbindung nun trennt um dem Server bescheid zu geben. da ebenfalls die Layer 2 Verbindung wieder getrennt werden muss erfolgt hier eine Disconnect Nachricht wie in \ref{fig:LAPDm Disconnect Nachricht}.
 
   
   \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/lapdm_disconnect.png}\captionof{figure}{Aufforderung zum Beenden der Layer 2 verbindung}
