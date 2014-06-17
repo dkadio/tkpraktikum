@@ -4,8 +4,7 @@
 
 \chapter{RSP Versuch \label{rspVersuch}}
 \section{Einleitung}
-Router und Switche begleiten uns im täglichen Leben. Auch wenn sie oft nicht wahrgenommen werden, sind sie doch allgegenwärtig. Ob mobiles Surfen, das Surfen am Computer oder auch telefonieren, diese Tätigkeiten sind ohne Router und Switche nicht möglich. Der Netzwerkausrüster Cisco Systems rechnet bis zum Jahr 2018 mit einem weltweiten Internettraffic von 1,6 Zettabyte \cite{cisco_traffic_schaetzung}. Die Netzwerke, die diesen Traffic behandeln und abwickeln sollen wachsen stetig mit ihren Aufgaben. Deswegen ist eine fundierte Ausbildung in der Netzwerktechnik und ein Verständnis der Komponenten für den Informatiker der Zukunft unausweichlich. \todo{Kann man das so schreiben?}
-
+Router und Switche begleiten uns im täglichen Leben. Auch wenn sie oft nicht wahrgenommen werden, sind sie doch allgegenwärtig. Ob mobiles Surfen, das Surfen am Computer oder auch telefonieren, diese Tätigkeiten sind ohne Router und Switche nicht möglich. Der Netzwerkausrüster Cisco Systems rechnet bis zum Jahr 2018 mit einem weltweiten Internettraffic von 1,6 Zettabyte \cite{cisco_traffic_schaetzung}. Die Netzwerke, die diesen Traffic behandeln und abwickeln sollen wachsen stetig mit ihren Aufgaben. Deswegen ist eine fundierte Ausbildung in der Netzwerktechnik und ein Verständnis der Komponenten für den Informatiker der Zukunft unausweichlich. 
 Der folgende Versuch soll einen grundlegenden Einblick in den Aufbau eines Netzwerkes und die Konfiguration der Komponenten vermitteln.
 
 \subsection{Benötigte Hardware für den Versuch}
@@ -32,7 +31,8 @@ Die Aufgabe eines Switches ist es, Netzwerksegmente miteinander zu verbinden. Da
 \end{figure}
 
 \subsubsection{Kabel \label{kabel}}
-Bei den Kabeln gibt es verschiedene Typen. Bei den Kabeln zur Energieversorgung der Geräte handelt es sich um normale Kaltgerätekabel, diese brauchen an dieser Stelle nicht weiter beschrieben zu werden. Weiterhin waren RJ 45 Twisted Pair Kabel verwendet. Diese dienen der Verbindung zwischen den Routen, bzw, Switchen und den Computern. \todo{War da auch ein Crossover Kabel dabei?} Diese Verbindung dient dem Austausch von Nutzdaten. Die Konfiguration wurde über eine serielle Schnittstelle vorgenommen. Das dazugehörige Kabel hat auf der einen Seite einen female COM Port, auf der anderen Seite einen male RJ 45 Stecker. 
+Bei den Kabeln gibt es verschiedene Typen. Bei den Kabeln zur Energieversorgung der Geräte handelt es sich um normale Kaltgerätekabel, diese brauchen an dieser Stelle nicht weiter beschrieben zu werden. Weiterhin waren RJ 45 Twisted Pair Kabel verwendet. Diese dienen der Verbindung zwischen den Routen, bzw, Switchen und den Computern. %\todo{War da auch ein Crossover Kabel dabei?} 
+Diese Verbindung dient dem Austausch von Nutzdaten. Die Konfiguration wurde über eine serielle Schnittstelle vorgenommen. Das dazugehörige Kabel hat auf der einen Seite einen female COM Port, auf der anderen Seite einen male RJ 45 Stecker. 
 
 \subsubsection{Hintergrund der seriellen Übertragung}
 Im Abschnitt \ref{kabel} wurde erwähnt, dass für die Konfiguration die serielle Schnittstelle genutzt wird. Dabei stellt sich die Frage, warum dieser Aufwand betrieben werden muss, obwohl ein Switch doch mit ausreichend Ethernet Ports ausgestattet sein sollte. Den Hintergrund möchten wir an dieser Stelle durch ein Beispiel beleuchten:
@@ -653,7 +653,7 @@ Packet Tracer ist eine Netzwerk Simulationssoftware der Firma Cisco Systems. Pac
 
 Für den Versuch ist nur ein Computer nötig, der die entsprechende Software installiert hat.
 
-Im folgenden wechseln die Namen der eingerichteten Computer. Dies ist der Versuchsbeschreibung geschuldet. An Passagen, an denen ein Wechsel des Namens die Ergebnisse des Versuchs unverständlich machen kann, wird aufgrund der geänderten Namen genauer erklärt. \todo{Oder habe ich mich irgendwo verhaspelt?}
+Im folgenden wechseln die Namen der eingerichteten Computer. Dies ist der Versuchsbeschreibung geschuldet. An Passagen, an denen ein Wechsel des Namens die Ergebnisse des Versuchs unverständlich machen kann, wird aufgrund der geänderten Namen genauer erklärt. %\todo{Oder habe ich mich irgendwo verhaspelt?}
 
 \subsection{Aufbau des Netzwerkes}
 \subsubsection{Geräte}

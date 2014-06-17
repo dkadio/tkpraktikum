@@ -66,53 +66,53 @@ Die aufgezeichneten Protokolldaten werden mit Wireshark geöffnet.
 
 \subsubsection{Auswertung des Versuchs}
 
-\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/diagramm_ba.png}
-
+\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/diagramm_ba.png}\caption{Aufbau und Abbau einer ISDN Verbindung}\label{VerbindungISDN}
+\vspace{1cm}
 Zur einfacheren und genaueren Auswertung des Versuchs sind in der Aufgabenbeschreibung 12 Fragen beschrieben. 
 \begin{enumerate} 
 	\item \textbf{Welche Rahmen dienen der TEI-Vergabe, und welcher TEI-Wert wird dem Telefon von der Vermittlung zugewiesen?} \newline
 		Die Tei vergabe wird über das Protocol TEI mit der info Itenty Request behandelt. Diese fordert einen TEi Wert zur indentifizierung des Endgerätes an. 
 		
-		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/indenty_request_a1.png}
+		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/indenty_request_a1.png}\caption{Identy Request Frame}\label{identy_request_frame}
 		
 		Die Anfrage wird durch einen Identy Assigned bestätigt und ein TEI Wert wird dem Endgerät zugewiesen. In diesem Fall wird der Wert 64 zugewiesen.
 		
-		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/identy_assigned_a1.png}
+		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/identy_assigned_a1.png}\caption{Identy Assigned Frame}\label{identy_assigned_frame}
 
 	\item \textbf{Wann ist der Aufbau der Schicht 2 abgeschlossen?}  \newline
 	Der Aufbau ist nach dem senden eines unnumbered Acknowledge Frame der zur Bestätigung des Set Asynchronous Balance Mode Extended Frame benutzt wird beendet.
-		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/sabme_a2.png}
+		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/sabme_a2.png}\caption{SABME Nachricht}\label{sabme_nachricht}
 	
 	\item \textbf{Welchen ISDN-Dienst fordert das Telefon von der Vermittlungsstelle an, welche Übertragungskapazität benötigt dieser Dienst?}\newline
 	Das Telefon fordert den Dienst zum übertragen von Sprache an. Dies ist ein Kanal mit 64 kbit/s übertragungskapazität.
 	Im folgenden Frame kann man dies herauslesen. Es handelt sich hierbei um eine Setup Nachricht.
-		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/setup_a3.png}
+		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/setup_a3.png}\caption{Setup Nachricht}\label{setup_nachricht}
 	
 	
 	\item \textbf{Welche Kodierung des Sprachkanals wird gewählt?}\newline
 		Wie man auf dem nachfolgenden Bild in Grau hinterlegt erkennen kann wird der TU-T Standardized-Coding verwendet.
 		Diese Richtlinie gilt für das digitalisieren analoger Audiosignale mittels Puls-Code-Modulation. Der Einsatzbereich für dieses Codecs 			ist wie zu erwarten in der klassischen sowie in der IP-Telefonie.
-		\includegraphics[scale=1]{tkinhalt/ba_bilder/ba/itu_code.png} 
+		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/itu_code.png}\caption{Verwendete Codecs}\label{codecs} 
 
 	\item \textbf{Welche MSN-Nummer wird in welchem Rahmen übertragen?}\newline
 	Im Setup Frame das man in der vorherigen Frage bereits betracheten konnte wird die MSN des anrufenden Teilnehmers übertragen. Zu finden ist 	diese unter dem Abschnitt Q.931 als Callin Party-Number.
 	Die MSN des Teilnehmers auf der anderen Seite steht die MSN in dem Connect Rahmen. Diese ist ebenfalls im Abschnitt Q.931 unter Connected 		Number zu sehen.
-		\includegraphics[scale=1]{tkinhalt/ba_bilder/ba/connect_a5.png} 
+		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/connect_a5.png} \caption{Connect Nachricht}\label{connect_nachricht}
 	
 	\item \textbf{Wann ist der gesicherte Aufbau der Schicht 3 abgeschlossen?}\newline
 	Die Schicht 3 ist Aufgebaut sobald \todo{Vielleuicht kann man hier mehr ins detail gehen} das Netzwerk dem User eine Seup-Acknoledgment-		Nachricht übersendet. Diese bestätigt die vom User gesendete Setup-Nachricht und das alles gut gegangen ist. 
-	\includegraphics[scale=1]{tkinhalt/ba_bilder/ba/setup_acknoledge_a6.png} 
+	\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/setup_acknoledge_a6.png}\caption{Setup Acknowledge}\label{setup_acknowledge}
 
 
 	\item \textbf{Welchen B-Kanal weist die Vermittlung der Verbindung zu?}\newline
 	In dem Call Proceeding-Frame findet man die Angabe zu dem genutzten Channel. In unserem Fall wäre das unter Q.931, 
 	Information channel selection: B1 channel (0x01. Dies gibt an das der genutzte Channel hier der B1 ist. 
-	\includegraphics[scale=1]{tkinhalt/ba_bilder/ba/call-proceeding_a7.png} 
+	\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/call-proceeding_a7.png}\caption{Call Proceeding Nachricht}\label{call_proceeding_nachricht}
 
 
 	\item \textbf{Wo wird die gerufene Telefonnummer übermittelt?}\newline
 	Die Information-Frames senden bereits Teile der Rufnummer bevor die eigentliche Vermittlung anfängt. In unserem Fall werden hier insgesamt 		drei Frames gesendet die jeweils einer Nummer enthalten. Aufgrund der Übersichtlichkeit sind die Frames stark gekürzt und direkt 				hintereinander gesetzt. 
-	\includegraphics[scale=1]{tkinhalt/ba_bilder/ba/information_a8.png} 
+	\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/information_a8.png}\caption{Informations Rahmen}\label{info_rahmen}
 	
 
 	\item \textbf{Mit welchem Rahmen bestätigt die Vermittlung die Vollständigkeit der Rufnummer und beginn den angeforderten Teilnehmer anzuwählen?}\newline
@@ -122,50 +122,50 @@ Zur einfacheren und genaueren Auswertung des Versuchs sind in der Aufgabenbeschr
 	\item \textbf{Mit welchem Rahmen signalisiert die Vermittlung, dass der gerufene Teilnehmeranschluss ein Endgerät besitzt, das den Sprachdienst erfüllen kann und ein Rufsignal aussendet?}\newline
 	Jedes Endgerät das den Anruf annehmen kann sendet eine Alerting Nachricht und beginnt darauf hin zu Klingeln.
 	
-	\includegraphics[scale=1]{tkinhalt/ba_bilder/ba/alerting_a9.png} 
+	\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/alerting_a9.png}\caption{Alert Frame}\label{alert_frame}
 
 
 	\item \textbf{Wann sind die Schichten 3 und 2 jeweils wieder vollständig abgebaut?}\newline
 	Nachdem das Netzwerk eine Realease Complete Nachricht gesendet hat sind alle vorher belegten Kanäle wieder frei und Schicht 3, sowie 		Schicht 2 wieder abgebaut.
 	
-	\includegraphics[scale=1]{tkinhalt/ba_bilder/ba/Release-Complete.png} 
+	\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/Release-Complete.png}\caption{Realease Complete Frame}\label{release_complete}
 	
 
 	\item \textbf{Bei ISDN gibt es die Möglichkeit, bei einem abgehenden Ruf die Zielrufnummer vor oder nach dem Abheben des Hörers einzugeben. Wodurch unterscheidet sich die Signalisierung auf Schicht 3 (SETUP- und INFO Nachricht) der Teilnehmerschnittstelle in diesen beiden Fällen?}\newline
 Durch Abnehmen des Hörers wird für gewöhnlich eine Setup Nachricht gesendet wodurch bereits eine Verbindung zur Vermittlungsstelle aufgebaut wird. Nimmt der Teilnehmer also erst den Hörer ab können bereits die ersten Ziffern überliefert werden. Dieser Vorgang ist durch den Versuch gut nachvollziehbar. Im Gegensatz dazu kann der Nutzer ebenfalls die Ziffern erst tippen und dann den Hörer abnehmen. Dies hat zur Folge das die benötigten Ziffern bereits vorhanden sind bevor die Setup-Nachricht gesendet wird. Dadurch können die Ziffern direkt in der Setup-Nachricht mit gesendet werden. Der folgende Frame zeigt das bereits die Called-Party-Number eingetragen ist. Hier wird das Endgerät mit der Nummer 100 von dem Endgerät mir der Nummer 200 Angerufen. Der Frame wurde aufgrund der Größe etwas zugeschnitten, er enthält jedoch alle wichtigen Informationen.
 	
-	\includegraphics[scale=1]{tkinhalt/ba_bilder/ba/letzte_setup_block.png} 	
+	\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/letzte_setup_block.png}\caption{Setup Nachricht mit vollständiger Rufnummer}\label{setup_block_nachricht}
 	
 \end{enumerate}
 
-\begin{table}
-\begin{tabular}{|p{0.20 \linewidth}||*{9}{p{0.07 \linewidth}|}}
-\hline
-\diagbox{Nachricht} { Nachrichtenelement} & Alert & Call Proc & Conn & DISC & Info & Rel & Rel. Comp & Setup & Setup Ack\\
-\hline
-\hline
-Bearer Capability & & & & & & & & &    \\ 
-\hline
-Cause & & & & & & & & &  \\
-\hline
-Channel Identification  & & & & & & & & &  \\
-\hline
-Process Indicator  & & & & & & & & &  \\
-\hline
-Display  & & & & & & & & &  \\
-\hline
-Date / Time  & & & & & & & & &  \\
-\hline
-Calling Party Number  & & & & & & & & & \\
-\hline
-Called Party Number   & & & & & & & & & \\
-\hline
-Sending Complete  & & & & & & & & & \\
-\hline
-Facility  & & & & & & & & & \\
-\hline
-User to User Information  & & & & & & & & & \\
-\hline
-\end{tabular}
-\caption{Genutzte Nachrichten}
-\end{table}
+%\begin{table}
+%\begin{tabular}{|p{0.20 \linewidth}||*{9}{p{0.07 \linewidth}|}}
+%\hline
+%\diagbox{Nachricht} { Nachrichtenelement} & Alert & Call Proc & Conn & DISC & Info & Rel & Rel. Comp & Setup & Setup Ack\\
+%\hline
+%\hline
+%Bearer Capability &  & & & & & & & &    \\ 
+%\hline
+%Cause & & & & & & & & &  \\
+%\hline
+%Channel Identification  & & & & & & & & &  \\
+%\hline
+%Process Indicator  & & & & & & & & &  \\
+%\hline
+%Display  & & & & & & & & &  \\
+%\hline
+%Date / Time  & & & & & & & & &  \\
+%\hline
+%Calling Party Number  & & & & & & & & & \\
+%\hline
+%Called Party Number   & & & & & & & & & \\
+%\hline
+%Sending Complete  & & & & & & & & & \\
+%\hline
+%Facility  & & & & & & & & & \\
+%\hline
+%User to User Information  & & & & & & & & & \\
+%\hline
+%\end{tabular}
+%\caption{Genutzte Nachrichten}
+%\end{table}
