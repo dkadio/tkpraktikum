@@ -256,7 +256,9 @@ R1(config)#exit
 \end{lstlisting}
 konfigurieren das serielle Interface. 
 
-Die ersten 3 Zeilen sind leicht verständlich. Dort wird bestimmt, welches Interface mit welcher IP und welchem Kommentar konfiguriert werden soll.\todo{was zum Teufel ist die Clockrate?}
+Das serielle Interface hat mittlerweile viel seiner Bedeutung verloren. Je nach Beschreibung des Herstellers wird eine maximale clock rate von 8 Mit/s angegeben. Die Glock rate entspricht auch der Übertragungsrate. Bei dieser Übertragungsrate scheint die serielle Schnittstelle neben Ethernet Ports unnötig zu sein. Dieser Eindruck täuscht, da diese Schnittstelle besonders bei leitungsvermittelnden Netzwerken ihre Vorteile hat. Wird für den Zugriff auf ein WAN keine besonders hohe Bitrate benötigt, sollte dafür auch die serielle Schnittstelle genutzt werden, da sie eine dedizierte Übertragung bereit stellt.
+
+Die ersten 3 Zeilen sind leicht verständlich. Dort wird bestimmt, welches Interface mit welcher IP und welchem Kommentar konfiguriert werden soll. 
 
 Der Befehl \textit{no shutdown} aktiviert das Interface.
 
@@ -541,22 +543,28 @@ CustomerSwitch(config)#enable secret cisco123
 CustomerSwitch(config)#line console 0 
 CustomerSwitch(config-line)#password cisco123
 CustomerSwitch(config-line)#login
-CustomerSwitch(config-line)#line vty 0 15CustomerSwitch(config-line)#password cisco123
+CustomerSwitch(config-line)#line vty 0 15
+CustomerSwitch(config-line)#password cisco123
 CustomerSwitch(config-line)#login 
 CustomerSwitch(config-line)#end
 \end{lstlisting}
 
 Die Auswirkungen dieser Befehle sind im Teil 1 des Versuchs beschrieben. Jetzt folgen die Einstellungen zum Interface. Bei diesen Einstellungen wird ein v-Lan konfiguriert. Ein v-Lan ist ein logisches Teilnetz innerhalb eines Netzwerks. Bei Cisco Geräten ist das VLAN1 auf allen Ports per default konfiguriert. Der Befehl 
-\begin{lstlisting}CustomerSwitch(config)#interface vlan 1 
+\begin{lstlisting}
+CustomerSwitch(config)#interface vlan 1 
 \end{lstlisting} 
 konfiguriert dieses Interface. Damit werden alle Ports konfiguriert. \todo{Stimmt das so?}
 Dieses Interface wird mit den Befehlen 
-\begin{lstlisting}[captionpos=b, caption=Die Befehle zum Konfigurieren des VLAN1 Interfaces]CustomerSwitch(config-if)#ip address 192.168.1.5 255.255.255.0 
+\begin{lstlisting}[captionpos=b, caption=Die Befehle zum Konfigurieren des VLAN1 Interfaces]
+CustomerSwitch(config-if)#ip address 192.168.1.5 255.255.255.0 
 CustomerSwitch(config-if)#no shutdown 
-CustomerSwitch(config-if)#exitCustomerSwitch(config)#ip default-gateway 192.168.1.1 
-CustomerSwitch(config)#end\end{lstlisting}
+CustomerSwitch(config-if)#exit
+CustomerSwitch(config)#ip default-gateway 192.168.1.1 
+CustomerSwitch(config)#end
+\end{lstlisting}
 konfiguriert. Um zu überprüfen, ob die Konfiguration erfolgreich war, bietet sich der Befehl \textit{show running-configuration} an. An der Ausgabe
-\begin{lstlisting}[captionpos=b, caption=Die Ausgabe der running configuration nach dem Konfigurieren des VLAN1 Interfaces]CustomSwitch#show run
+\begin{lstlisting}[captionpos=b, caption=Die Ausgabe der running configuration nach dem Konfigurieren des VLAN1 Interfaces]
+CustomSwitch#show run
 Building configuration...
 
 Current configuration : 1418 bytes
@@ -657,7 +665,8 @@ line vty 5 15
  password cisco123
  login
 !
-end\end{lstlisting}
+end
+\end{lstlisting}
 sieht man, dass die Konfiguration erfolgreich war. Die IP der Hosts und die IP des Interface befinden sich im gleichen Netzwerk. Um die Konfiguration dauerhaft im NVRAM zu sichern, muss noch die running-config in die startup-config kopiert werden.
 \begin{lstlisting}
 CustomerSwitch#copy running-config startup-config
@@ -821,7 +830,8 @@ Anschließend wir die port security für den Port Fa0/18 eingerichtet. Dies geschi
 CustomerSwitch(config-if)#switchport mode access 
 CustomerSwitch(config-if)#switchport port-security 
 CustomerSwitch(config-if)#switchport port-security mac-address sticky 
-CustomerSwitch(config-if)#end\end{lstlisting}
+CustomerSwitch(config-if)#end
+\end{lstlisting}
 Der erste Befehl bringt das Interface in den access mode. Im access mode ist das trunking permanent deaktiviert. Im trunked mode ist keine port security möglich. Der Befehl \textit{switchport port-security} aktiviert aktiviert die port security auf diesem Interface. Mit \textit{switchport port-security mac-address sticky} wird das automatische Lernen von Mac Adressen aktiviert. Im Lern Modus werden alle erkannten Mac Adressen als erlaubt gespeichert.
 
 Den Erfolg dieser Befehle kann man mit den Befehlen \textit{show port-security} oder \textit{show port-security interface fa0/18 address} sofort kontrollieren.
@@ -928,10 +938,12 @@ FastEthernet0/18 is down, line protocol is down (err-disabled)
 
 Da der Port durch die unberechtigte Mac Adresse deaktiviert wurde, muss er wieder aktiviert werden. Bevor dies passiert, wird die gelernte Mac Adresse wieder gelöscht. Dies geschieht mit dem Befehl: 
 \begin{lstlisting}
-CustomerSwitch#clear port-security sticky interface fa0/18 access\end{lstlisting}
+CustomerSwitch#clear port-security sticky interface fa0/18 access
+\end{lstlisting}
 
 Anschließend wird das Interface wieder aktiviert. Dazu wird das Interface erst manuell deaktiviert und dann wieder manuell aktiviert. 
-\begin{lstlisting}CustomerSwitch(config)#interface fa0/18 
+\begin{lstlisting}
+CustomerSwitch(config)#interface fa0/18 
 CustomerSwitch(config-if)#shutdown 
 CustomerSwitch(config-if)#no shutdown
 \end{lstlisting}
