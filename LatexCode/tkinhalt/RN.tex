@@ -1,27 +1,100 @@
 %=========================================
 % 	   Einleitung     		 =
 %=========================================
-
 \chapter{RN Versuch}
+\section{Versuchsaufbau}
+Der Aufbau des Versuchs besteht aus zwei Routern, einem Switch, zwei Host Rechnern und den entsprechenden Kabeln. Vor Beginn des Versuchs werden sowohl die Switche, als auch die Router auf ihre Werkseinstellungen zurück gesetzt. Damit wird sichergestellt, dass eventuelle Konfigurationen aus vorangegangen Versuchen gelöscht werden und keine Fehler verursachen.
 
-\begin{table}
-\begin{tabular}{|*{4}{c|}}
-\hline
-Netzadresse & BC & Hosts & Subnet Mask \\
-\hline
-\hline
-192.168.0.1 & 192.168.1.127 & 192.168.1.1 - 192.168.1.126 & 255.255.255.128 \\
-\hline
- 192.168.0.128 & 192.168.1.191 & 192.168.1.129 - 192.168.1.190 & 255.255.255.192 \\
-\hline
-192.168.0.192 & 192.168.1.199 & 192.168.1.193 - 192.168.1.198 & 255.255.255.248 \\
+Nachdem die Hardware vorbereitet ist, werden die Adressen aus einem gegebenen Netz errechnet. Gegeben ist das Netz 192.168.1.0/24. Dieses soll in ein Netz mit max. 120 Hosts, ein Netz mit max.  60 Hosts aufgeteilt werden. Das größere Netz soll mit dem Router R1 verbunden werden, das Kleinere soll mit dem Router R2 verbunden werden. Da die Router sich in dieser Konfiguration in verschiedenen Netzen befinden, muss noch ein Transfernetz eingerichtet werden, damit sie untereinander kommunizieren sollen. Aus diesen Anforderungen ergeben sich die drei Netze, die in der Tabelle \ref{tab:berechneteNetzwerke}.
 
+\begin{table}[h]
+\begin{tabular}{|*{2}{c|} p{0.15\linewidth}|*{3}{c|}}
 \hline
-  &  FE0/0 & 172.18.0.1 &  255.255.0.0\\
+Netzadresse & BC & Hosts & Subnet Mask & Slash & Adressen\\
+\hline
+\hline
+192.168.0.1 & 192.168.1.127 & 192.168.1.1 - 192.168.1.126 & 255.255.255.128 & /25 & 126 \\
+\hline
+192.168.0.128 & 192.168.1.191 & 192.168.1.129 - 192.168.1.190 & 255.255.255.192 & /26 &62 \\
+\hline
+192.168.0.192 & 192.168.1.199 & 192.168.1.193 - 192.168.1.198 & 255.255.255.248 & /29 &6	 \\
 \hline
 \end{tabular}
-\caption{Adresstabelle des Netzwerks}
-\label{adresstabelle}
+\caption{Die berechneten Netzwerke}
+\label{tab:berechneteNetzwerke}
 \end{table}
 
+Nach dieser Berechnung kann eine Übersicht aufgestellt werden, wie das Netzwerk aufgebaut werden soll. Die Adressvergabe ist in Tabelle \ref{tab:berechneteNetzwerke} dargestellt.
+\begin{table}[H]
+\begin{tabular}{|*{5}{c|}}
+\hline
+Device & Host Name & Interface & IP Address & Subnet Mask \\
+\hline
+R1 & R1 & Serial 0/0/0(DCE) & 192.168.1.193 & 255.255.255.248 \\
+\hline
+& & FE 0/0 & 192.168.1.1 & 255.255.255.128 \\
+\hline
+H1 &H1 &  Ethernet & 192.168.1.2 & 255.255.255.128 \\
+\hline
+H2 & H2 & Ethernet & 192.168.1.130 & 255.255.255.192 \\
+\hline
+R2 & R2 & Serial 0/0/0(DTE) & 192.168.1.194 &255.255.255.248 \\
+\hline
+& & FE 0/0 & 192.168.1.129 & 255.255.255.192\\
+\hline
+\end{tabular}
+\caption{Der Aufbau des Netzwerks}
+\label{tab:aufbauNetzwerk}
+\end{table}
 
+Nachdem die Netze berechnet sind werden sowohl Router als auch Hosts entsprechend eingerichtet sind.
+
+\section{Routing Tabellen}
+Der Befehl \textit{show ip route} zeigt die Routen an, die der Router gespeichert hat.
+\begin{lstlisting}[captionpos=b,caption=Die Routing Table von R1]
+R1#show ip route
+Codes: C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     192.168.1.0/24 is variably subnetted, 2 subnets, 2 masks
+C       192.168.1.0/25 is directly connected, FastEthernet0/0
+C       192.168.1.192/29 is directly connected, Serial0/0/0
+\end{lstlisting}
+
+\begin{lstlisting}[captionpos=b,caption=Die Routing Table von R2]
+R2#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, + - replicated route
+
+Gateway of last resort is not set
+
+      192.168.1.0/24 is variably subnetted, 4 subnets, 3 masks
+C        192.168.1.128/26 is directly connected, FastEthernet0/0
+L        192.168.1.129/32 is directly connected, FastEthernet0/0
+C        192.168.1.192/29 is directly connected, Serial0/0/0
+L        192.168.1.194/32 is directly connected, Serial0/0/0
+\end{lstlisting}
+
+\todo{Step 6 b}
+
+Ob die beiden Router eine Verbindung zueinander haben kann mit einem Ping getestet werden:
+\begin{lstlisting}[captionpos=b,caption=Ping von R1 zu R2]
+R1#ping 192.168.1.129
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.129, timeout is 2 seconds:
+.....
+Success rate is 0 percent (0/5)
+\end{lstlisting}
