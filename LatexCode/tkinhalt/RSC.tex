@@ -57,18 +57,19 @@ Device & IP-Address & Subnet Mask & Default Gateway \\
 H1 & ???? & 255.255.0.0 & 172.17.0.1 \\ 
 \hline
  H2 & ??? & 255.255.0.0 & 172.18.0.1  \\
-\hline
+\hline 
 \end{tabular}
 \caption{Einstellungen der Hosts}
 \label{hostEinstellungen}
 \end{table}
+\todo{IP erfinden oder rausfinden}
 
 \section{Versuch - Teil 1}
-Im folgenden wird nicht mehr beschrieben, dass zum Ändern von Konfigurationen in einen Konfigurationsmodus, wie beispielsweise den \glqq Global configuration\grqq~Modus gewechselt werden muss.
+Im Folgenden wird nicht mehr beschrieben, dass zum Ändern von Konfigurationen in einen Konfigurationsmodus, wie beispielsweise den \glqq Global configuration\grqq~Modus gewechselt werden muss.
 \subsection{Konfigurieren der Router Basiseinstellungen}
-Der erste Schritt der Konfiguration ist das konfigurieren der Hostnamen. Diese können mit dem Befehl \textit{hostname <Name>} konfiguriert werden. Der Router 1 bekommt den Hostname R1, der Router 2 den Hostname R2.
+Der erste Schritt der Konfiguration ist das Konfigurieren der Hostnamen. Diese können mit dem Befehl \textit{hostname <Name>} konfiguriert werden. Der Router 1 bekommt den Hostname R1, der Router 2 den Hostname R2.
 
-Nach dem Konfigurieren folgt das Setzen der Passwörter. Typische Zugriffspunkte für ein Cisco Gerät sind die Terminal Leitungen (auch Virtual Terminal Lines oder VTYs genannt), der Konsolen Port sowie der Hilfs Port (AUX). Die Terminal Leitungen sind über telnet oder ssh erreichbar und haben den Vorteil, dass kein Serielles Kabel benötigt wird. Die Nachteile einer solchen Konfiguration wurden im Versuch \ref{rspVersuch} erläutert. Die Zugänge müssen separat konfiguriert werden. 
+Nach dem Konfigurieren folgt das Setzen der Passwörter. Typische Zugriffspunkte für ein Cisco Gerät sind die Terminal Leitungen (auch Virtual Terminal Lines oder VTYs genannt), der Konsolen Port sowie der Hilfs Port (AUX). Die Terminal Leitungen sind über telnet oder ssh erreichbar und haben den Vorteil, dass kein serielles Kabel benötigt wird. Die Nachteile einer solchen Konfiguration wurden im Versuch \ref{rspVersuch} erläutert. Die Zugänge müssen separat konfiguriert werden. 
 Das Passwort des Konsolen Ports wird mit folgender Sequenz gesetzt:
 \begin{lstlisting}[captionpos=b, caption=Die Eingabe zum Setzen des Konsolen Port Passworts, label=konsolenPasswortSetzen]
 R1(config)#line console 0 
@@ -290,7 +291,7 @@ Received 161 broadcasts, 0 runts, 0 giants, 0 throttles
 DCD=up  DSR=up  DTR=up  RTS=up  CTS=up
 \end{lstlisting}
 
-Um die eigenen Änderungen zu kontrollieren sind die Zeilen
+Um die eigenen Änderungen zu kontrollieren sind die Zeilen interessant:
 \begin{lstlisting}
 Serial0/0/0 is up, line protocol is up
 Hardware is GT96K Serial
@@ -310,7 +311,7 @@ Fragen aus der Versuchsanleitung:
 		\item Encapsulation HDLC
 	\end{itemize}
 	\item \textbf{To which OSI layer is the encapsulation referring?} HDLC is a bit-oriented synchronous data link layer protocol. So the encapsulation is referring to OSI Layer 2.
-	\item \textbf{If the serial interface was configured, why did the show interfaces serial 0/0/0 indicate that the interface is down?} \todo{Das ist doch konfiguriert. Wat will der von Mir?}
+	\item \textbf{If the serial interface was configured, why did the show interfaces serial 0/0/0 indicate that the interface is down?} The serial interface 0/0/0 IS configured and it IS up.
 \end{itemize}
 
 Da der Router 2 eine andere Ip Adresse vorgegeben hat, sieht hier die Konfiguration ein wenig anders:
@@ -509,9 +510,19 @@ R2>\end{lstlisting}
 \end{lstlisting}
 \todo{Die Pings finde ich nicht. Evtl. müssen die mit nem Windows Rechner gefaket oder sonstwo abgeschrieben werden und die Frage muss beantwortet werden}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%						Beginn Teil 2					      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \section{Versuch Teil 2}
 Für den zweiten Teil des Versuchs muss der Aufbau geändert. Die Geräte entsprechen grundsätzlich Teil 1 des Versuchs, es wird lediglich nur noch ein Router benötigt. Die beiden Hosts werden mit dem Switch verbunden, der Host H1 hat eine serielle Verbindung zum Switch. 
-Vor Beginn des Versuchs wird sichergestellt, dass die Konfigurationen von Router und Switch zurückgesetzt sind. Ist das nicht der Fall können unerwartete Ergebnisse auftreten. \todo{Wie soll ein Roter ohne serielles Kabel zurück gesetzt werden? Evtl. anmerken, dass da doch ein serielles Kabel dran hängt}
+Vor Beginn des Versuchs wird sichergestellt, dass die Konfigurationen von Router und Switch zurückgesetzt sind. Ist das nicht der Fall können unerwartete Ergebnisse auftreten. Um den Router wieder auf Grundeinstellungen zu bringen bekommt er auch ein serielles Kabel. 
+
 \begin{table}[h]
 \begin{tabular}{|*{7}{c|}}
 \hline
@@ -684,6 +695,7 @@ CustomSwitch#
 \begin{lstlisting}[captionpos=b, caption=Das Ergebnis des Pings von H1 zu Switch]
 //Dafür noch ne Ausgabe "suchen"
 \end{lstlisting}
+\todo{Faken}
 
 Wird eine telnet Sitzung auf das Switch Management VLAN1 gestartet, ergibt sich folgendes Ergebnis:
 \todo{Keine Ahnung, welches Ergebnis}
@@ -954,7 +966,7 @@ CustomerSwitch(config-if)#no shutdown
 Die Ports eines Switches haben per default die Einstellungen auto duplex und auto speed. Das bedeutet, dass der Switch anhand des angeschlossenen Device die Geschwindigkeit und den Übertragungsmodus. 
 
 In diesem Teil des Versuchs soll diese Eigenschaft konfiguriert werden. Vor Beginn dieser Konfiguration werden erst die Interfaces betrachtet. Dadurch ist es möglich zu überprüfen, ob die Änderungen erfolgreich waren.
-\todo{Die Ausgabe von FE0/18 ist gefaked(Der Port wurde in Step10 nicht freigeschaltet). Vor Abgabe checken, ob das plausibel ist}
+
 \begin{lstlisting}[captionpos=b, caption=Die Interface Informationen vor der Konfiguration der Sende Modi]
  FastEthernet0/5 is up, line protocol is up (connected)
   Hardware is Fast Ethernet, address is 0024.f98a.e705 (bia 0024.f98a.e705)
@@ -984,6 +996,11 @@ In diesem Teil des Versuchs soll diese Eigenschaft konfiguriert werden. Vor Begi
      0 lost carrier, 0 no carrier, 0 PAUSE output
      0 output buffer failures, 0 output buffers swapped out
 
+
+
+
+
+
 FastEthernet0/11 is up, line protocol is up (connected)
   Hardware is Fast Ethernet, address is 0024.f98a.e70b (bia 0024.f98a.e70b)
   MTU 1500 bytes, BW 100000 Kbit, DLY 100 usec,
@@ -1012,7 +1029,15 @@ FastEthernet0/11 is up, line protocol is up (connected)
      0 lost carrier, 0 no carrier, 0 PAUSE output
      0 output buffer failures, 0 output buffers swapped out
 
-FastEthernet0/18 is up, line protocol is up (connected)
+
+
+
+
+
+
+
+
+FastEthernet0/18 is down, line protocol is down (err-disabled)
   Hardware is Fast Ethernet, address is 0024.f98a.e712 (bia 0024.f98a.e712)
   MTU 1500 bytes, BW 10000 Kbit, DLY 1000 usec,
      reliability 255/255, txload 1/255, rxload 1/255
@@ -1057,7 +1082,6 @@ FE0/18 & Auto-duplex & Auto-Speed & 10/100BaseTX  \\
 \caption{Die Übertragungsmodi in der Übersicht}
 \label{showInterfacesVor}
 \end{table}
-\todo{Die Zeile von FE0/18 kann aber auch falsch sein, weil das Interface down ist(Ich habe nur die erste Zeile manipuliert)}
 
 
 \todo{Die Teile c und d machen keinen Sinn. Warum soll ich FE0/10 konfigurieren und auf FA0/5 achten? Außerdem fehlt die Ausgabe}
@@ -1067,5 +1091,8 @@ Zum Ende des Versuchs gibt es noch einige Fragen, die prüfen sollen, ob der Vers
 \begin{enumerate}
 	\item \textbf{Which password needs to be entered to switch from user mode to privilege exec mode on the Cisco switch, and why?} The password \glqq cisco123\grqq is the correct password.  In step 3 we set two passwords. \glqq cisco\grqq and \glqq cisco123\grqq The second one was set als encrypted password. IOS prefers the encrypted passwords. If a decrypted and an encrypted password is set, IOS will just use the encrypted one.
 	\item \textbf{Which symbol is used to show a successful ping in the Cisco IOS software?} Our successful ping commands had every time the sequence \textit{!!!!!} after the prompt, that 5 pings being send. After these 5 ! was the prompt with the success rate. So the symbol to show a successful ping ist the \glqq !\grqq.
-	\item \textbf{What is the benefit of using port security?} The benefit of port security is a higher security in your network. %%%Da weiterschreiben
+	\item \textbf{What is the benefit of using port security?} The benefit of port security is a higher security in your network. It's possible to prohibit people to use their own devices. So you won't loose the responsibility the security for the devices. Also it is complicated to copy or steal data because you are able to configure the permitted devices with security policies. 
+	
+	Another benefit is the reserving of capacities. If you have a port security with one allowed device this port is a dedicated medium for this device. 
+	\item \textbf{What other port-related security steps could be taken to further improve switch security?} The most important security issue is the layer 8 security. If your users are not careful most of your technical actions will fail. One of the actions can be the activating of the password encryption service using the command \textit{service password-encryption}. This service will encrypt all of your passwords. Setting a see ion timeout will increase your Switch security. If you forget to log out, the sessions will be closed faster. Normally, in the default configuration you have a see ion timeout of 10 minutes. After the ecrytion service and the session timeouts you can enable AAA. AAA is the abbreviation for  Authentication, Authorization, and Accounting. This is a method to use user accounts. When somebody changes settings you can read in the log file who made which changes. And everybody gets an own user account, password and rights. Last, but not least, do not use sticky ports or deactivate them after a short learning curve. With sticky ports it's possible to infiltrate your network.
 \end{enumerate}
