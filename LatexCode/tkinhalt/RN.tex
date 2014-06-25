@@ -168,3 +168,11 @@ Ob die Routingeinstellungen tatsächlich funktionieren, kann wieder mit Pings get
 Der Befehl \textit{debug ip rip} aktiviert die Ausgabe der Rip Kommunikation eines Routers. Mit diesem Befehl kann mitgelesen werden, welche Informationen zwischen den Routern ausgeteilt werden. Auffällig ist, dass alle RIP Informationen über das Interface 0.0.0.0 geschickt werden. Diese Adresse bezeichnet das Defaultgateway, bzw. alle Netze, die unbekannt sind werden mit dieser Adresse belegt.
 
 Was noch auffällt ist, dass die Netze unterschiedliche Metriken haben. Die unterschiedlichen Metriken ergeben sich aus der Route, die gewählt werden muss. Das Netzwerk 192.168.1.192/29 kann direkt vom Router R1 erreicht werden. Um das Netzwerk 192.168.1.128/26  zu erreichen muss der Router den Umweg über das Netzwerk 192.168.1.192 nehmen. Die Metrik von Rip v2 sagt aus, wie viele Hops eine Route hat.
+Da wir uns beim einteilen des Netzwerkes zwischen den 2 Routern vertan haben, statt /30 haben wir /29 benutzt, kann es zu Abweichungen zur Aufgabenstellung kommen. Zur besseren Übersicht um die Fragen dennoch passend zu beantworten finden Sie im folgenden eine Zeichnung unseres gesamten Systems.
+
+\begin{figure}[H] 
+  \centering
+     \includegraphics[width=1\textwidth]{tkinhalt/rn_bilder/rn.jpg}
+  \caption{Ansicht der ICMP Nachricht im Router}
+  \label{fig:EchoRequestRouter}
+\end{figure}
