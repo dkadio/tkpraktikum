@@ -160,4 +160,11 @@ In der Routingtabelle von R2 sind die Netzwerke 192.168.1.0, 192.168.1.128 und 1
 Ob die Routingeinstellungen tatsächlich funktionieren, kann wieder mit Pings getestet werden. Dieses Mal sind die Pings erfolgreich. Der Grund ist, dass die Router nun ein Routingprotokoll konfiguriert und Informationen haben, wie sie das jeweils andere Interface erreichen. 
 
 \subsection{Überprüfung der RIP Kommunikation}
-Der Befehl \textit{debug ip rip} aktiviert die Ausgabe der Rip Kommunikation eines Routers. Mit diesem Befehl kann mitgelesen werden, welche Informationen zwischen den Routern ausgeteilt werden. Auffällig ist, dass alle RIP Informationen über das Interface 	 geschickt werden.
+\begin{lstlisting}
+*Jun 18 12:27:33.923: RIP: build update entries
+*Jun 18 12:27:33.923:   192.168.1.128/26 via 0.0.0.0, metric 2, tag 0
+*Jun 18 12:27:33.923:   192.168.1.192/29 via 0.0.0.0, metric 1, tag 0
+\end{lstlisting}
+Der Befehl \textit{debug ip rip} aktiviert die Ausgabe der Rip Kommunikation eines Routers. Mit diesem Befehl kann mitgelesen werden, welche Informationen zwischen den Routern ausgeteilt werden. Auffällig ist, dass alle RIP Informationen über das Interface 0.0.0.0 geschickt werden. Diese Adresse bezeichnet das Defaultgateway, bzw. alle Netze, die unbekannt sind werden mit dieser Adresse belegt.
+
+Was noch auffällt ist, dass die Netze unterschiedliche Metriken haben. Die unterschiedlichen Metriken ergeben sich aus der Route, die gewählt werden muss. Das Netzwerk 192.168.1.192/29 kann direkt vom Router R1 erreicht werden. Um das Netzwerk 192.168.1.128/26  zu erreichen muss der Router den Umweg über das Netzwerk 192.168.1.192 nehmen. Die Metrik von Rip v2 sagt aus, wie viele Hops eine Route hat.
