@@ -47,6 +47,14 @@ R2 & R2 & Serial 0/0/0(DTE) & 192.168.1.194 &255.255.255.248 \\
 \label{tab:aufbauNetzwerk}
 \end{table}
 
+
+\begin{figure}[H] 
+  \centering
+     \includegraphics[width=1\textwidth]{tkinhalt/rn_bilder/rn.jpg}
+  \caption{Der Aufbau unseres Netzwerks}
+  \label{fig:aufbauNW}
+\end{figure}
+
 Nachdem die Netze berechnet sind werden sowohl Router als auch Hosts entsprechend eingerichtet.
 
 \section{Routing}
@@ -88,7 +96,7 @@ C        192.168.1.192/29 is directly connected, Serial0/0/0
 L        192.168.1.194/32 is directly connected, Serial0/0/0
 \end{lstlisting}
 
-\todo{Step 6 b}
+Der Router hat keine Route in das Netzwerk 192.168.1.128. Dieses Netzwerk kann er nicht direkt erreichen und eingestellt ist auch keine.
 
 Ob die beiden Router eine Verbindung zueinander haben kann mit einem Ping getestet werden:
 \begin{lstlisting}[captionpos=b,caption=Ping von R1 zu R2]
@@ -168,11 +176,16 @@ Ob die Routingeinstellungen tatsächlich funktionieren, kann wieder mit Pings get
 Der Befehl \textit{debug ip rip} aktiviert die Ausgabe der Rip Kommunikation eines Routers. Mit diesem Befehl kann mitgelesen werden, welche Informationen zwischen den Routern ausgeteilt werden. Auffällig ist, dass alle RIP Informationen über das Interface 0.0.0.0 geschickt werden. Diese Adresse bezeichnet das Defaultgateway, bzw. alle Netze, die unbekannt sind werden mit dieser Adresse belegt.
 
 Was noch auffällt ist, dass die Netze unterschiedliche Metriken haben. Die unterschiedlichen Metriken ergeben sich aus der Route, die gewählt werden muss. Das Netzwerk 192.168.1.192/29 kann direkt vom Router R1 erreicht werden. Um das Netzwerk 192.168.1.128/26  zu erreichen muss der Router den Umweg über das Netzwerk 192.168.1.192 nehmen. Die Metrik von Rip v2 sagt aus, wie viele Hops eine Route hat.
-Da wir uns beim einteilen des Netzwerkes zwischen den 2 Routern vertan haben, statt /30 haben wir /29 benutzt, kann es zu Abweichungen zur Aufgabenstellung kommen. Zur besseren Übersicht um die Fragen dennoch passend zu beantworten finden Sie im folgenden eine Zeichnung unseres gesamten Systems.
+Da wir uns beim einteilen des Netzwerkes zwischen den 2 Routern vertan haben, statt /30 haben wir /29 benutzt, kann es zu Abweichungen zur Aufgabenstellung kommen. Erinnern wir uns an die Grafik \ref{fig:aufbauNW} wird schnell klar, warum die Routen unterschiedliche Metriken haben.
 
-\begin{figure}[H] 
-  \centering
-     \includegraphics[width=1\textwidth]{tkinhalt/rn_bilder/rn.jpg}
-  \caption{Ansicht der ICMP Nachricht im Router}
-  \label{fig:EchoRequestRouter}
-\end{figure}
+\subsection{Reflection}
+a. What would happen to the routing table on router R1 if the Ethernet network on router R2 went down? Configure this case and analyze.
+\todo{a}
+
+b. What would happen if router R1 was configured to run RIPv1, and R2 was configured to run RIPv2? Configure this case and analyze with show ip route and debug ip rip.
+
+R1 would ignore all sent RIP v2 information and send out RIP v1 information.
+\begin{lstlisting}
+*Jun 18 12:33:51.091: RIP: ignored v2 packet from 192.168.1.194 (illegal version)
+*Jun 18 12:33:55.343: RIP: sending v1 update to 255.255.255.255 via FastEthernet0/0 (192.168.1.1)
+\end{lstlisting}
