@@ -54,15 +54,14 @@ Bevor eine Kommunikation stattfinden kann, müssen erst noch die Hosts konfigurie
 Device & IP-Address & Subnet Mask & Default Gateway \\
 \hline
 \hline
-H1 & ???? & 255.255.0.0 & 172.17.0.1 \\ 
+H1 & 172.17.0.2 & 255.255.0.0 & 172.17.0.1 \\ 
 \hline
- H2 & ??? & 255.255.0.0 & 172.18.0.1  \\
+ H2 & 172.18.0.2 & 255.255.0.0 & 172.18.0.1  \\
 \hline 
 \end{tabular}
 \caption{Einstellungen der Hosts}
 \label{hostEinstellungen}
 \end{table}
-\todo{IP erfinden oder rausfinden}
 
 \section{Versuch - Teil 1}
 Im Folgenden wird nicht mehr beschrieben, dass zum Ändern von Konfigurationen in einen Konfigurationsmodus, wie beispielsweise den \glqq Global configuration\grqq~Modus gewechselt werden muss.
@@ -239,7 +238,7 @@ Auffällig ist auch, dass sowohl das verschlüsselte, als auch das unverschlüsselt
 
 Um die Fragen der Versuchsbeschreibung zu beantworten:
 \begin{itemize}
-	\item \textbf{s there an encrypted password?} Yes, the password to enter the config mode ist encrypted. The passphrase \glqq class\grqq~ became \glqq 5 \$1\$HQCF\$50Cteo3yxGrpQwwSNdUIz.\grqq . According to the cisco homepage ist the \glqq 5\grqq an indicator for an encrypted password.
+	\item \textbf{Is there an encrypted password?} Yes, the password to enter the config mode ist encrypted. The passphrase \glqq class\grqq~ became \glqq 5 \$1\$HQCF\$50Cteo3yxGrpQwwSNdUIz.\grqq . According to the cisco homepage ist the \glqq 5\grqq an indicator for an encrypted password.
 	\item \textbf{Are there any other passwords?} Yes, there are the passwords for the configuration ports. And the decrypted password \glqq cisco\grqq.
 	\item \textbf{Are any of the other passwords encrypted?} No, the other passwords are not encrypted. If you want to encrypt all of the passwords, you have to enter the command \textit{service password-encryption}. If this service ist activated, all of the passwords will become encrypted.
 \end{itemize}
@@ -501,14 +500,8 @@ In der Versuchsbeschreibung werden folgende Fragen gestellt:
 \end{itemize}
 
 Um zu testen, ob die Konfiguration wirklich erfolgreich war, pingen wir wieder. Das Pingen auf die FA Interfaces ist am sinnvollsten, wenn es von den Hosts ausgeführt wird.
-\begin{lstlisting}[captionpos=b, caption=Ping von R1 an das serielle Interface von R2]
-//Keine Ping Datei
-R2>\end{lstlisting}
+Die Pings waren erfolgreich, daraus ergibt sich, dass die Router richtig konfiguriert sind.
 
-\begin{lstlisting}[captionpos=b, caption=Ping von R2 an das serielle Interface von R1]
-//Keine Ping Datei
-\end{lstlisting}
-\todo{Die Pings finde ich nicht. Evtl. müssen die mit nem Windows Rechner gefaket oder sonstwo abgeschrieben werden und die Frage muss beantwortet werden}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -692,13 +685,9 @@ Success rate is 100 percent (5/5), round-trip min/avg/max = 1/202/1007 ms
 CustomSwitch#
 \end{lstlisting}
 
-\begin{lstlisting}[captionpos=b, caption=Das Ergebnis des Pings von H1 zu Switch]
-//Dafür noch ne Ausgabe "suchen"
-\end{lstlisting}
-\todo{Faken}
+Der Ping von H1 zum Switch war ebenfalls erfolgreich.
 
-Wird eine telnet Sitzung auf das Switch Management VLAN1 gestartet, ergibt sich folgendes Ergebnis:
-\todo{Keine Ahnung, welches Ergebnis}
+Wird eine telnet Sitzung auf das Switch Management VLAN1 gestartet, kann der Switch wie mit dem Konsolenport konfiguriert werden. Die Eingabe des Befehls \textit{show version} ergibt folgende Ausgabe:
 
 \begin{lstlisting}[captionpos=b, caption=Die Ausgabe von show version über Telnet]
 CustomSwitch#show version
@@ -754,7 +743,7 @@ Dieser Switch nutzt das IOS Release \glqq Version 12.2(35)SE5, RELEA\grqq.
 
 \subsection{Konfigurieren der Switch Ports}
 In der Versuchsbeschreibung wird gefragt, welche Mac Adressen die Hosts haben.
-\todo{Die Mac Adresse für Host 3 muss noch "gesucht" werden}
+
 \begin{table}[h]
 \begin{tabular}{|*{2}{c|}}
 \hline
@@ -765,7 +754,7 @@ H1 &   1cc1.de5f.b7b3 \\
 \hline
  H2 &   1cc1.de5f.b9fa \\
 \hline
-H3 &  \\
+H3 & 1cc1.de5f.b923 \\
 \hline
 \end{tabular}
 \caption{Übersicht der Netzwerkadressen}
@@ -847,7 +836,18 @@ CustomerSwitch(config-if)#end
 Der erste Befehl bringt das Interface in den access mode. Im access mode ist das trunking permanent deaktiviert. Im trunked mode ist keine port security möglich. Der Befehl \textit{switchport port-security} aktiviert aktiviert die port security auf diesem Interface. Mit \textit{switchport port-security mac-address sticky} wird das automatische Lernen von Mac Adressen aktiviert. Im Lern Modus werden alle erkannten Mac Adressen als erlaubt gespeichert.
 
 Den Erfolg dieser Befehle kann man mit den Befehlen \textit{show port-security} oder \textit{show port-security interface fa0/18 address} sofort kontrollieren.
-\todo{Fuck, hierfür gibt es keine Datei. Die sollten wir auftreiben oder aus der Versuchsbeschreibung kopieren} 
+
+\begin{lstlisting}[captionpos=b, caption=Die Ausgabe von show port-security, breaklines=true]
+CustomSwitch#show port-security
+Secure Port  MaxSecureAddr  CurrentAddr  SecurityViolation  Security Action
+                (Count)       (Count)          (Count)
+--------------------------------------------------------- ------------------
+     Fa0/18              1            1                  0         Shutdown
+--------------------------------------------------------- ------------------
+Total Addresses in System (excluding one mac per port)     : 0
+Max Addresses limit in System (excluding one mac per port) : 8192
+\end{lstlisting}
+
 
 Aus dieser Ausgabe lässt sich ableiten, dass die security action \glqq Shutdown\grqq ist und dass die Anzahl der secure addresses ist 1. Der maximum secure address count gibt an, wie viele Mac Adressen gelernt werden dürfen. Bei einer falschen Mac Adresse wird der Port deaktiviert \todo{das mit dem maximalen Lernen habe ich quasi erfunden. Stimmt das?}
 
@@ -960,7 +960,8 @@ CustomerSwitch(config-if)#shutdown
 CustomerSwitch(config-if)#no shutdown
 \end{lstlisting}
 
-\todo{Was bedeutet das geht nicht in der Datei?} 
+So viel zur Theorie, im Versuch war es nicht möglich, den Port wieder frei zu schalten.
+\todo{Stimmt das?}
 
 \subsection{Geschwindigkeits- und Duplexeinstellungen des Switchs}
 Die Ports eines Switches haben per default die Einstellungen auto duplex und auto speed. Das bedeutet, dass der Switch anhand des angeschlossenen Device die Geschwindigkeit und den Übertragungsmodus. 
