@@ -182,87 +182,73 @@ Die Fehlerrate wird in Error-Sekunden angegeben die unterschiedliche Aussagen üb
 
 \section{Fehlereinspeisung}
 
-Nachdem wir alle für den Versuch erforderlichen Komponenten
-kennengelernt haben, können wir nun den eigentlichen Versuch weiter
-beschreiben. Im folgenden sollen drei verschiedene Fehlermeldungen mit
-Hilfe von Elmi einmal kontinuierlich und einmal als Bursts eingespeist
-werden. Wenn im empfangenen Signal Bitfehler enthalten sind sendet der
-Empfänger eine Alarm-Nachricht in Senderichtung zurück. Bei dieser
-Rückmeldung spricht man von REI (Remote Error Indication). Die für uns
-wichtigen sind:
+Nachdem wir alle für den Versuch erforderlichen Komponenten kennengelernt haben, können wir nun mit dem eigentlichen Versuch beginnen. 
+
+Im Folgenden sollen drei verschiedene Fehlermeldungen mit Hilfe von Elmi eingespeist werden. Diese Fehler werden nicht tatsächlich verursacht, Elmi verhält sich nur wie ein MUX, bei dem die Fehler aufgetreten sind und speist die Meldungen ein. 
+
+Die Meldungen werden in verschiedenen Schritten sowohl kontinuierlich, als auch als Burst eingespeist. 
+
+Wenn im empfangenen Signal Bitfehler enthalten sind sendet der Empfänger eine Alarm-Nachricht in Senderichtung zurück. Bei dieser Rückmeldung spricht man von REI (Remote Error Indication). Die für uns wichtigen sind:\todo{Das Steht irgendwie alleine und ich kann nichts damit anfangen}
 
 
 \begin{itemize}
 
-\item LOS - Lost of Singnal, Rückgang der eingehenden optischen
-Leistungspegel, verursacht hohe Bitfehlerrate
+\item LOS - Lost of Singnal, Rückgang der eingehenden optischen Leistungspegel, verursacht hohe Bitfehlerrate
 
-\item MS-AIS - Multiplex Section Alarm Indication Signal, wird
-ausgelöst wenn K2 (bits 6, 7, 8) auf 111 gesetzt ist für mehr als 3
-Frames.
+\item MS-AIS - Multiplex Section Alarm Indication Signal, wird ausgelöst wenn K2 (bits 6, 7, 8) auf 111 gesetzt ist für mehr als 3 Frames.
 
-\item LOF - Lost of Frame tritt auf wenn das Signal für mehr als 3 ms
-OOF (Out of Frame) ist.
+\item LOF - Lost of Frame tritt auf wenn das Signal für mehr als 3 ms OOF (Out of Frame) ist.
 
-\item OOF - Out of Frame tritt auf wenn die Bytes A1 und A2 länger als
-624 $\mu$ s  fehlerhaft sind 
+\item OOF - Out of Frame tritt auf wenn die Bytes A1 und A2 länger als 624 $\mu s$   fehlerhaft sind 
+
 \end{itemize}
 
 
-Sind im empfangenen Signal Bitfehler enthalten, meldet der Sensor
-
-BIP Errors. Da das nicht gleichbedeutend mit dem Ausfall der Verbindung
-
-ist, spricht man von einer Anomalie, die in Senderichtung zurückgemeldet
-
-wird. Die Rückmeldung wird als REI (Remote Error Indication)
-
-bezeichnet.
+Sind im empfangenen Signal Bitfehler enthalten, meldet der Sensor BIP Errors. Da das nicht gleichbedeutend mit dem Ausfall der Verbindung ist, spricht man von einer Anomalie, die in Senderichtung zurückgemeldet wird. Die Rückmeldung wird als REI (Remote Error Indication) bezeichnet.
 
 
 
 
 \subsubsection{Kontinuierliches Fehlereinspeisen}
 
-Zuerst werden wir die Fehler kontinuierlich einspeisen. Nach dem
-feuern der Fehler fängt die entsprechende Komponente an zu Blinken und
-wir klicken uns bis in das STM-1\_performance-Fenster durch.
+Zuerst werden wir die Fehler kontinuierlich einspeisen. Nach dem Absenden der Fehler fängt in der TMNS die entsprechende Komponente an zu blinken. Im Menü arbeiten wir uns bis zum STM-1 Performance-Fenster \ref{stm1_hohe_uas} durch. 
 
-\vspace{0.5 cm}
-\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/stm1-konti.jpg}\caption{STM1 Performance Fenster mit hoher UAS-Rate}\label{stm1_hohe_uas}
-\vspace{0.5 cm}
+\begin{figure}[H] 
+	\centering
+	\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/stm1-konti.jpg}
+	\caption{STM1 Performance Fenster mit hoher UAS-Rate}
+	\label{stm1_hohe_uas}
+\end{figure}
 
-Die Ergebnisse sind alle wie zu erwarten gleich. Alle drei
-Fehlermeldungen lassen den UAS-Counter solange ansteigen bis man
-aufhört den Fehler einzuspeisen. Da alle drei Fehler kontinuierlich
-auftreten verursachen sie dauerhaft SES und somit nach kurzer Zeit
-UAS. Somit sind kontinuierliche Fehler sehr schwerwiegend und sofort
-zu behandeln.
+
+Die Ergebnisse sind alle, wie zu erwarten, gleich. Alle drei Fehlermeldungen lassen den UAS-Counter solange ansteigen bis man aufhört den Fehler einzuspeisen. Da alle drei Fehler kontinuierlich auftreten, verursachen sie dauerhaft SES und somit nach kurzer Zeit UAS. Kontinuierliche Fehler sind sehr schwerwiegend und sofort zu behandeln.
 
 Hier noch einmal ein Tabellarischer Überblick über alle gemessenen Daten:
 
 
 \begin{table}
-\begin{tabular}{|*{6}{c|}}
-\hline
-Fehlermeldung & Burst-Time & ES & SES & UAS & Fenster \\
-\hline
-\hline
-MS-AIS & Kontinuierlich & 0 & 0 & ++ & STM1 \\
-\hline
-LOS & Kontinuierlich & 0 & 0 & ++ & STM1 \\
-\hline
-LOF & Kontinuierlich & 0 & 0 & ++ & STM1 \\
-\hline
-\end{tabular}
-\centering
-\caption{Kontinuierliches steigen der UAS solange die Fehlermeldung eingespeist wird}
+	\centering
+	\begin{tabular}{|*{6}{c|}}
+		\hline
+		Fehlermeldung & Burst-Time & ES & SES & UAS & Fenster \\
+		\hline
+		\hline
+		MS-AIS & Kontinuierlich & 0 & 0 & ++ & STM1 \\
+		\hline
+		LOS & Kontinuierlich & 0 & 0 & ++ & STM1 \\
+		\hline
+		LOF & Kontinuierlich & 0 & 0 & ++ & STM1 \\
+		\hline
+	\end{tabular}
+	\caption{Kontinuierliches steigen der UAS solange die Fehlermeldung eingespeist wird}
 \end{table}
+
+\todo{Und was sagt die Tabelle jetzt?}
+
 \subsubsection{Burst Fehlereinspeisung}
 
-
-Als zweites Verursachen wir eine MS-AIS und ein LOS jeweils innerhalb
-von 100ms, einer Sekunde, und sieben Sekunden.
+Nachdem wir die Fehlermeldungen kontinuierlich eingespeist haben, speisen wir eine MS-AIS und ein LOS jeweils als Burst ein. Die Bursts haben je eine Dauer von 100ms, einer Sekunde und sieben Sekunden. \todo{Ist die Pule Length die Zeit, in der die Dinger eingespeist werden, oder heißt das, dass die dinger alle ... Sekunden eingespeist werden?}
+%innerhalb von 100ms, einer Sekunde, und sieben Sekunden.
 
 \begin{table}
 \begin{tabular}{|*{6}{c|}} 
@@ -288,58 +274,41 @@ LOS & 7 s & 0 & 0 & 14 & STM1 \\
 \end{table}
 \vspace{1 cm}
 
-Wie man anhand der Tabelle sehen kann löst die MS-AIS lediglich
-maximal 8 SES aus und somit wird die Leitung nicht als Unavailable
-gesetzt.
+Wie man anhand der Tabelle sehen kann löst die MS-AIS lediglich maximal 8 SES aus und somit wird die Leitung nicht als unavailable gesetzt.
 
-Zu Beobachten war das bei den kruzen Bursts die TMNS überhaupt gar
-nicht auf den Fehler reagiert. Das ist erklärbar da bevor der Fehler
-erkannt wird, er bereits wieder vorbei ist. Bei den LOS Alarmen sind
-die Error Sekunden schon betrachtlich höher. Ein sieben Sekunden
-langer LOS kann die Leitung bereits für einige Momente ausser gefecht
-setzen wie man an dem UAS Feld erkennen kann.
+Zu beobachten war, dass bei den kurzen Bursts die TMNS überhaupt gar nicht auf den Fehler reagiert. Das ist erklärbar, da die  Fehlereinspeisung endet, bevor der Fehler erkannt wird. Bei den LOS Alarmen sind die Error Sekunden schon beträchtlich höher. Ein sieben Sekunden langer LOS kann die Leitung bereits für einige Momente auf \glqq unavalible\grqq setzen wie man an dem UAS Feld erkennen kann.
 
 
 \subsection{Pointer}
+Um zu verstehen, was ein Pointer ist, muss man sich einen SDH Rahmen genauer ansehen. Ein SDH Rahmen besteht aus Overhead (Steuerdaten) und Payload (Nutzdaten und weitere Daten). Ein Pointer zeigt auf den Beginn der Nutzdaten im Payload. Besonders beim Multiplexen von mehreren SDM-n Rahmen zu einem SDM-(n+1) Rahmen müssen die ursprünglichen Payload Bereiche adressierbar bleiben. 
 
-Da das SDH-Netz ein voll getaktetes Netz ist und so durch
-Taktunterschiede es theoretisch zu einer Überlast kommen kann, gibt es
-Pointer. Dieser ist in der Administrative Unit zu finden und zeigt auf
-die Position der Nutzinfomrationen im Payload Bereich. Durch Pointer
-ist es möglich die Taktunterschiede, durch einfügen von Leer-Bytes
-oder früheres Senden von Payload, auszugleichen. Es können allerdings
-nur in jedem vierten Rahmen nach Ankündigung die Pointer angepasst
-werden.
+Da das SDH-Netz ein voll getaktetes Netz ist, kann es bei Taktverschiebungen zu einem Datenverlust, bzw. zu Zugriffen auf die falschen Bits kommen. Um diese Taktverschiebungen auszugleichen, ist es möglich, Leer-Bytes einzufügen, oder den Payload früher zu senden. Diese Verschiebungen werden Poinerjustierung genannt. Eine Pointerjustierung kann aber nur in jedem vierten gesendeten Rahmen statt finden.
 
-In diesem Versuch beschäftigen wir uns mit dem dekrementieren und
-Inkrementieren von Pointern. Zusätlich dazu, werden wir mit dem
-Systemtakt des Netzes hantieren.
+%und so durch Taktunterschiede es theoretisch zu einer Überlast kommen kann, gibt es Pointer. 
+%Diese sind in der Administrative Unit zu finden und zeigen auf die Position der Nutzinfomrationen im Payload Bereich. Durch Pointer ist es möglich die Taktunterschiede, durch einfügen von Leer-Bytes oder früheres Senden von Payload, auszugleichen. Es können allerdings nur in jedem vierten Rahmen nach Ankündigung die Pointer angepasst werden.
+
+In diesem Versuch beschäftigen wir uns mit dem dekrementieren und Inkrementieren von Pointern, also einer negativen und einer positiven Verschiebung von Pointern. Zusätzlich dazu, werden wir ausprobieren, was passiert, wenn der Systemtakt gestört wird.
 
 
 \subsubsection{Manuelles negativ und positiv Justieren}
 
-Elmi hat für die Justierung des Pointers ein eigenes Menu. Hier kann
-man einstellen ob man die Pointer-Justierung dauerhaft alle 1500 ms
-oder manuell durchführen will.
+Elmi hat für die Justierung des Pointers ein eigenes Menue. Hier kann man einstellen, ob man die Pointer-Justierung dauerhaft alle 1500 ms oder manuell durchführen will.
 
+\begin{figure}[H] 
+	\centering
+	\includegraphics[width=0.7\textwidth]{tkinhalt/sdh/IMG_1937.JPG}
+	\caption{Dekrementieren des Pointers}
+	\label{dekrement_pointer}
+\end{figure}
 
-\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/IMG_1937.JPG}\caption{Dekrementieren des Pointers}\label{dekrement_pointer}
-\vspace{0.5 cm}
+Zuerst dekrementieren wir den Pointer was ein Pointer Justification Event auslöst und in TMNS im Performance Menu von AU-4 als -PJE-Erhöhung wahrzunehmen ist.
 
-Zuerst Dekrementieren wir den Pointer was ein Pointer Justification
-Event auslöst und in TMNS im Performance Menu von AU-4 als
--PJE-Erhöhung wahrzunehmen ist.
-
-Entsprechend umgekehrt verhält sich das System für die Inkrementierung
-des Pointers. Im Versuch war zu erkennen das die ersten drei
-gesendeten Werte nicht in dem Perfomance-Fenster sichtbar waren. Dies
-ist darauf zurück zu führen das nur bei jedem vierten Rahmen eine
-Pointer-Aktivität durchgeführt wird. Also wurden die ersten drei als
-Ankündigung verstanden das nun der Pointer geändert wird. \todo{stimmt
+Entsprechend umgekehrt verhält sich das System für die Inkrementierung des Pointers. Im Versuch war zu erkennen das die ersten drei gesendeten Werte nicht in dem Perfomance-Fenster sichtbar waren. Dies ist darauf zurück zu führen das nur bei jedem vierten Rahmen eine Pointer-Aktivität durchgeführt wird. Also wurden die ersten drei als Ankündigung verstanden das nun der Pointer geändert wird. \todo{stimmt
 das denn auch?}
 
 
 \subsubsection{Ändern des Taktes von Elmi}
+Ein SDH Multiplexer hat drei Betriebsarten, was den Takt angeht. Er kann sich auf den Netztakt aufsynchronisieren, einen externen Taktgeber nutzen, oder seine interne Clock als Taktgeber nutzen. Die meist verbreitete Betriebsart ist das Aufsynchronisieren auf den Netztakt. Dadurch wird sichergestellt, dass alle Multiplexer den selben Takt nutzen. Wie empfindlich ein SDH Netz auf Taktunterschiede reagiert, soll der nächste Versuch zeigen.
 
 Ändert man den Takt von Elmi auf den Internen so kann man einen hohen
 Sprung des +PJE Feldes beobachten. Dies zeigt das das System die
