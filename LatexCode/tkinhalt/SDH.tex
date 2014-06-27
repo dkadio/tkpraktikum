@@ -12,110 +12,104 @@
 %Kurze Einleitung ins Thema
 
 Der folgende Versuch handelt von der Multiplextechnik SDH. SDH steht
-Synchrone Digitale Hierarchie die es möglich macht niederratige
+Synchrone Digitale Hierarchie die es möglich macht, niederratige
 Datenströme zu einem hochrratigen Datenstrom zu multiplexen, das Netz
-taktet dabei vollkommen synchron. In unserem Versuchsaufbau werden wir
-absichtlich verschiedene Fehler einspeisen sowie uns die
-Pointeraktivitäten im Netz genauer ansehen. Die Möglichkeit Fehler
-einzuspeisen wird uns durch das Messgerät GN Elmi EST 2100 ermöglicht,
-der ebenfalls als Multiplexer fungiert. Das Auswerten dieser Fehler
-ist über die Software Telecommunications-Management-Network-Software
-von Siemens gegeben. Der Rechner auf dem die Software läuft ist über
-die QST-E3 Schnittstelle mit den SMA 16 Multiplexern verbunden und
-sammelt so die nötigen Daten.
+taktet dabei vollkommen synchron. 
+%In unserem Versuchsaufbau werden wir absichtlich verschiedene Fehler einspeisen sowie uns die Pointeraktivitäten im Netz genauer ansehen. 
+In unserem Versuch haben wir die Möglichkeit, Fehler in das Netz einzuspeisen und die Reaktion darauf zu beobachten. Die Möglichkeit Fehler einzuspeisen wird uns durch den Multifunktionstester GN Elmi EST 2100 ermöglicht, der ebenfalls als Multiplexer fungiert. Der GN Elmi EST 2100 beherrscht die No7 Protokolle und wird direkt mit einem Lichtwellenleiter in das Netz eingebunden. Das Auswerten dieser Fehler ist über die Software Telecommunications-Management-Network-Software von Siemens gegeben. Der Rechner auf dem die Software läuft ist über die QST-E3 Schnittstelle mit den SMA 16 Multiplexern verbunden und sammelt so die nötigen Daten.
 
-Die Multiplexer unter sich sind mit Lichtwellenleiter verbunden die
-theoretisch eine Entfernung von gut 50Km schaffen würden. Da Elmi
-leider nicht von Siemens ist, ist es auch nicht möglich direkt über
-die Software zu sehen wie Elmi sich als Multiplexer verhält.
+Die Multiplexer sind mit Lichtwellenleiter verbunden die theoretisch eine Entfernung von gut 50Km schaffen würden. Da Elmi leider nicht von Siemens ist, ist es auch nicht möglich direkt über die Software zu sehen wie Elmi sich als Multiplexer verhält.
 
-\vspace{0.5 cm}
-\includegraphics[width=1\textwidth]{tkinhalt/sdh/versuchsaufbau.png}\caption{Versuchsaufbau}\label{versuchsaufbau}
-\vspace{0.5 cm}
+
+\begin{figure}[htbp] 
+  \centering
+    \includegraphics[width=1\textwidth]{tkinhalt/sdh/versuchsaufbau.png}
+  \caption{Versuchsaufbau}
+  \label{versuchsaufbau}
+\end{figure}
 
 \section{Versuchsgegenstände im Detail}
 
-Im folgenden betrachten wir uns die TMNS und Elmi für das Verständnis
-den den Umgang etwas genauer.
-
+Vor dem Versuch betrachten wir uns die TMNS und den Elmi genauer.
 
 \subsection{GN Elmi EST 2100}
 
-Elmi ist ein Messgerät das direkt mit den anderen Multiplexern über
-einen Lichtwellenleiter angeschlossen ist. Er fungiert in erster Linie
-zum einspeisen von Fehlern ins Netz um zu betrachten wie sich das SDH
-darauf verhält. Wie oben bereits erwähnt ist er selbst ebenfalls Teil
-des Netzes in Form von einem Multiplexers. Folgende Grafiken erläutern
-wie mit dem Gerät um zu gehen ist.
-\includegraphics[width=1\textwidth]{tkinhalt/sdh/elmi_start.png}\caption{Startbildschirm GN Elmi EST 2100}\label{startbildschirm_elmi}
-\vspace{0.5 cm}
 
-Es gibt es veschiedene Möglichkeiten das Netz zu beeinflussen. Da Elmi
-einen eigenen internen Systemtakt besitzt, kann man diesen auch
-verwenden um so beispielsweise zwei verschiedene Takte im Netz zu
-simulieren. Unter den Menüpunkt Ref. kann man diesen dann
-beeinflussen.
+%Elmi ist ein Messgerät das direkt mit den anderen Multiplexern über einen Lichtwellenleiter angeschlossen ist. Er fungiert in erster Linie zum Einspeisen von Fehlern ins Netz um zu betrachten wie sich das SDH darauf verhält. Wie oben bereits erwähnt ist er selbst ebenfalls Teil des Netzes in Form von einem Multiplexers. Folgende Grafiken erläutern wie mit dem Gerät um zu gehen ist.
+
+Der CN Elmi EPT2100 ist ein PCM Tester. Er erlaubt Manipulationen auf der SDH Leitung oder das direkte Einspeisen von Fehlermeldungen. Für das Netz verhält sich der Elmi wie ein Multiplexer. Manipulationen können beispielsweise das direkte Einspeisen von Pointern oder Taktverschiebungen im Netz sein. Ein Beispiel für eine eingespeiste Fehlermeldung kann eine LOS Meldung sein, die direkt auf die Leitung gegeben wird. Obwohl der Elmi zum Simulieren gebaut wurde, ist er mit Lichtwellenleitern an das SDH Netz angebunden. Dadurch kann sehr realitätsnah gearbeitet werden.
+
+\begin{figure}[H] 
+	\centering
+	\includegraphics[width=.8\textwidth]{tkinhalt/sdh/elmi_start.png}
+	\caption{Startbildschirm GN Elmi EST 2100}
+	\label{startbildschirm_elmi}
+\end{figure}
+
+Es gibt es veschiedene Möglichkeiten das Netz zu beeinflussen. Da Elmi einen eigenen internen Systemtakt besitzt, kann man diesen auch verwenden um so beispielsweise zwei verschiedene Takte im Netz zu simulieren. Das entspricht der reellen Situation, dass Netzgrenzen nicht synchronisiert sind oder ein Multiplexer nicht mit dem Systemtakt im Netz arbeitet. Unter den Menüpunkt Ref. kann man diesen dann beeinflussen.
 
 
 \todo{Bild von Taktmenu}
 
 
-Desweiteren für unseren Versuch wichtige Funktion bietet die Sektion
-ALARM. Hier kann man nach belieben Fehler ins Netz einspeisen. Diese
-kann man entweder als Burst, das bedeutete über einen bestimmten
-Zeitrahmen, oder kontinuierlich setzen. Für unserem Versuch werden nur
-diese zwei Sektionen benötigt deswegen wird hier nicht weiter auf die
-Funktionalität von Elmi eingegangen.
-\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/elmi_fehler.png}\caption{Fehlermenu GN Elmi EST 2100}\label{fehlermenu_elmi}
-\vspace{0.5 cm}
+Eine weitere, für unseren Versuch wichtige, Funktion bietet die Sektion ALARM. Hier kann man nach Belieben Fehler ins Netz einspeisen. Diese kann man entweder als Pulse, das bedeutet über einen bestimmten Zeitrahmen, oder kontinuierlich setzen. \textcolor{red}{Für unserem Versuch werden nur diese zwei Sektionen benötigt deswegen wird hier nicht weiter auf die Funktionalität von Elmi eingegangen.}$\Rightarrow$ und wie haben wir Pointer gesetzt?
+
+\begin{figure}[H] 
+	\centering
+	\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/elmi_fehler.png}
+	\caption{Fehlermenu GN Elmi EST 2100}
+	\label{fehlermenu_elmi}
+\end{figure}
 
 \subsection{TMNS}
 
-Die TMNS ist zur Analyse und Überwachung des SDH-Netzes hilfreich. In
-der Hauptansicht wird das Netz abstrakt für eine gute Übersicht
-dargestellt. Klickt man nun auf unser Testnetz \textit{Köln}
+Die TMNS ist zur Analyse und Überwachung des SDH-Netzes hilfreich. In der Hauptansicht wird das Netz sche­ma­tisch für eine gute Übersicht dargestellt. Klickt man nun in unserem Testnetz \textit{Köln} auf die Performancemessung gelangt man in die für den Versuch interessante Performanceansicht. 
 
-auf die Performancemessung gelangt man in die für den Versuch
-interessante Performanceansicht. \todo{stimmt das?}
-\vspace{0.5 cm}
-\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/tnms.jpg}\caption{Telecommunications-Management-Network-Software}\label{TMNS}
-\vspace{0.5 cm}
+\begin{figure}[H] 
+	\centering
+	\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/tnms.jpg}
+	\caption{Telecommunications-Management-Network-Software}
+	\label{TMNS}
+\end{figure}
 
-Im Hauptfenster werden sämtliche Komponenten angezeigt die zu dem Netz
-gehören bis auf Elmi. Hier werden bei einkommenden Fehlern, durch
-rotes blinken markiert welche Komponente einen Fehler aufweist. In der
-Folgenden Abbildung ist zu sehen wie die Komponente in dem Steckplatz
-406 auf Port 3 einen einkommenden Fehler anzeigt. Port 1 und 2 sind
-ebenfalls rot markiert jedoch weil die Ports konfiguriert sind aber
-kein Kabel angeschlossen ist. Also können wir diese einfach
-ignorieren.
-\vspace{0.5 cm}
-\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/Fehler2.jpg}\caption{Einkommender Fehler im TMNS}\label{tms_incoming}
-\vspace{0.5 cm}
+Im Hauptfenster werden sämtliche Komponenten angezeigt, die zu dem Netz gehören, bis auf Elmi. Hier werden auch bei auftretenden Fehlern die betroffenen Komponenten durch ein rotes Blinken markiert. In der Abbildung \ref{tms_incoming} ist zu sehen, wie die Komponente im Steckplatz 406 auf Port 3 einen einkommenden Fehler anzeigt. 
 
-Bei einem ankommenden Fehler kann man sich nun die Komponente genauer
-anschauen indem man den entsprechenden Port sich unter die Lupe nimmt.
-Durch Auswahl der Submenu-View gelangt man in eine Ansicht in der man
-genauer sehen kann wo der Fehler entstanden ist.
+Dass die Ports 1 und 2  ebenfalls rot markiert sind liegt aber daran, dass die Ports zwar konfiguriert sind aber kein Kabel angeschlossen haben. Diese Meldungen sind keine echten Fehler, also können wir diese einfach ignorieren.
 
-\vspace{0.5 cm}
-\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/komponent-performance.jpg}\caption{Traffic Flow Fenster}\label{traficflow_fenster}
-\vspace{0.5 cm}
 
-Hier hat man nun je nach Fehler die Auswahl. Wenn es um Pointer geht
-wird hier im Normalfall das AU-4 Fenster anfangen zu Blinken, wenn ein
-Netz-Fehler auftritt das STM-1 Fenster.
+\begin{figure}[H] 
+	\centering
+	\includegraphics[width=0.7\textwidth]{tkinhalt/sdh/Fehler2.jpg}
+	\caption{Einkommender Fehler im TMNS}
+	\label{tms_incoming}
+\end{figure}
 
-Diese schauen wir uns hier noch im Detail an.
+Bei einem auftretenden Fehler kann man sich nun die Komponente genauer anschauen indem man den entsprechenden Port auswählt. Durch Auswahl der Submenue-View gelangt man in eine Ansicht in der man genauer sehen kann wo der Fehler entstanden ist.
 
-Zuerst sehen wir hier die Performance-Ansicht von dem AU-4 Fenster.
 
-\vspace{0.5 cm}
-\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/Pointerview_detail.jpg}\caption{Pointerview zur überwachung der Aktivitäten in AU4}\label{pointerview}
-\vspace{0.5 cm}
+\begin{figure}[H] 
+	\centering
+	\includegraphics[width=0.7\textwidth]{tkinhalt/sdh/komponent-performance.jpg}
+	\caption{Traffic Flow Fenster}
+	\label{traficflow_fenster}
+\end{figure}
+
+Hier hat man nun, je nach Fehler, die Auswahl. Wenn es um Pointer geht wird hier im Normalfall das AU-4 Fenster anfangen zu blinken, wenn ein Netz-Fehler auftritt das STM-1 Fenster.
+
+Im Versuchsverlauf werden die Auswirkungen von Fehlern getestet und weiter betrachtet. 
+
+Die Abbildung \ref{pointerview} zeigt die Performance-Ansicht des AU-4 Fensters.
+
+\begin{figure}[H] 
+	\centering
+	\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/Pointerview_detail.jpg}
+	\caption{Pointerview zur überwachung der Aktivitäten in AU4}
+	\label{pointerview}
+\end{figure}
+
 %zur pointerview was schreiben
 
-Dieses beinhaltet:
+Das AU-4 Fenster beinhaltet:
 
 
 \begin{itemize}
@@ -133,19 +127,18 @@ Dieses beinhaltet:
 \end{itemize}
 
 
-Die Aktualisierung der Daten findet nur manuell mit dem Update Knopf
-statt. TMP ist hier im Auge zu behalten da die Daten alle 15 Minuten
-in eine Log-Datei geschrieben werden. Die Log-Dateien sind in den
-Reitern \textit{Previous 15min} und \textit{Previous 24h} wieder zu
-finden.
+Die Aktualisierung der Daten findet nur manuell mit dem Update Knopf statt. TMP ist hier im Auge zu behalten da die Daten alle 15 Minuten in eine Log-Datei geschrieben werden und der Timer zurück gesetzt wird. Die Log-Dateien sind in den Reitern \textit{Previous 15min} und \textit{Previous 24h} wieder zu finden.
 
 
 Um im genau zu sehen was im STM-1 vor sich geht kann man sich hier
 ebenfalls die Performance-Ansicht anzeigen lassen.
 
-\vspace{0.5 cm}
-\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/ms-near-end.jpg}\caption{STM1 Performance Fenster}\label{stm1_fenster}
-\vspace{0.5 cm}
+\begin{figure}[H] 
+	\centering
+	\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/ms-near-end.jpg}
+	\caption{STM1 Performance Fenster}
+	\label{stm1_fenster}
+\end{figure}
 
 Folgende Daten werden angezeigt:
 
@@ -168,23 +161,18 @@ Folgende Daten werden angezeigt:
 
 \end{itemize}
 
+Das Aktualisieren und das Speichern in die Log Dateien wurde bereits beschrieben.
 
-Was das Aktualisieren und das wegschreiben in die Log-Datei angeht ist
-der Vorgang wie bereits vorher beschrieben der Fall.
-
-Die Fehlerrate wird in Error-Sekunden angegeben die unterschiedliche
-Aussagen über den Fehler angeben.
+Die Fehlerrate wird in Error-Sekunden angegeben die unterschiedliche Aussagen über den Fehler angeben.
 
 
 \begin{itemize}
 
-\item ES - beinhaltet,innerhalb einer Sekunde, ein oder mehrere
-fehlerhafte Blöcke.
+\item ES - beinhaltet, dass innerhalb einer Sekunde ein, oder mehrere, fehlerhafte Blöcke aufgetreten sind.
 
-\item SES - beinhaltet, innerhalb einer Sekunde, 30 Prozent fehlerhafte Blöcke.
+\item SES - beinhaltet, dass innerhalb einer Sekunde 30 Prozent fehlerhafte Blöcke aufgetreten sind.
 
-\item UAS - Nach 11 SES gilt eine Leitung als nicht mehr verfügbar. Im
-Gegenzug gilt sie als verfügbar, nach 11 Sekunden ohne SES.
+\item UAS - Nach 11 SES gilt eine Leitung als nicht mehr verfügbar. Nach 11 Sekunden ohne SES gilt die wieder als verfügbar.
 
 \end{itemize}
 
