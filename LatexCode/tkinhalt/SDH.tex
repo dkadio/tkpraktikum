@@ -310,31 +310,17 @@ das denn auch?}
 \subsubsection{Ändern des Taktes von Elmi}
 Ein SDH Multiplexer hat drei Betriebsarten, was den Takt angeht. Er kann sich auf den Netztakt aufsynchronisieren, einen externen Taktgeber nutzen, oder seine interne Clock als Taktgeber nutzen. Die meist verbreitete Betriebsart ist das Aufsynchronisieren auf den Netztakt. Dadurch wird sichergestellt, dass alle Multiplexer den selben Takt nutzen. Wie empfindlich ein SDH Netz auf Taktunterschiede reagiert, soll der nächste Versuch zeigen.
 
-Ändert man den Takt von Elmi auf den Internen so kann man einen hohen
-Sprung des +PJE Feldes beobachten. Dies zeigt das das System die
-beiden Multiplexer versucht zu synchronisieren. Dannach sieht man das
-das +PJE Feld weiter steigt, um etwa drei pro Sekunde. Die Erklärung
-dafür ist, das der interne Takt von Elmi etwas langsamer ist als der
-des anderen Multiplexern. So muss dieser positiv Inkrementieren um den
-Takt auszugleichen und das Netz synchron zu halten.
+Um einen Taktunterschied zu provozieren, wird der Takt des Elmi auf den der internen Clock geändert. Direkt nach der Umstellung kann man einen hohen Sprung des +PJE Feldes beobachten. Dies zeigt, dass das System beginnt, sich zu synchronisieren. Nach dem starken Anstieg der positiv Pointer fällt die Anzahl der positiv Pointer wieder ab. Dieser Abfall zeigt, dass das System grundsätzlich wieder synchron ist. Obwohl das System wieder synchron ist, fällt auf, dass  das +PJE Feld weiter steigt, um etwa drei pro Sekunde. Die Erklärung dafür ist, dass der interne Takt von Elmi etwas langsamer ist als der des Netzes. So muss dieser positiv Inkrementieren um den Takt auszugleichen und das Netz synchron zu halten. \todo{Wer pointert?}
 
 
-\subsubsection{kontinuierliches negatives Justieren bei Internem Takt}
+\subsubsection{Kontinuierliches negatives Justieren bei internem Takt}
 
-Als letztes möchten wir gerne noch Versuchen was passiert wenn wir
-zusätzlich zu dem geändertem Takt noch negativ den Pointer justieren.
-Bei verwendung des internen Taktes von Elmi haben wir festgestellt das
-eine positive Pointerjustierung nötig ist um das Netz Synchron zu
-halten. Wenn wir nun aber auf der Sende Seite den langsameren Takt
-durch negativ Justierung ausgleichen kann man beobachten wie die
-benötigten Pointer-Aktivitäten sinken. Wenn man das Intervall
-entsprechend weit runter stellen würde könnte man den kompletten
-ausgleich zwischen den unterschiedlichen Takten erreichen. In dem
-Versuch haben wir beobachtet wie sich die Pointerjustierung auswirkt.
-Dies ist hier noch einmal Tabellarsich aufgeführt.
+Als letztes möchten wir gerne noch versuchen was passiert, wenn wir zusätzlich zu dem geändertem Takt noch negative Pointer Justierungen einspeisen. Bei Verwendung des internen Taktes von Elmi haben wir festgestellt das eine positive Pointerjustierung nötig ist, um das Netz synchron zu halten. \textcolor{red}{Wenn wir nun aber auf der Sende Seite den langsameren Takt durch negativ Justierung ausgleichen kann man beobachten wie die benötigten Pointer-Aktivitäten sinken.} \textcolor{blue}{Vorschlag: Zu den automatisch eingespeisten Positiv Pointern speisen wir nun Negativpointer ein. Zu erkennen ist, dass die Anzahl der Positivpointer zurück geht.} Wenn man das Intervall entsprechend weit verkleinern würde, \textcolor{red}{könnte man den kompletten ausgleich zwischen den unterschiedlichen Takten erreichen} \textcolor{blue}{könnte man erreichen, dass keine Pointer mehr mitgesendet werden. Der Hintergrund ist, dass wir durch die Pointerjustierung keinen echten Ausgleich der Taktunterschiede erreichen. Wir speisen lediglich Pointer ein. Da ein Pointer aber entweder positiv oder negativ sein kann, erreichen wir durch unsere künstlichen Negativpointer einen scheinbaren Ausgleich des Taktes.}
+
+ In dem Versuch haben wir beobachtet wie sich die Pointerjustierung auswirkt. Dies ist hier noch einmal Tabellarsich aufgeführt.
 
 \vspace{1 cm}
-\begin{table}
+\begin{table}[H]
 \begin{tabular}{|*{2}{c|}}
 \hline
 Justierung & PointerAktivität \\
@@ -351,14 +337,9 @@ Ohne & 4 Pointer pro Sekunde \\
 \end{table}
 \vspace{1 cm}
 
-Die Tabelle zeigt auf das mit einer Positiven Justierung des Pointers
-zusätlich zu dem unteschiedlichen Takt eine noch höhere
-Pointer-Aktivität nötig ist um das System synchron zu halten. Wie oben
-beschreiben führt eine Dekrementierung zu einem annäherndem Ausgleich.
-Diese Aussage wird unterstützt wenn man sich die Spalte Ohne
-Justierung ansieht. Hier ist es etwa der Mittelwert der beiden
-anderen.
+%Die Tabelle zeigt auf, dass mit einer positiven Justierung des Pointers zusätzlich zu dem unterschiedlichen Takt eine noch höhere Pointer-Aktivität nötig ist um das System synchron zu halten. Wie oben beschrieben führt ein Dekrementieren zu einem annäherndem Ausgleich. Diese Aussage wird unterstützt wenn man sich die Spalte Ohne Justierung ansieht. Hier ist es etwa der Mittelwert der beiden anderen.
 
+In der Tabelle ist zu erkennen, dass durch die Taktunterschiede zwischen Netz und Elmi vier Positivpointer benötigt werden. Durch zusätzliche Positivpointer steigt die Anzahl der Positivpointer auf fünf pro Sekunde. Speisen wir Nagativpointer ein, werden nur noch drei Pointer pro Sekunde gesendet.
 
 \section{Fazit}
 
