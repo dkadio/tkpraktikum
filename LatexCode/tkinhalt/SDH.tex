@@ -49,11 +49,7 @@ Der CN Elmi EPT2100 ist ein PCM Tester. Er erlaubt Manipulationen auf der SDH Le
 Es gibt es veschiedene Möglichkeiten das Netz zu beeinflussen. Da Elmi einen eigenen internen Systemtakt besitzt, kann man diesen auch verwenden um so beispielsweise zwei verschiedene Takte im Netz zu simulieren. Das entspricht der reellen Situation, dass Netzgrenzen nicht synchronisiert sind oder ein Multiplexer nicht mit dem Systemtakt im Netz arbeitet. Unter den Menüpunkt Ref. kann man diesen dann beeinflussen.
 
 
-\todo{Bild von Taktmenu}
-
-
-Eine weitere, für unseren Versuch wichtige, Funktion bietet die Sektion ALARM. Hier kann man nach Belieben Fehler ins Netz einspeisen. Diese kann man entweder als Pulse, das bedeutet über einen bestimmten Zeitrahmen, oder kontinuierlich setzen. \textcolor{red}{Für unserem Versuch werden nur diese zwei Sektionen benötigt deswegen wird hier nicht weiter auf die Funktionalität von Elmi eingegangen.}$\Rightarrow$ und wie haben wir Pointer gesetzt?
-
+Eine weitere, für unseren Versuch wichtige, Funktion bietet die Sektion ALARM. Hier kann man nach Belieben Fehler ins Netz einspeisen. Diese kann man entweder als Pulse, das bedeutet über einen bestimmten Zeitrahmen, oder kontinuierlich setzen. 
 \begin{figure}[H] 
 	\centering
 	\includegraphics[width=0.9\textwidth]{tkinhalt/sdh/elmi_fehler.png}
@@ -187,7 +183,7 @@ Im Folgenden sollen drei verschiedene Fehlermeldungen mit Hilfe von Elmi eingesp
 
 Die Meldungen werden in verschiedenen Schritten sowohl kontinuierlich, als auch als Burst eingespeist. 
 
-Wenn im empfangenen Signal Bitfehler enthalten sind, sendet der Empfänger eine Alarm-Nachricht in Senderichtung zurück. Bei dieser Rückmeldung spricht man von REI (Remote Error Indication). Die für uns wichtigen sind:\todo{Das Steht irgendwie alleine und ich kann nichts damit anfangen}
+Wenn im empfangenen Signal Bitfehler enthalten sind, sendet der Empfänger eine Alarm-Nachricht in Senderichtung zurück. Bei dieser Rückmeldung spricht man von REI (Remote Error Indication). Die für uns wichtigen sind:
 
 
 \begin{itemize}
@@ -222,8 +218,6 @@ Zuerst werden wir die Fehler kontinuierlich einspeisen. Nach dem Absenden der Fe
 
 Die Ergebnisse sind alle, wie zu erwarten, gleich. Alle drei Fehlermeldungen lassen den UAS-Counter solange ansteigen bis man aufhört den Fehler einzuspeisen. Da alle drei Fehler kontinuierlich auftreten, verursachen sie dauerhaft SES und somit nach kurzer Zeit UAS. Kontinuierliche Fehler sind sehr schwerwiegend und sofort zu behandeln.
 
-Hier noch einmal ein Tabellarischer Überblick über alle gemessenen Daten:
-
 
 \begin{table}[H]
 	\centering
@@ -242,12 +236,9 @@ Hier noch einmal ein Tabellarischer Überblick über alle gemessenen Daten:
 	\caption{Kontinuierliches steigen der UAS solange die Fehlermeldung eingespeist wird}
 \end{table}
 
-\todo{Und was sagt die Tabelle jetzt?}
-
 \subsubsection{Burst Fehlereinspeisung}
 
-Nachdem wir die Fehlermeldungen kontinuierlich eingespeist haben, speisen wir eine MS-AIS und ein LOS jeweils als Burst ein. Die Bursts haben je eine Dauer von 100ms, einer Sekunde und sieben Sekunden. \todo{Ist die Pule Length die Zeit, in der die Dinger eingespeist werden, oder heißt das, dass die dinger alle ... Sekunden eingespeist werden?}
-%innerhalb von 100ms, einer Sekunde, und sieben Sekunden.
+Nachdem wir die Fehlermeldungen kontinuierlich eingespeist haben, speisen wir eine MS-AIS und ein LOS jeweils als Burst ein. Die Bursts haben je eine Dauer von 100ms, einer Sekunde und sieben Sekunden. %innerhalb von 100ms, einer Sekunde, und sieben Sekunden.
 
 \begin{table}
 \begin{tabular}{|*{6}{c|}} 
@@ -302,19 +293,18 @@ Elmi hat für die Justierung des Pointers ein eigenes Menue. Hier kann man einste
 
 Zuerst dekrementieren wir den Pointer was ein Pointer Justification Event auslöst und in TMNS im Performance Menu von AU-4 als -PJE-Erhöhung wahrzunehmen ist.
 
-Entsprechend umgekehrt verhält sich das System bei einer Inkrementierung des Pointers. Im Versuch war zu erkennen, dass die ersten drei gesendeten Werte nicht in dem Perfomance-Fenster sichtbar waren. Dies ist darauf zurück zu führen das nur bei jedem vierten Rahmen eine Pointer-Aktivität durchgeführt wird. Also wurden die ersten drei als Ankündigung verstanden das nun der Pointer geändert wird. \todo{stimmt
-das denn auch?}
+Entsprechend umgekehrt verhält sich das System bei einer Inkrementierung des Pointers. Im Versuch war zu erkennen, dass die ersten drei gesendeten Werte nicht in dem Perfomance-Fenster sichtbar waren. Dies ist darauf zurück zu führen das nur bei jedem vierten Rahmen eine Pointer-Aktivität durchgeführt wird. Also wurden die ersten drei als Ankündigung verstanden das nun der Pointer geändert wird. %\todo{stimmt das denn auch?}
 
 
 \subsubsection{Ändern des Taktes von Elmi}
 Ein SDH Multiplexer hat drei Betriebsarten, was den Takt angeht. Er kann sich auf den Netztakt aufsynchronisieren, einen externen Taktgeber nutzen, oder seine interne Clock als Taktgeber nutzen. Die meist verbreitete Betriebsart ist das Aufsynchronisieren auf den Netztakt. Dadurch wird sichergestellt, dass alle Multiplexer den selben Takt nutzen. Wie empfindlich ein SDH Netz auf Taktunterschiede reagiert, soll der nächste Versuch zeigen.
 
-Um einen Taktunterschied zu provozieren, wird der Takt des Elmi auf den der internen Clock geändert. Direkt nach der Umstellung kann man einen hohen Sprung des +PJE Feldes beobachten. Dies zeigt, dass das System beginnt, sich zu synchronisieren. Nach dem starken Anstieg der positiv Pointer fällt die Anzahl der positiv Pointer wieder ab. Dieser Abfall zeigt, dass das System grundsätzlich wieder synchron ist. Obwohl das System wieder synchron ist, fällt auf, dass  das +PJE Feld weiter steigt, um etwa drei pro Sekunde. Die Erklärung dafür ist, dass der interne Takt von Elmi etwas langsamer ist als der des Netzes. So muss dieser positiv Inkrementieren um den Takt auszugleichen und das Netz synchron zu halten. \todo{Wer pointert?}
+Um einen Taktunterschied zu provozieren, wird der Takt des Elmi auf den der internen Clock geändert. Direkt nach der Umstellung kann man einen hohen Sprung des +PJE Feldes beobachten. Dies zeigt, dass das System beginnt, sich zu synchronisieren. Nach dem starken Anstieg der positiv Pointer fällt die Anzahl der positiv Pointer wieder ab. Dieser Abfall zeigt, dass das System grundsätzlich wieder synchron ist. Obwohl das System wieder synchron ist, fällt auf, dass  das +PJE Feld weiter steigt, um etwa drei pro Sekunde. Die Erklärung dafür ist, dass der interne Takt von Elmi etwas langsamer ist als der des Netzes. So muss der nächste Multiplexer positiv Inkrementieren um den Takt auszugleichen und das Netz synchron zu halten.
 
 
 \subsubsection{Kontinuierliches negatives Justieren bei internem Takt}
 
-Als letztes möchten wir gerne noch versuchen was passiert, wenn wir zusätzlich zu dem geändertem Takt noch negative Pointer Justierungen einspeisen. Bei Verwendung des internen Taktes von Elmi haben wir festgestellt, dass eine positive Pointerjustierung nötig ist, um das Netz synchron zu halten. \textcolor{red}{Wenn wir nun aber auf der Sende Seite den langsameren Takt durch negativ Justierung ausgleichen kann man beobachten wie die benötigten Pointer-Aktivitäten sinken.} \textcolor{blue}{Vorschlag: Zu den automatisch eingespeisten Positiv Pointern speisen wir nun Negativpointer ein. Zu erkennen ist, dass die Anzahl der Positivpointer zurück geht.} Wenn man das Intervall entsprechend weit verkleinern würde, \textcolor{red}{könnte man den kompletten ausgleich zwischen den unterschiedlichen Takten erreichen} \textcolor{blue}{könnte man erreichen, dass keine Pointer mehr mitgesendet werden. Der Hintergrund ist, dass wir durch die Pointerjustierung keinen echten Ausgleich der Taktunterschiede erreichen. Wir speisen lediglich Pointer ein. Da ein Pointer aber entweder positiv oder negativ sein kann, erreichen wir durch unsere künstlichen Negativpointer einen scheinbaren Ausgleich des Taktes.}
+Als letztes möchten wir gerne noch versuchen was passiert, wenn wir zusätzlich zu dem geändertem Takt noch negative Pointer Justierungen einspeisen. Bei Verwendung des internen Taktes von Elmi haben wir festgestellt, dass eine positive Pointerjustierung nötig ist, um das Netz synchron zu halten. Wenn wir nun aber auf der Sende Seite den langsameren Takt durch negativ Justierung ausgleichen kann man beobachten wie die benötigten Pointer-Aktivitäten sinken. Wenn man das Intervall entsprechend weit verkleinern würde, könnte man den kompletten ausgleich zwischen den unterschiedlichen Takten erreichen
 
  In dem Versuch haben wir beobachtet wie sich die Pointerjustierung auswirkt. Dies ist hier noch einmal Tabellarsich aufgeführt.
 
@@ -345,5 +335,3 @@ In der Tabelle ist zu erkennen, dass durch die Taktunterschiede zwischen Netz un
 In den Versuchen wurde das bereits erlangte Wissen praktisch
 angewandt. Vor allem in dem Bereichen Pointer wurden die das
 Verständnis dafür sehr viel klarer und die Zusammenhänge eindeutiger.
-Allerdings waren die Versuche alle sehr klar definiert und die
-Erwartungen nicht überrascht. \todo{Keine Ahnung, was das bedeuten soll.}
