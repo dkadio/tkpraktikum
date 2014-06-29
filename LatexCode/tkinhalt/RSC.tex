@@ -16,14 +16,14 @@ Da die Konfiguration im letzten Versuch noch nicht einmal die Oberfläche der Mög
 	\item Zwei PC mit Hyper Terminal
 	\item Zwei Patchabel
 	\item Ein Crossover Kabel
-	\item Ein Serielles Kabel mit je einem DCE und einem DTE Anschluss
+	\item Ein serielles Kabel mit je einem DCE und einem DTE Anschluss
 \end{itemize}
 
-Der erste PC wird über ein serielles Kabel und über ein Patchkabel mit einem Switch verbunden. Der Zweite PC wird mit einem seriellen Kabel und einem Crossover Kabel mit dem Router 2 verbunden. Die seriellen Kabel dienen der Konfiguration der Geräte. Das Patchkabel und das Crossoverkabel sind für den Transport von Payload. Der Switch wird mit einem Patchkabel mit dem Router verbunden.
+Der erste PC wird über ein serielles Kabel und über ein Patchkabel mit dem Switch verbunden. Der Zweite PC wird mit einem seriellen Kabel und einem Crossover Kabel mit dem Router 2 verbunden. Die seriellen Kabel dienen der Konfiguration der Geräte. Das Patchkabel und das Crossoverkabel sind für den Transport von Payload. Der Switch wird mit einem Patchkabel mit dem Router 1 verbunden.
 
 Die Router werden untereinander mit dem seriellen Kabel verbunden. Zu beachten ist hierbei, dass der Bustakt vom DCE (female) Port kommt. Der DTE (male) Port benötigt diesen Bustakt, damit eine Kommunikation möglich ist. 
 
-Die Router bekommen für ihre einzelnen Ports unterschiedliche IP Adressen:
+Die Router bekommen für ihre einzelnen Ports unterschiedliche IP Adressen. Die Adressen sind in der Tabelle \ref{adresstabelle} beschrieben.
 
 \begin{table}
 \begin{tabular}{|*{5}{c|}}
@@ -232,7 +232,7 @@ password cisco
 login
 \end{lstlisting}
 
-kann man erkennen, dass das Konfigurieren erfolgreich war. Und dass der Router weiterhin ohne Passwort über den Hilfs Port (AUX) erreicht werden kann. Eine Konfiguration wird aber über diesen Port nicht möglich sein.
+kann man erkennen, dass das Konfigurieren erfolgreich war. Und dass der Router weiterhin ohne Passwort über den Hilfs Port (AUX) erreicht werden kann. Eine Konfiguration wird aber über diesen Port ohne Passwort nicht möglich sein.
 
 Auffällig ist auch, dass sowohl das verschlüsselte, als auch das unverschlüsselte Passwort in der Ausgabe stehen. Diese Tasche wirft Fragen auf. Welches Passwort ist nun gültig? Und warum kann man überhaupt ein unverschlüsseltes Passwort eingeben? Die Antwort auf diese Fragen bringt die Homepage des Herstellers. Die erste Frage ist leicht beantwortet, das verschlüsselte Passwort wird bevorzugt, das heißt, dass man sich nur mit diesem anmelden kann. Die zweite Frage hat einen geschichtlichen Hintergrund. Wenn man eine alte Version von IOS bootet, oder veraltete boot ROM nutzt, kann es Probleme mit verschlüsselten Passwörtern geben. In diesem Fall sind unverschlüsselte Passwörter zu nutzen.
 
@@ -256,7 +256,7 @@ R1(config)#exit
 \end{lstlisting}
 konfigurieren das serielle Interface. 
 
-Das serielle Interface hat mittlerweile viel seiner Bedeutung verloren. Je nach Beschreibung des Herstellers wird eine maximale clock rate von 8 Mit/s angegeben. Die Glock rate entspricht auch der Übertragungsrate. Bei dieser Übertragungsrate scheint die serielle Schnittstelle neben Ethernet Ports unnötig zu sein. Dieser Eindruck täuscht, da diese Schnittstelle besonders bei leitungsvermittelnden Netzwerken ihre Vorteile hat. Wird für den Zugriff auf ein WAN keine besonders hohe Bitrate benötigt, sollte dafür auch die serielle Schnittstelle genutzt werden, da sie eine dedizierte Übertragung bereit stellt.
+Das serielle Interface hat mittlerweile viel seiner Bedeutung verloren. Je nach Beschreibung des Herstellers wird eine maximale clock rate von 8.000.000 angegeben. Die Glock rate entspricht auch der Übertragungsrate, damit sind maximal 8 Mbit/s möglich. Bei dieser Übertragungsrate scheint die serielle Schnittstelle neben Ethernet Ports unnötig zu sein. Dieser Eindruck täuscht, da diese Schnittstelle besonders bei leitungsvermittelnden Netzwerken ihre Vorteile hat. Wird für den Zugriff auf ein WAN keine besonders hohe Bitrate benötigt, sollte dafür auch die serielle Schnittstelle genutzt werden, da sie eine dedizierte Übertragung bereit stellt.
 
 Die ersten 3 Zeilen sind leicht verständlich. Dort wird bestimmt, welches Interface mit welcher IP und welchem Kommentar konfiguriert werden soll. 
 
@@ -362,7 +362,7 @@ Analog zum Router 1 gibt es in der Versuchsbeschreibung auch Fragen zum Router 2
 		\item Encapsulation HDLC
 	\end{itemize}
 	\item \textbf{To which OSI layer is the encapsulation referring?} See above
-	 \item \textbf{Why did the show interfaces serial 0/0/0 indicate that the interface is up?} The interface is physically connected to another device (R1). Additionally is is configured an with the command \textit{no shutdown} enabled. If we started this test with R2, there was no connection, because R2 needs the clock of R1.
+	 \item \textbf{Why did the show interfaces serial 0/0/0 indicate that the interface is up?} The interface is physically connected to another device (R1). Additionally is is configured and with the command \textit{no shutdown} enabled. If we started this test with R2, there was no connection, because R2 needs the clock of R1.
 \end{itemize}	 
 	
 Laut den Einstellungen sind die Interfaces konfiguriert und arbeiten. Ob, alles korrekt funktioniert, kann einfach durch einen Ping getestet werden.
@@ -397,7 +397,7 @@ R1(config-if)#exit
 R1(config)#exit
 \end{lstlisting}
 
-Die Befehle sind analog der mit denen die seriellen Interfaces konfiguriert werden. Der Unterschied ist, dass hier keine clock rate eingestellt werden muss. Die Einstellungen können wieder mit dem Befehl \textit{show interfaces FastEthernet 0/0} überprüft werden:
+Die Befehle sind analog zu denen, die die seriellen Interfaces konfiguriert haben. Der Unterschied ist, dass hier keine clock rate eingestellt werden muss. Die Einstellungen können wieder mit dem Befehl \textit{show interfaces FastEthernet 0/0} überprüft werden:
 \begin{lstlisting}[captionpos=b, caption=Anzeige der FE 0/0 Einstellungen von R1]
 R1#show interfaces FastEthernet 0/0
 FastEthernet0/0 is up, line protocol is up
@@ -439,7 +439,7 @@ In der Versuchsbeschreibung werden folgende Fragen gestellt:
 		\item Encapsulation ARPA
 	\end{itemize}
 	\item \textbf{To which OSI layer is the encapsulation referring?} ARPA is the short form of \glqq Advanced Research Projects Agency\grqq, also called Ethernet 2 or DIX Ethernet. Ethernet 2 is a protocol of the  Data Link Layer, or Layer 2.
-	\item \textbf{Why did the show interfaces FastEthernet 0/0 command show that the interface is up?} The explanation is the same, like the serial Interfaces. Think of the physical to H1 an the configuration some lines before. 
+	\item \textbf{Why did the show interfaces FastEthernet 0/0 command show that the interface is up?} The explanation is the same, like the serial Interfaces. Think of the physical connection to H1 an the configuration some lines before. 
 \end{itemize}
 
 Laut den Einstellungen ist das FE 0/0 Interface von R1 nun korrekt konfiguriert. Im nächsten Schritt wird das FA 0/0 Interface von R2 konfiguriert. Hierfür sind diese Befehle nötig:
@@ -833,7 +833,7 @@ CustomerSwitch(config-if)#switchport port-security
 CustomerSwitch(config-if)#switchport port-security mac-address sticky 
 CustomerSwitch(config-if)#end
 \end{lstlisting}
-Der erste Befehl bringt das Interface in den access mode. Im access mode ist das trunking permanent deaktiviert. Im trunked mode ist keine port security möglich. Der Befehl \textit{switchport port-security} aktiviert aktiviert die port security auf diesem Interface. Mit \textit{switchport port-security mac-address sticky} wird das automatische Lernen von Mac Adressen aktiviert. Im Lern Modus werden alle erkannten Mac Adressen als erlaubt gespeichert.
+Der erste Befehl bringt das Interface in den access mode. Im access mode ist das trunking permanent deaktiviert. Im trunked mode ist keine port security möglich. Der Befehl \textit{switchport port-security} aktiviert die port security auf diesem Interface. Mit \textit{switchport port-security mac-address sticky} wird das automatische Lernen von Mac Adressen aktiviert. Im Lern Modus werden alle erkannten Mac Adressen als erlaubt gespeichert.
 
 Den Erfolg dieser Befehle kann man mit den Befehlen \textit{show port-security} oder \textit{show port-security interface fa0/18 address} sofort kontrollieren.
 
@@ -849,7 +849,7 @@ Max Addresses limit in System (excluding one mac per port) : 8192
 \end{lstlisting}
 
 
-Aus dieser Ausgabe lässt sich ableiten, dass die security action \glqq Shutdown\grqq ist und dass die Anzahl der secure addresses ist 1. Der maximum secure address count gibt an, wie viele Mac Adressen gelernt werden dürfen. Bei einer falschen Mac Adresse wird der Port deaktiviert \todo{das mit dem maximalen Lernen habe ich quasi erfunden. Stimmt das?}
+Aus dieser Ausgabe lässt sich ableiten, dass die security action \glqq Shutdown\grqq~ist und dass die Anzahl der secure addresses ist 1. Der maximum secure address count gibt an, wie viele Mac Adressen gelernt werden dürfen. Bei einer falschen Mac Adresse wird der Port deaktiviert. \todo{das mit dem maximalen Lernen habe ich quasi erfunden. Stimmt das?}
 
 Die neuen Einstellungen sind auch in der running config einzusehen:
 \begin{lstlisting}[captionpos=b, caption=Ansicht der running config nach dem Aktivieren der port security]
@@ -964,7 +964,7 @@ So viel zur Theorie, im Versuch war es nicht möglich, den Port wieder frei zu sc
 \todo{Stimmt das?}
 
 \subsection{Geschwindigkeits- und Duplexeinstellungen des Switchs}
-Die Ports eines Switches haben per default die Einstellungen auto duplex und auto speed. Das bedeutet, dass der Switch anhand des angeschlossenen Device die Geschwindigkeit und den Übertragungsmodus. 
+Die Ports eines Switches haben per default die Einstellungen auto duplex und auto speed. Das bedeutet, dass der Switch anhand des angeschlossenen Device die Geschwindigkeit und den Übertragungsmodus wählt. 
 
 In diesem Teil des Versuchs soll diese Eigenschaft konfiguriert werden. Vor Beginn dieser Konfiguration werden erst die Interfaces betrachtet. Dadurch ist es möglich zu überprüfen, ob die Änderungen erfolgreich waren.
 
@@ -998,10 +998,6 @@ In diesem Teil des Versuchs soll diese Eigenschaft konfiguriert werden. Vor Begi
      0 output buffer failures, 0 output buffers swapped out
 
 
-
-
-
-
 FastEthernet0/11 is up, line protocol is up (connected)
   Hardware is Fast Ethernet, address is 0024.f98a.e70b (bia 0024.f98a.e70b)
   MTU 1500 bytes, BW 100000 Kbit, DLY 100 usec,
@@ -1029,13 +1025,6 @@ FastEthernet0/11 is up, line protocol is up (connected)
      0 babbles, 0 late collision, 0 deferred
      0 lost carrier, 0 no carrier, 0 PAUSE output
      0 output buffer failures, 0 output buffers swapped out
-
-
-
-
-
-
-
 
 
 FastEthernet0/18 is down, line protocol is down (err-disabled)
@@ -1090,10 +1079,10 @@ FE0/18 & Auto-duplex & Auto-Speed & 10/100BaseTX  \\
 \subsection{Reflection}
 Zum Ende des Versuchs gibt es noch einige Fragen, die prüfen sollen, ob der Versuch verstanden wurde. 
 \begin{enumerate}
-	\item \textbf{Which password needs to be entered to switch from user mode to privilege exec mode on the Cisco switch, and why?} The password \glqq cisco123\grqq is the correct password.  In step 3 we set two passwords. \glqq cisco\grqq and \glqq cisco123\grqq The second one was set als encrypted password. IOS prefers the encrypted passwords. If a decrypted and an encrypted password is set, IOS will just use the encrypted one.
+	\item \textbf{Which password needs to be entered to switch from user mode to privilege exec mode on the Cisco switch, and why?} The password \glqq cisco123\grqq~is the correct password. In step 3 we set the two passwords \glqq cisco\grqq~and \glqq cisco123\grqq. The second one was set als encrypted password. IOS prefers the encrypted passwords. If a decrypted and an encrypted password is set, IOS will just use the encrypted one.
 	\item \textbf{Which symbol is used to show a successful ping in the Cisco IOS software?} Our successful ping commands had every time the sequence \textit{!!!!!} after the prompt, that 5 pings being send. After these 5 ! was the prompt with the success rate. So the symbol to show a successful ping ist the \glqq !\grqq.
-	\item \textbf{What is the benefit of using port security?} The benefit of port security is a higher security in your network. It's possible to prohibit people to use their own devices. So you won't loose the responsibility the security for the devices. Also it is complicated to copy or steal data because you are able to configure the permitted devices with security policies. 
+	\item \textbf{What is the benefit of using port security?} The benefit of port security is a higher security in your network. It's possible to prohibit people to use their own devices. So you won't loose the responsibility of the security for the devices. Also it is complicated to copy or steal data because you are able to configure the permitted devices with security policies. 
 	
 	Another benefit is the reserving of capacities. If you have a port security with one allowed device this port is a dedicated medium for this device. 
-	\item \textbf{What other port-related security steps could be taken to further improve switch security?} The most important security issue is the layer 8 security. If your users are not careful most of your technical actions will fail. One of the actions can be the activating of the password encryption service using the command \textit{service password-encryption}. This service will encrypt all of your passwords. Setting a see ion timeout will increase your Switch security. If you forget to log out, the sessions will be closed faster. Normally, in the default configuration you have a see ion timeout of 10 minutes. After the ecrytion service and the session timeouts you can enable AAA. AAA is the abbreviation for  Authentication, Authorization, and Accounting. This is a method to use user accounts. When somebody changes settings you can read in the log file who made which changes. And everybody gets an own user account, password and rights. Last, but not least, do not use sticky ports or deactivate them after a short learning curve. With sticky ports it's possible to infiltrate your network.
+	\item \textbf{What other port-related security steps could be taken to further improve switch security?} The most important security issue is the layer 8 security. If your users are not careful most of your technical actions will fail. One of the actions can be the activating of the password encryption service using the command \textit{service password-encryption}. This service will encrypt all of your passwords. Setting a session timeout will increase your Switch security. If you forget to log out, the sessions will be closed faster. Normally, in the default configuration you have a see ion timeout of 10 minutes. After the ecrytion service and the session timeouts you can enable AAA. AAA is the abbreviation for  Authentication, Authorization, and Accounting. This is a method to use user accounts. When somebody changes settings you can read in the log file who made which changes. And everybody gets an own user account, password and rights. Last, but not least, do not use sticky ports or deactivate them after a short learning curve. With sticky ports it's possible to infiltrate your network.
 \end{enumerate}
