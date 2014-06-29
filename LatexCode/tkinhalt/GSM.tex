@@ -4,7 +4,7 @@
 
 \chapter{GSM Versuch}
 \section{Allgemeine Beschreibung der Versuche}
-Im folgenden handelt es sich um ein Test-Versuch GSM. GSM ist die Abkürzung für Global System for Mobile Communications und ein Standard für die volldigitale Mobilfunknetze. Wir haben ihn bereits kennen gelernt, da alle unsere Handys darauf beruhen. GSM ermöglicht die eigentliche Telefonie, eine Datenübertragung und das Versenden und Empfangen von SMS, Short Message Services. Mittlerweile wurden für die Datenübertragung leistungsfähigere Standards, wie UMTS und LTE entwickelt, jedoch ist GSM noch nicht wegzudenken. 
+Der folgende Versuch behandelt das Thema GSM. GSM ist die Abkürzung für Global System for Mobile Communications und ein Standard für die volldigitalen Mobilfunknetze. Wir haben ihn bereits kennen gelernt, da alle unsere Handys darauf beruhen. GSM ermöglicht die eigentliche Telefonie, eine Datenübertragung und das Versenden und Empfangen von SMS, Short Message Services. Mittlerweile wurden für die Datenübertragung leistungsfähigere Standards, wie UMTS und LTE entwickelt, jedoch ist GSM noch nicht wegzudenken. 
 
 Der Versuch soll das Verständnis für die Technik vertiefen, die den reibungslosen Ablauf unserer Handygespräche ermöglicht. Zu diesem Zweck steht uns ein System zur Verfügung, das aus einer Antenne, der Technik zur Signalverarbeitung und einem Computer mit entsprechender Software besteht. 
 
@@ -25,7 +25,7 @@ Der Aufbau des Versuchs ist auf den ersten Blick leicht beschrieben: Unser Syste
 Dieses Bauteil wandelt die elektromagnetischen Signale in elektrische Signale um. Antennen sind in prinzipiell in allen Geräten enthalten, die etwas mit Funktechnik zu tun haben. Dazu zählen beispielsweise Radios oder auch Handys. Die Umwandlung hat den Hintergrund, dass die elektromagnetischen Single aus der Luft nicht direkt weiterverarbeitet werden können. 
 
 \subsubsection{USPR\label{uspr}}
-Das USPR, Universal Radio Peripheral, ist eine geschlossene Einheit, die das Verarbeiten der Empfangenen Signale ermöglicht. Es ist modular aufgebaut, sodass ein breites Frequenzspektrum abgedeckt werden kann. Für unseren Versuch interessieren aber nur die Frequenzen des GSM. Das USPR wird im folgenden nicht weiter betrachtet, da es nicht der Gegenstand des Versuchs war, sondern diesen nur ermöglicht hat.
+Das USPR, Universal Radio Peripheral, ist eine geschlossene Einheit, die das Verarbeiten der empfangenen Signale ermöglicht. Es ist modular aufgebaut, sodass ein breites Frequenzspektrum abgedeckt werden kann. Für unseren Versuch interessieren aber nur die Frequenzen des GSM. Das USPR wird im Folgenden nicht weiter betrachtet, da es nicht der Gegenstand des Versuchs war, sondern diesen nur ermöglicht hat.
 
 \vspace{1 cm}
 \begin{figure}[h]
@@ -59,9 +59,9 @@ Für die Visualisierung der Frequenzen werden die in \ref{bauteile} beschriebenen
 Neben der vorhandenen Hardware werden keine weiteren Geräte benötigt. Das Vorhandensein von Sendern in der Reichweite des Systems ist dennoch eine Vorraussetzung.
 
 \subsubsection{Versuchsdurchführung}
-Mit dem Tool lsursp wird überprüft, ob die USPR \ref{uspr} vom System erkannt wird.
+Mit dem Tool lsursp wird überprüft, ob das USPR \ref{uspr} vom System erkannt wird.
 
-Nachdem festgestellt wurde, dass die USRP angeschlossen und vom System erkannt wurde, kann der eigentliche Versuch beginnen. Hierzu wird das Tool kal mit dem Kommando \glqq kal -s -DCS\grqq aufgerufen. Kal führt einen Umgebungsscan durch, das bedeutet, dass alle Frequenzen, die im DCS 1800 Band liegen und empfangen werden können, aufgelistet werden können.
+Nachdem festgestellt wurde, dass das USRP angeschlossen und vom System erkannt wurde, kann der eigentliche Versuch beginnen. Hierzu wird das Tool kal mit dem Kommando \textit{ kal -s -DCS} aufgerufen. Kal führt einen Umgebungsscan durch, das bedeutet, dass alle Frequenzen, die im DCS 1800 Band liegen und empfangen werden können, aufgelistet werden können.
 
 \subsubsection{Auswertung des Versuchs}
 Zur Erklärung, das DCS 1800 Band ist ein Frequenzband, das den Frequenzbereich um 1800 MHz nutzt. In Deutschland wurde dieser Bereich ursprünglich von den  E-Netzen, also dien Anbietern E-Plus und $O_2$ genutzt. Aus Kapazitätsmangel haben 1999 auch die großen D-Netz Betreiber DCS 1800 Frequenzen erworben.
@@ -114,13 +114,13 @@ Das Ergebnis der Umgebungsscans ist in Tabelle \ref{tab:empfangeneFreqzenzen} au
 Chan steht in diesem Fall für channel oder channel number. Dieser Wert wird auch als ARFCN, Absolute Radio Frequency Channel Number, bezeichnet. Der Hintergrund ist, dass ein Teilnehmer des GSM Netzes nicht das gesamte Frequenzband benötigt. Bzw. auch, dass andere Kommunikationsteilnehmer einer Base Station ausgeschlossen werden, wenn ein Teilnehmer exklusiv das gesamte Frequenzband nutzt. Deswegen werden die Frequenzbänder in Kanäle (channels), bzw. Kanalpaare, unterteilt. Das Kanalpaar hat den Hintergrund, dass GSM für den Down- und des Uplink unterschiedliche Frequenzen nutzt. Anhand der ARFCN kann die absolute Frequenz berechnet werden, die für die tatsächliche Kommunikation genutzt wird. Die Formel dazu ist in der Abbildung \ref{fig:Frequenzbereich} beschrieben. Auf diese Thematik wird aber im weiteren Verlauf des Versuchs weiter eingegangen.% \todo{Den Scheiß habe ich mir quasi ausgedacht. Stimmt das annähernd?}
 
 \paragraph{power}
-Power ist die Stärke, mit der das Signal empfangen wurde. Für unseren Versuch nehmen wir die stärkeren Signale da siech diese besser Visualisieren lassen. Leider ist die Dokumentation zu \textit{kal} sehr spärlich ausgefallen und es bleibt im verborgenen was für eine Einheit diese Spalte ausdrückt. Fest steht, das Werte jenseits der 900er Marke ein starkes Signal darstellen. 
+Power ist die Stärke, mit der das Signal empfangen wurde. Für unseren Versuch nehmen wir die stärkeren Signale da sich diese besser visualisieren lassen. Leider ist die Dokumentation zu \textit{kal} sehr spärlich ausgefallen und es bleibt im Verborgenen was für eine Einheit diese Spalte ausdrückt. Fest steht, das Werte jenseits der 900er Marke ein starkes Signal darstellen. 
  
 
 \paragraph{Berechnung der Frequenzen}
 Wie schon erwähnt, anhand dieser Auflistung ist es möglich, den Frequenzbereichs von DCS 1800 zu errechnen.  Zur Berechnung eines Frequenzbereichs gibt es einige Formeln. Welche genutzt wird, hängt davon ab, welche Werte bereits bekannt sind.
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
  \fbox{
  \begin{tabular}{lcr}
@@ -134,14 +134,15 @@ Wie schon erwähnt, anhand dieser Auflistung ist es möglich, den Frequenzbereichs
 \end{table}
 
 Da in unserem Versuch die Antenne als reiner Empfänger gearbeitet hat, haben wir nur Frequenzen empfangen, die von den Sendern als Uplink Frequenzen genutzt werden.
-In der Tabelle \ref{fig:Frequenzbereich} werden die Zusammenhänge von Up- und Downlink klar. Die Startfrequenz ist ein festdefinierter Wert von 1710,2 Mhz. Die zu GSM 1800 gehörenden Channels sind von 512 bis 885 definiert, daher auch der feste Offset von 512.
-Der Abstand ist wie bereits erwähnt, zwischen der Up- und der Downlinkfrequenz gemeint. Dieser hat den Wert 95Mhz. Mit Hilfe dieser Werte lassen sich also ganz leicht der ARFCN von einer Frequenz berechnen bzw auch die Down- oder Uplinkfrequenz zu einem passenden Channel.
+In der Tabelle \ref{fig:Frequenzbereich} werden die Zusammenhänge von Up- und Downlink klar. Die Startfrequenz ist ein fest definierter Wert von 1710,2 Mhz. Die zu GSM 1800 gehörenden Channels sind von 512 bis 885 definiert, daher auch der feste Offset von 512.
+Der Abstand ist wie bereits erwähnt, zwischen der Up- und der Downlinkfrequenz gemeint. Dieser hat den Wert 95Mhz. Mit Hilfe dieser Werte lassen sich also ganz leicht der ARFCN von einer Frequenz berechnen bzw. auch die Down- oder Uplinkfrequenz zu einem passenden Channel.
 
 
 Die empfangenen Frequenzen lassen sich auch einzelnen Providern zuordnen. Für diese Zuordnungen gibt es Pläne, welche Frequenzen an wen vergeben wurden.
-\vspace{1 cm}
+
+
 Auf der folgenden Abbildung ist zu sehen welche Frequenzen in Deutschland von welchem Providern benutzt werden. 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/providerfregtabelle.png}
   \caption{Frequenzentabelle der Provider \cite{frequenzPlan1800}}
@@ -150,7 +151,7 @@ Auf der folgenden Abbildung ist zu sehen welche Frequenzen in Deutschland von we
 
 Wenn man die Tabelle \ref{tab:empfangeneFreqzenzen} und die Grafik \ref{fig:frequtabelle} vergleicht, ergibt sich Tabelle \ref{tab:frequenzAnbieter}. Auffällig ist, dass keine Signale des Anbieters Vodafone empfangen werden, dafür aber mehrere militärische Kanäle.
 
-\begin{table}[h!]
+\begin{table}[H]
  
 \begin{tabular}{lll}
 	chan: & 555 1813.8 MHz & Militär \\
@@ -189,10 +190,10 @@ Der Versuch \ref{frequenzenAuflisten} hat ergeben, dass im GSM Standard verschie
 
 
 \subsubsection{Aufbau des Versuchs}
-Der Aufbau des Versuchs entspricht grob dem Aufbau des Versuchs \ref{frequenzenAuflisten}. Anstelle des Tools kal wird DSP-Buttler-Tool dsusrp genutzt.
+Der Aufbau des Versuchs entspricht grob dem Aufbau des Versuchs \ref{frequenzenAuflisten}. Anstelle des Tools kal wird DSP-Buttler-Tool \textit{dsusrp} genutzt.
 
 \subsubsection{Versuchsdurchführung}
-Vor Beginn des Versuchs muss der Umgebungsscan aus \ref{frequenzenAuflisten} wiederholt werden. Dadurch kann sicher gestellt werden, dass die Messung mit einer aktiven, bzw. gerade gesendeten Frequenz durchgeführt wird. Nachdem eine Frequenz gefunden wurde, beginnt der eigentliche Versuch mit dem Kommando  \textit{dbusrp-f 699219}. Dieses Kommando startet ein Analysetool, das sowohl den Frequenz- als auch den Amplitudenbereich ausgibt.
+Vor Beginn des Versuchs muss der Umgebungsscan aus \ref{frequenzenAuflisten} wiederholt werden. Dadurch kann sicher gestellt werden, dass die Messung mit einer aktiven, bzw. gerade gesendeten Frequenz durchgeführt wird. Nachdem eine Frequenz gefunden wurde, beginnt der eigentliche Versuch mit dem Kommando  \textit{dbusrp-f 699219}. Dieses Kommando startet ein Analysetool, das sowohl den Frequenz- als auch den Amplitudenbereich ausgibt. Die Zahl \glqq 699219\grqq gibt die Frequenz un Herz an, auf der gemessen werden soll.
 
 
 \subsubsection{Auswertung des Versuchs}
@@ -216,7 +217,10 @@ Das Ergebnis dieses Versuchs kann in der Grafik \ref{fig:visual} betrachtet werd
 %Der Versuch gibt einen Allgemeinen Einblick in den Umfang von GSM und veranschaulicht die benutzten Frequenzen. Ausserdem werden die mathematischen zusammenhänge klarer und GSM an sich verständlicher.
 
 \section{Anruf an die 2600}
-Es soll ein Anruf auf die 2600 was dem echo-Dienst entspricht durchgeführt werden. Dazu benötigen wir den am Anfang beschriebenen Versusaufbau sowie ein GSM-Fähiges Mobiltelefon das in dem Netz registriert ist. 
+Es soll ein Anruf auf die Telefonnummer 2600, die dem echo-Dienst entspricht, durchgeführt werden. Dazu benötigen wir den am Anfang beschriebenen Versusaufbau sowie ein GSM-Fähiges Mobiltelefon das in dem Netz registriert ist. 
+
+Unser Versuchsaufbau arbeitet in diesem Teil des Versuchs als GSM Basisstation.
+
 Als erstes muss das OpenBTS system gestartet werden dies erfolgt über mehrere Konsolen Befehle, da OpenBTS aus mehreren Komponenten besteht. 
 Zuerst muss der Authentication-Service gestartet werden dies erfolgt durch den Befehl sipauthserve. Dannach muss die SMqueue gestartet werden die für die Weiterlietung der SMS verantwortlich ist, mit dem Befehl smqueue wird der Service gestartet. Der eigentliche OpenBTS Service muss ebenfalls gestartet werden. Dieser Dienst stellt den Kern des Systems dar, alle anderen Prozesse agieren mit diesem Prozess. Ausserdem brauchen wir noch den Asterisk Service der bereits in diesem Dokument erklärt worden ist. Diesen starten wir in einer neuen Konsole mit dem Befehl asterisk -r. Alle Befehle müssen als Superuser ausgeführt werden, sonst würden die Berechtigungen dazu fehlen.
 Um sich in dem Netz mit seinem eigenen Mobiltelefon registrieren zu können wählen wir das entsprechende Netz aus und erhalten unsere IMSI. Nun kann die 2600 angerufen werden und der Versuch durchgeführt werden.
@@ -254,11 +258,9 @@ Der Anruf wird auf die Telefonnummer 2600 getätigt. Diese Telefonnummer ist als 
 Nachdem der Versuch vorbereitet ist, wird über das Mobiltelefon die Nummer 2600 angerufen.
 
 \subsubsection{Auswertung des Versuchs}
-Der Echo Kanal funktioniert, wie beschrieben. Die Sprachdaten, die ans Netz gesendet werden, werden wieder vom Netz zurück geschickt.
+Der Echo Kanal funktioniert wie beschrieben. Die Sprachdaten, die ans Netz gesendet werden, werden wieder vom Netz zurück geschickt.
 
-%\todo{Um in U(m) umwandeln so das das m klein wird}
-
-Mit geschnitten werden die Daten die über das \(U_m\) Interface gesendet werden. Das \(U_m\) Interface ist eine Funkschnittstelle die für die Übertragung zwischen der Mobile-Station und dem Base Transceiver Station zuständig ist. Das \(U_m\) Interface arbeitet auf den Untersten drei Layer des ISO-OSI-Referenzmodell.
+Mitgeschnitten werden die Daten die über das \(U_m\) Interface gesendet werden. Das \(U_m\) Interface ist eine Funkschnittstelle die für die Übertragung zwischen der Mobile-Station und dem Base Transceiver Station zuständig ist. Das \(U_m\) Interface arbeitet auf den untersten drei Layern des ISO-OSI-Referenzmodells.
 
 Durch Wireshark ist es möglich einen Einblick in die gesendeten Daten der verschiedenen Layern zu erhalten. 
 Die Pakete die auf den verschiedenen Layern gesendet werden sind die folgenden:
@@ -270,84 +272,105 @@ Die Pakete die auf den verschiedenen Layern gesendet werden sind die folgenden:
 \end{itemize}
 
 
-Da OpenBTS alle höheren Protokolle terminiert, erscheinen in Wireshark nicht nur die RR Nachrichten sondern auch Mobility Management und Call Management Nachrichten als Layer 3 Nachrichten welche in Wireshark als LAPDm gekennzeichnet sind. 
-Im folgenden werden die für den Versuch wichtigen Pakete untersucht.\newline
+Da OpenBTS alle höheren Protokolle terminiert, erscheinen in Wireshark nicht nur die RR Nachrichten, sondern auch Mobility Management und Call Management Nachrichten als Layer 3 Nachrichten, welche in Wireshark als LAPDm gekennzeichnet sind. 
+Im Folgenden werden die für den Versuch wichtigen Pakete untersucht.\newline
 
 GSMTAP ist ein Pseudoheader für das \(U_m\) Interface der die Daten von der Funkschnittstelle in UDP Pakete kapselt. Der Layer 1 Übernimmt die Aufgabe der fehlerfreien Übertragung, sowie die Verteilung der Kanäle.
-Im Header werden Informationen zu der verwendeten Version, der länge des Headers, der Type der übertragenden Daten, sowie die ARFCN und nähere Informationen zur Signalstärke angegeben.
+Im Header werden Informationen zu der verwendeten Version, der Länge des Headers, des Types der übertragenden Daten, sowie die ARFCN und nähere Informationen zur Signalstärke angegeben.
 
-  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/gsmtap_header.png}\captionof{figure}{GSMTAP-Header}
+\begin{figure}[H]
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/gsmtap_header.png}
+  \caption{GSMTAP-Header}
   \label{fig:GSMPTAP-Header}
-  \vspace{1cm}
+ \end{figure}
 
 
-Unser Hauptaugenmerk legen wir auf die Pakete die als SIP gekennzeichnet sind. Hier kann man am besten nachverfolgen was gerade für eine Aktion durchgeführt wird. 
-Da als erstes eine Verbindung aufgebaut werden muss damit man mit dem Echo-Server interagieren kann wird zuerst eine Invite Nachricht gesendet. \newline
-Bevor das jedoch passiert wird vorher auf dem Layer 2 eine Setup Nachricht gesendet. Wie man in \ref{fig:Lapdm Setup Nachricht} sehen kann wird hier ebenfalls die Bearer Capability angefordert. Die Bearer Capability bedeutet das ein Gerät in unserem Fall die MS eine bestimmte Transportleistung vom Netz anfordert. 
+Unser Hauptaugenmerk legen wir auf die Pakete die als SIP gekennzeichnet sind. Hier kann man am besten nachverfolgen was gerade für eine Aktion durchgeführt wird. Bevor eine Interaktion mit dem Echo-Server stattfinden kann, muss eine Verbindung aufgebaut werden. Der Verbindungsaufbau beginnt mit einer \textit{Invite} Nachricht.
 
-  \vspace{0.5cm} 
-  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/lapdm_setup.png}\captionof{figure}{Setup Nachricht auf dem Layer 2}
-  \label{fig:Lapdm Setup Nachricht}
-  \vspace{1cm}
-Ist dieser Vorgang abgeschlossen kann der Teilnehmer durch die Invite Nachricht den Echo-Server Anfragen und ihm für den Sprach-Aufbau relevante Daten übermitteln.
+Bevor das jedoch passiert wird vorher auf dem Layer 2 eine Setup Nachricht gesendet. Wie man in Abbildung \ref{fig:Lapdm Setup Nachricht} sehen kann wird hier ebenfalls die Bearer Capability angefordert. Die Bearer Capability bedeutet, dass ein Gerät, in unserem Fall die MS, eine bestimmte Transportleistung vom Netz anfordert. 
+
+\begin{figure}[H]
+	\includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/lapdm_setup.png}
+	\caption{Setup Nachricht auf dem Layer 2}
+	\label{fig:Lapdm Setup Nachricht}
+\end{figure}
+  
+Ist dieser Vorgang abgeschlossen kann der Teilnehmer durch die Invite Nachricht den Echo-Server anfragen und ihm für den Sprach-Aufbau relevante Daten übermitteln.
 Diese sind, wie man im Header sehen kann, von wem die Nachricht gestellt wird, an wen sie gesendet wird, sowie die Call-ID.
 
-  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_invite_1.png}\captionof{figure}{Invite Nachricht im SIP Protokoll}
+\begin{figure}[H]
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_invite_1.png}
+  \caption{Invite Nachricht im SIP Protokoll}
   \label{fig:SIP invite Nachricht}
-  \vspace{1cm}
+\end{figure}
 
-Vorrausgesetzt das diese Daten nicht fehlerhaft sind wird versucht eine Verbindung zu dem Server herzustellen. Diese kann man in \ref{fig:SIP trying Nachrichtl} sehen. Dort wird mit dem Status-Code 100 gekennzeichnet.
+Vorrausgesetzt dass diese Daten nicht fehlerhaft sind, wird versucht eine Verbindung zu dem Server herzustellen. Diese kann man in \ref{fig:SIP trying Nachrichtl} sehen. Das wird mit dem Status-Code 100 gekennzeichnet.
 
-  
-  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_trying_2.png}\captionof{figure}{trying Nachricht im SIP Protokoll}
+\begin{figure}[H] 
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_trying_2.png}
+  \caption{trying Nachricht im SIP Protokoll}
   \label{fig:SIP trying Nachrichtl}
-  \vspace{1cm}
-Wenn die Anfrage der Verbindung erfolgreich war wird dies durch eine Ok-Nachricht bestätigt. 
+\end{figure}
+Wenn die Anfrage der Verbindung erfolgreich war, wird dies durch eine OK-Nachricht bestätigt. 
 
-  
-  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_ok_3.png}\captionof{figure}{Antwort auf die Einladung im SIP Protokoll}
+\begin{figure}[H]  
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_ok_3.png}
+  \caption{Antwort auf die Einladung im SIP Protokoll}
   \label{fig:SIP ok Nachricht}
-  \vspace{1cm}
+\end{figure}
+
 Daraufhin erfolgt die Bestätigung und die Verbindung ist somit aufgebaut und bereit.
 
-  
-  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_ack_4.png}\captionof{figure}{Bestätigungs Nachricht im SIP Protokoll}
+
+\begin{figure}[H]
+  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_ack_4.png}
+  \caption{Bestätigungs Nachricht im SIP Protokoll}
   \label{fig:SIP acknowledge Nachricht}
-    \vspace{1cm}
-Nun werden die Daten via RTP zwischen Server und User ausgetauscht. RTP is das Real-Time-Transport Protocol das dazu dient audiovisuelle Daten über IP-basierte Netzwerke zu versenden. 
-Wir legen nun auf das bedeutet wir möchten die Verbindung trennen. Das erfolgt durch einen Bye-nachricht (\ref{fig:SIP bye Nachricht}. In dieser meldet der User dem Server das er die Verbindung nun trennt um dem Server bescheid zu geben. da ebenfalls die Layer 2 Verbindung wieder getrennt werden muss erfolgt hier eine Disconnect Nachricht wie in \ref{fig:LAPDm Disconnect Nachricht}.
+\end{figure}
 
-  
-  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/lapdm_disconnect.png}\captionof{figure}{Aufforderung zum Beenden der Layer 2 verbindung}
-  \label{fig:LAPDm Disconnect Nachricht}
-  \vspace{1cm}
+Nun werden die Daten via RTP zwischen Server und User ausgetauscht. RTP is das Real-Time-Transport Protocol, das dazu dient, audiovisuelle Daten über IP-basierte Netzwerke zu versenden. 
 
+Wir legen nun auf, das bedeutet wir möchten die Verbindung trennen. Das erfolgt durch eine Bye-Nachricht (\ref{fig:SIP BYE Nachricht}). In dieser meldet der User dem Server, dass er die Verbindung nun trennt. Da ebenfalls die Layer 2 Verbindung wieder getrennt werden muss, erfolgt hier eine Disconnect Nachricht wie in \ref{fig:LAPDm Disconnect Nachricht}.
 
-  \vspace{1cm}  
-  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_bye_5.png}\captionof{figure}{Aufforderung zum Beenden des Calls}
-  \label{fig:SIP bye Nachricht}
-  \vspace{1cm}
+\begin{figure}[H]  
+	\includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/lapdm_disconnect.png}
+	\caption{Aufforderung zum Beenden der Layer 2 Verbindung}
+	\label{fig:LAPDm Disconnect Nachricht}
+\end{figure}
+
+\begin{figure}[H] 
+	\includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_bye_5.png}
+	\caption{Aufforderung zum Beenden des Calls}
+	\label{fig:SIP BYE Nachricht}
+\end{figure}
+
 Die Bye-Nachricht wird durch eine weitere OK-Nachricht bestätigt und somit ist die Verbindung vollständig abgebaut. 
 
-    \vspace{1cm}
-  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_ok_6.png}\captionof{figure}{Antwort auf die Aufforderung}
-  \label{fig:SIP ok Nachricht 2}
-  \vspace{1cm}
+\begin{figure}[H]
+	\includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/echoserver/sip_ok_6.png}
+	\caption{Antwort auf die Aufforderung}
+	\label{fig:SIP OK Nachricht 2}
+\end{figure}
 
 
 
-Wird der Versuch mit einem eigenen Mobiltelefon ausgeführt, muss sich dieses erst an am Netz anmelden. Diese Anmeldung wird vom Netz mit einer SMS bestätigt.
+Wird der Versuch mit einem eigenen Mobiltelefon ausgeführt, muss sich dieses erst am Netz anmelden. Diese Anmeldung wird vom Netz mit einer SMS bestätigt.
 
-    \vspace{1cm}
-  \includegraphics[width=0.5\textwidth]{tkinhalt/gsm_bilder/einwahlgsm.png}\captionof{figure}{Quittierung der Einwahl in das GSM Netz}
-  \label{fig:einwahl}
-  \vspace{1cm}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{tkinhalt/gsm_bilder/einwahlgsm.png}
+	\caption{Quittierung der Einwahl in das GSM Netz}
+	\label{fig:einwahl}
+\end{figure}
 
 
 Der Ablauf des SIP Protokolls ist hier noch einmal in einem Diagramm genauer zusammengefasst.
-  \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/diagramm_gsm.png}\captionof{figure}{Ablauf SIP}
-  \label{fig:sipablauf}
-
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/diagramm_gsm.png}
+	\caption{Ablauf SIP}
+ 	\label{fig:sipablauf}
+\end{figure}
 
 \section{Mitschnitt einer SMS}
 \subsection{Versuchsaufbau}
@@ -391,18 +414,17 @@ Die Durchführung entspricht der Durchführung \ref{mitschnittDurchführung}. Ansta
 
 Die Protokolle LAPDm und GSMTAP unterschieden sich in ihrer Aufgabe nicht zu den vorher besprochenen. 
 
-Die Protokolle zu versenden der SMS sind jedoch wieder interessant. 
-Dafür benötigten Protokolle sind 
+Die Protokolle zu versenden der SMS sind jedoch wieder interessant. Dafür benötigten Protokolle sind:
 
 \begin{itemize}
-	\item Direct Transfer Application Part (DTAP)- dient zur Verbindungssteuerung
+	\item Direct Transfer Application Part (DTAP) - dient zur Verbindungssteuerung
 	\item Relay Protokoll (RP) - für das Routing verantwortlich
-	\item Transport Protocol Data Unit (TPDU) - Übertragung der Nuzerdaten
+	\item Transport Protocol Data Unit (TPDU) - Übertragung der Nutzerdaten
 \end{itemize}
 
-Wie man sehr gut in der \ref{fig:sms_send_receive} sehen kann ist der gesenedete Text unten in der GSM SMS TPDU ebenfalls teil der ankommenden Nachricht. Dieser beinhaltet neben dem gesendeten Text auch die Zeit in der die SMS gesendet wurde sowie die IMSI Adresse und Telefonnummer. Die Inhalte können von dem von uns gemachten Versuch abweichen da die Daten von einem älteren Versuch stammen. 
+Wie man sehr gut in der Abbildung \ref{fig:sms_send_receive} sehen kann, ist der gesendete Text unten in der GSM SMS TPDU ebenfalls ein Teil der ankommenden Nachricht. Dieser beinhaltet, neben dem gesendeten Text, auch die Zeit in der die SMS gesendet wurde, sowie die IMSI Adresse und Telefonnummer. Die Inhalte können von dem von uns gemachten Versuch abweichen, da die Daten von einem älteren Versuch stammen. 
 
-In dem RP Abschnitt kann man sehen in welche RIchtung die SMS gesendet wurde. Hier einmal von Netzwerk (NW) zur Mobilestation (MS) und umgekehrt. Durch das DTAP wird gekennzeichnet das es sich um eine SMS hadelt.
+In dem RP Abschnitt kann man sehen, in welche Richtung die SMS gesendet wurde. Hier einmal von Netzwerk (NW) zur Mobilestation (MS) und umgekehrt. Durch das DTAP wird gekennzeichnet das es sich um eine SMS hadelt.
 
 \begin{figure}[h]
   \centering
@@ -414,7 +436,7 @@ In dem RP Abschnitt kann man sehen in welche RIchtung die SMS gesendet wurde. Hi
 Wie man in \ref{fig:sms_sip} sehen kann wird das Senden der SMS wieder von SIP initalisiert. Der Vorgang entsprich der bereits in dem Vorherigen Kapitel besprochenen Abfolge. 
 
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{tkinhalt/gsm_bilder/analyse/sms/sms_sip.png}
   \caption{SIP Abfolge des Sendens}
