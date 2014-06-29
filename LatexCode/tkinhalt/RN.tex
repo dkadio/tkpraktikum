@@ -5,7 +5,7 @@
 \section{Versuchsaufbau}
 Der Aufbau des Versuchs besteht aus zwei Routern, einem Switch, zwei Host Rechnern und den entsprechenden Kabeln. Vor Beginn des Versuchs werden sowohl die Switche, als auch die Router auf ihre Werkseinstellungen zurück gesetzt. Damit wird sichergestellt, dass eventuelle Konfigurationen aus vorangegangen Versuchen gelöscht werden und keine Fehler verursachen.
 
-Nachdem die Hardware vorbereitet ist, werden die Adressen aus einem gegebenen Netz errechnet. Gegeben ist das Netz 192.168.1.0/24. Dieses soll in ein Netz mit max. 120 Hosts, ein Netz mit max.  60 Hosts aufgeteilt werden. Das größere Netz soll mit dem Router R1 verbunden werden, das Kleinere soll mit dem Router R2 verbunden werden. Da die Router sich in dieser Konfiguration in verschiedenen Netzen befinden, muss noch ein Transfernetz eingerichtet werden, damit sie untereinander kommunizieren sollen. Aus diesen Anforderungen ergeben sich die drei Netze, die in der Tabelle \ref{tab:berechneteNetzwerke}.
+Nachdem die Hardware vorbereitet ist, werden die Adressen aus einem gegebenen Netz errechnet. Gegeben ist das Netz 192.168.1.0/24. Dieses soll in ein Netz mit max. 120 Hosts und ein Netz mit max.  60 Hosts aufgeteilt werden. Das größere Netz soll mit dem Router R1 verbunden werden, das Kleinere soll mit dem Router R2 verbunden werden. Da die Router sich in dieser Konfiguration in verschiedenen Netzen befinden, muss noch ein Transfernetz eingerichtet werden, damit sie untereinander kommunizieren können. Aus diesen Anforderungen ergeben sich die drei Netze, die in der Tabelle \ref{tab:berechneteNetzwerke}.
 
 \begin{table}[h]
 \begin{tabular}{|*{2}{c|} p{0.15\linewidth}|*{3}{c|}}
@@ -54,7 +54,7 @@ R2 & R2 & Serial 0/0/0(DTE) & 192.168.1.194 &255.255.255.248 \\
   \caption{Der Aufbau unseres Netzwerks}
   \label{fig:aufbauNW}
 \end{figure}
-
+\todo{H1 hängt glaube ich an R1 und H2 hängt an R2}
 Nachdem die Netze berechnet sind werden sowohl Router als auch Hosts entsprechend eingerichtet.
 
 \section{Routing}
@@ -180,9 +180,8 @@ Da wir uns beim einteilen des Netzwerkes zwischen den 2 Routern vertan haben, st
 
 \subsection{Reflection}
 a. What would happen to the routing table on router R1 if the Ethernet network on router R2 went down? Configure this case and analyze.
-
-
-\todo{a}
+If the routing table on R2 went down, R2 was unable to reach it's connected networks. The PC were unable to reach each other. Also H2 was unable to reach R1. R1 would change it's metric for the network 192.168.1.129 to 16 (not reachable).
+\todo{Auch erfunden}
 
 
 b. What would happen if router R1 was configured to run RIPv1, and R2 was configured to run RIPv2? Configure this case and analyze with show ip route and debug ip rip.
