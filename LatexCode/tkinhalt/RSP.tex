@@ -31,7 +31,7 @@ Die Aufgabe eines Switches ist es, Netzwerksegmente miteinander zu verbinden. Da
 \end{figure}
 
 \subsubsection{Kabel \label{kabel}}
-Bei den Kabeln gibt es verschiedene Typen. Bei den Kabeln zur Energieversorgung der Geräte handelt es sich um normale Kaltgerätekabel, diese brauchen an dieser Stelle nicht weiter beschrieben zu werden. Weiterhin waren RJ 45 Twisted Pair Kabel verwendet. Diese dienen der Verbindung zwischen den Routen, bzw, Switchen und den Computern. %\todo{War da auch ein Crossover Kabel dabei?} 
+Bei den Kabeln gibt es verschiedene Typen. Bei den Kabeln zur Energieversorgung der Geräte handelt es sich um normale Kaltgerätekabel, diese brauchen an dieser Stelle nicht weiter beschrieben zu werden. Weiterhin waren RJ 45 Twisted Pair Kabel verwendet. Diese dienen der Verbindung zwischen den Routen, bzw. zwischen Switchen und Computern. %\todo{War da auch ein Crossover Kabel dabei?} 
 Diese Verbindung dient dem Austausch von Nutzdaten. Die Konfiguration wurde über eine serielle Schnittstelle vorgenommen. Das dazugehörige Kabel hat auf der einen Seite einen female COM Port, auf der anderen Seite einen male RJ 45 Stecker. 
 
 \subsubsection{Hintergrund der seriellen Übertragung}
@@ -42,9 +42,9 @@ Im Abschnitt \ref{kabel} wurde erwähnt, dass für die Konfiguration die serielle 
 	\item Der Administrator vertippt sich bei der Vergabe der Ip und gibt die Netzwerkadresse 172.36.0.0 ein
 \end{enumerate}
 
-Was wird nun passieren? Wir setzen voraus, dass im Netzwerk kein DHCP Server aktiviert ist und alle Ip Adressen statisch vergeben werden. Im ersten Schritt ist die Welt noch in Ordnung. Im zweiten Schritt ändert der Administrator die NW Adressen seines Computers und die des Routers. Im dritten Schritt bricht das Chaos aus. Mit dem Abspeichern der ersten Adresse, sei es Computer oder Router, verliert der Administrator die Kontrolle über den Router. Da sich mit einer geänderten Adresse der Router und der Computer in verschieden Netzwerken befinden, ist dieser \glqq Fehler\grqq~ vorhersehbar und leicht nachzuvollziehen. Der Administrator berücksichtigt diese Tatsache und speichert zuerst die Konfiguration des Switches. Nachdem er die Verbindung zum Router verloren hat speichert er die neue Konfiguration im Computer. Obwohl sich Computer und Router vermeintlich wieder in den gleichen Netzen befinden, hat er keinen Zugriff mehr auf den Router.
+Was wird nun passieren? Wir setzen voraus, dass im Netzwerk kein DHCP Server aktiviert ist und alle Ip Adressen statisch vergeben werden. Im ersten Schritt ist die Welt noch in Ordnung. Im zweiten Schritt ändert der Administrator die NW Adressen seines Computers und die des Routers. Im dritten Schritt bricht das Chaos aus. Mit dem Abspeichern der ersten Adresse, sei es Computer oder Router, verliert der Administrator die Kontrolle über den Router. Da sich mit einer geänderten Adresse der Router und der Computer in verschieden Netzwerken befinden, ist dieser \glqq Fehler\grqq~ vorhersehbar und leicht nachzuvollziehen. Der Administrator berücksichtigt diese Tatsache und speichert zuerst die Konfiguration des Routers. Nachdem er die Verbindung zum Router verloren hat speichert er die neue Konfiguration im Computer. Obwohl sich Computer und Router vermeintlich wieder in den gleichen Netzen befinden, hat er keinen Zugriff mehr auf den Router.
 
-Ohne einen logischen Zugriff auf den Switch gestaltet sich die Suche nach dem Fehler sehr schwierig. Diese Problematik kann durch die Konfiguration über die serielle Schnittstelle vermieden werden. Ein weiterer Vorteil ist,  dass die Konfigurationsschnittstelle des Switches vom Rest des Netzwerkes getrennt ist. Dadurch kann alleine schon durch die Trennung ein Angriff auf den Switch erschwert werden.
+Ohne einen logischen Zugriff auf den Router gestaltet sich die Suche nach dem Fehler sehr schwierig. Diese Problematik kann durch die Konfiguration über die serielle Schnittstelle vermieden werden. Ein weiterer Vorteil ist,  dass die Konfigurationsschnittstelle des Switches vom Rest des Netzwerkes getrennt ist. Dadurch kann alleine schon durch die Trennung ein Angriff auf den Switch erschwert werden.
 \section{Der Umgang mit Physikalischen Geräten}
 Die physische Einrichtung des Systems ist in der Aufgabenstellung genau beschrieben. So viel sei zu sagen, jeder der beiden Computer ist per LAN Schnittstelle mit dem Switch verbunden. Je ein Computer ist über den COM Port (seriell) mit Router und Switch verbunden. Router und Switch sind über Gigabit Ethernet miteinander verbunden.
 
@@ -172,7 +172,7 @@ Would you like to enter basic management setup? [yes/no]: yes
 Configuring global parameters:
 \end{lstlisting}
 
-Im Gegensatz zum Switch wird der Router konfiguriert. Dies geschieht über den Befehl \textit{yes} oder einfach \textit{y}. Die Konfiguration wird nach den Vorgaben der Versuchsbeschreibung durchgeführt. Sowohl vor, als auch nach dem Konfigurieren wird das Kommando \textit{show running-config} aufgerufen. 
+Im Gegensatz zum Switch wird der Router konfiguriert. Dies geschieht über den Befehl \textit{yes}, oder einfach \textit{y}. Die Konfiguration wird nach den Vorgaben der Versuchsbeschreibung durchgeführt. Sowohl vor, als auch nach dem Konfigurieren wird das Kommando \textit{show running-config} aufgerufen. 
 \begin{lstlisting}[captionpos=b, caption=Die Ausgabe der Konfiguration vor dem Konfigurieren, label=konfigVor]
 Password:
 Router#enable
@@ -649,7 +649,7 @@ Auf der physikalischen Seite haben wir die Interfaces von Routern und Switchen k
 Auf der logischen Seite haben wir etwas über die interne Arbeitsweise von Routern und Switchen gelernt. Diese Aussage bezieht sich auf die Berechtigungen und auf die verschiedenen Speicher innerhalb eines Geräts. Neben dieser Erkenntnis war der Versuch aber auch eine gelungene Einführung in das Terminal von IOS. In diesem Zusammenhang ist mit IOS das Cisco Internetwork Operating System, also das Standard Betriebssystem von Cisco Routern und Switchen gemeint. Eine Verwechselung mit dem gleichnamigen Apple iOS, iPhone Operating System, soll hiermit ausgeschlossen werden.  
 
 \section{Packet Tracer}
-Packet Tracer ist eine Netzwerk Simulationssoftware der Firma Cisco Systems. Packet Tracer kann die Geräte der Firma simulieren und ermöglicht so einen unkomplizierten Aufbau von Netzwerken. Der Vorteil von einer Simulationssoftware gegenüber dem echten Aufbau ist, dass Fehler schnell korrigiert werden können und komplexe Zusammenhänge anschaulich visualisiert werden können. 
+Packet Tracer ist eine Netzwerk Simulationssoftware der Firma Cisco Systems. Packet Tracer kann die Geräte der Firma simulieren und ermöglicht so einen unkomplizierten Aufbau von Netzwerken. Der Vorteil von einer Simulationssoftware gegenüber dem echten Aufbau ist, dass Fehler schnell korrigiert werden können und dass komplexe Zusammenhänge anschaulich visualisiert werden können. 
 
 Für den Versuch ist nur ein Computer nötig, der die entsprechende Software installiert hat.
 
@@ -667,7 +667,7 @@ Das virtuelle Netzwerk setzt sich aus zwei Computern, einem Switch und einem Rou
 \end{figure}
 
 \subsubsection{Adressvergabe}
-Die in der Tabelle \ref{adresstabelle} dargestellten Adressen stammen aus der Aufgabenbeschreibung des Versuchs. Interessant an diesem Aufbau ist, dass bis auf den Wechsel zwischen zwei v-Lan alle Standardsituationen in einem Netzwerk simuliert werden. 
+Die in der Tabelle \ref{RSPadresstabelle} dargestellten Adressen stammen aus der Aufgabenbeschreibung des Versuchs. Interessant an diesem Aufbau ist, dass bis auf den Wechsel zwischen zwei v-Lan alle Standardsituationen in einem Netzwerk simuliert werden. 
  
 \begin{table}
 \begin{tabular}{|*{6}{c|}}
@@ -687,7 +687,7 @@ PC1 & Labor-PC2 & Fast-Ethernet & 10.10.10.10 & 255.255.255.224 &  10.10.10.1 \\
 \hline
 \end{tabular}
 \caption{Adresstabelle des Netzwerks}
-\label{adresstabelle}
+\label{RSPadresstabelle}
 \end{table}
 
 \subsubsection{Überprüfung des Testaufbaus}
@@ -750,7 +750,7 @@ Das Echo Paket befindet sich noch im PC1. Die Detailsicht ist in der Grafik \ref
 
 Die Ansicht, wie die ICMP Nachricht im Router aussieht ist in der Grafik \ref{fig:EchoRequestRouter}. Offensichtlich hat sich auf Layer 3 nichts geändert. Das war auch zu erwarten, da es sich immer noch um den gleichen echo request handelt. Die Quelle ist weiterhin PC1 und das Ziel ist PC2. 
 
-Wo eine Veränderung stattgefunden hat ist auf Layer 2. Dort ist die Quell Adresse die Zieladresse aus der Grafik \ref{fig:EchoRequestPC1}. Auch diese Beobachtung deckt sich mit den Erwartungen. Die ICMP Nachricht befindet sich im Layer 3. Da der Layer 3 auf die Sicherungsschicht, bzw. Layer 2, angewiesen ist, muss die ICMP Nachricht in ein Ethernet Frame verpackt werden. Der Router packt diesen Ethernet Frame wieder aus, da er anhand des Layer 3 Routingentscheidungen treffen muss. 
+Eine Veränderung hat auf Layer 2 stattgefunden. Dort ist die Quelladresse die Zieladresse aus der Grafik \ref{fig:EchoRequestPC1}. Auch diese Beobachtung deckt sich mit den Erwartungen. Die ICMP Nachricht befindet sich im Layer 3. Da der Layer 3 auf die Sicherungsschicht, bzw. Layer 2, angewiesen ist, muss die ICMP Nachricht in ein Ethernet Frame verpackt werden. Der Router packt diesen Ethernet Frame wieder aus, da er anhand des Layer 3 Routingentscheidungen treffen muss. 
 
 Der Ethernet Frame erreicht den Router am Interface FE0/1. Dieses Interface hängt im Netzwerk 10.10.10.0. Anhand des Layer 3 Headers weiß der Router, dass dieses Paket in das Netzwerk 192.168.0.0 geroutet werden muss. Dieses Netzwerk ist am Interface FE0/0 hinterlegt und somit direkt erreichbar. Er verpackt die ICMP Nachricht wieder einen Ethernet Frame. Dieses Frame wird in das andere Netzwerk, also auf den anderen Port gesendet. Dieses Senden zwischen den Ports erkennt man einfach, wenn man die In-  und Out Layers in der Grafik  \ref{fig:EchoRequestRouter} vergleicht. Dort ändern sich auf Layer 2 die Adressen und auf Layer 1 ist auch ausgeschrieben, dass die Ports gewechselt werden.
 
