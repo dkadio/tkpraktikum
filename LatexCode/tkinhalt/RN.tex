@@ -54,7 +54,7 @@ R2 & R2 & Serial 0/0/0(DTE) & 192.168.1.194 &255.255.255.248 \\
   \caption{Der Aufbau unseres Netzwerks}
   \label{fig:aufbauNW}
 \end{figure}
-\todo{H1 hängt glaube ich an R1 und H2 hängt an R2}
+
 Nachdem die Netze berechnet sind werden sowohl Router als auch Hosts entsprechend eingerichtet.
 
 \section{Routing}
@@ -181,7 +181,6 @@ Da wir uns beim einteilen des Netzwerkes zwischen den 2 Routern vertan haben, st
 \subsection{Reflection}
 a. What would happen to the routing table on router R1 if the Ethernet network on router R2 went down? Configure this case and analyze.
 If the routing table on R2 went down, R2 was unable to reach it's connected networks. The PC were unable to reach each other. Also H2 was unable to reach R1. R1 would change it's metric for the network 192.168.1.129 to 16 (not reachable).
-\todo{Auch erfunden}
 
 
 b. What would happen if router R1 was configured to run RIPv1, and R2 was configured to run RIPv2? Configure this case and analyze with show ip route and debug ip rip.
