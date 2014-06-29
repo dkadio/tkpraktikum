@@ -18,7 +18,7 @@ taktet dabei vollkommen synchron.
 %In unserem Versuchsaufbau werden wir absichtlich verschiedene Fehler einspeisen sowie uns die Pointeraktivitäten im Netz genauer ansehen. 
 In unserem Versuch haben wir die Möglichkeit, Fehler in das Netz einzuspeisen und die Reaktion darauf zu beobachten. Die Möglichkeit Fehler einzuspeisen wird uns durch den Multifunktionstester GN Elmi EST 2100 ermöglicht, der ebenfalls als Multiplexer fungiert. Der GN Elmi EST 2100 beherrscht die No7 Protokolle und wird direkt mit einem Lichtwellenleiter in das Netz eingebunden. Das Auswerten dieser Fehler ist über die Software Telecommunications-Management-Network-Software von Siemens gegeben. Der Rechner auf dem die Software läuft ist über die QST-E3 Schnittstelle mit den SMA 16 Multiplexern verbunden und sammelt so die nötigen Daten.
 
-Die Multiplexer sind mit Lichtwellenleiter verbunden die theoretisch eine Entfernung von gut 50Km schaffen würden. Da Elmi leider nicht von Siemens ist, ist es auch nicht möglich direkt über die Software zu sehen wie Elmi sich als Multiplexer verhält.
+Die Multiplexer sind mit Lichtwellenleiter verbunden die theoretisch eine Entfernung von ca. 50Km schaffen würden. Da Elmi leider nicht von Siemens ist, ist es auch nicht möglich direkt über die Software zu sehen wie Elmi sich als Multiplexer verhält.
 
 
 \begin{figure}[htbp] 
@@ -63,7 +63,7 @@ Eine weitere, für unseren Versuch wichtige, Funktion bietet die Sektion ALARM. H
 
 \subsection{TMNS}
 
-Die TMNS ist zur Analyse und Überwachung des SDH-Netzes hilfreich. In der Hauptansicht wird das Netz sche­ma­tisch für eine gute Übersicht dargestellt. Klickt man nun in unserem Testnetz \textit{Köln} auf die Performancemessung gelangt man in die für den Versuch interessante Performanceansicht. 
+Die TMNS ist zur Analyse und Überwachung des SDH-Netzes hilfreich. In der Hauptansicht wird das Netz sche­ma­tisch für eine gute Übersicht dargestellt. Klickt man nun in unserem Testnetz \textit{Köln} auf die Performancemessung, gelangt man in die für den Versuch interessante Performanceansicht. 
 
 \begin{figure}[H] 
 	\centering
@@ -127,11 +127,10 @@ Das AU-4 Fenster beinhaltet:
 \end{itemize}
 
 
-Die Aktualisierung der Daten findet nur manuell mit dem Update Knopf statt. TMP ist hier im Auge zu behalten da die Daten alle 15 Minuten in eine Log-Datei geschrieben werden und der Timer zurück gesetzt wird. Die Log-Dateien sind in den Reitern \textit{Previous 15min} und \textit{Previous 24h} wieder zu finden.
+Die Aktualisierung der Daten findet nur manuell mit dem Update Knopf statt. TMP ist hier im Auge zu behalten da die Daten alle 15 Minuten in eine Log-Datei geschrieben werden und sowohl der Timer, als auch die Messwerte zurück gesetzt werden. Die Log-Dateien sind in den Reitern \textit{Previous 15min} und \textit{Previous 24h} wieder zu finden.
 
 
-Um im genau zu sehen was im STM-1 vor sich geht kann man sich hier
-ebenfalls die Performance-Ansicht anzeigen lassen.
+Um im genau zu sehen was im STM-1 vor sich geht, kann man sich hier ebenfalls die Performance-Ansicht anzeigen lassen.
 
 \begin{figure}[H] 
 	\centering
@@ -172,7 +171,7 @@ Die Fehlerrate wird in Error-Sekunden angegeben die unterschiedliche Aussagen üb
 
 \item SES - beinhaltet, dass innerhalb einer Sekunde 30 Prozent fehlerhafte Blöcke aufgetreten sind.
 
-\item UAS - Nach 11 SES gilt eine Leitung als nicht mehr verfügbar. Nach 11 Sekunden ohne SES gilt die wieder als verfügbar.
+\item UAS - Nach 11 SES gilt eine Leitung als nicht mehr verfügbar. Nach 11 Sekunden ohne SES gilt sie wieder als verfügbar.
 
 \end{itemize}
 
@@ -188,7 +187,7 @@ Im Folgenden sollen drei verschiedene Fehlermeldungen mit Hilfe von Elmi eingesp
 
 Die Meldungen werden in verschiedenen Schritten sowohl kontinuierlich, als auch als Burst eingespeist. 
 
-Wenn im empfangenen Signal Bitfehler enthalten sind sendet der Empfänger eine Alarm-Nachricht in Senderichtung zurück. Bei dieser Rückmeldung spricht man von REI (Remote Error Indication). Die für uns wichtigen sind:\todo{Das Steht irgendwie alleine und ich kann nichts damit anfangen}
+Wenn im empfangenen Signal Bitfehler enthalten sind, sendet der Empfänger eine Alarm-Nachricht in Senderichtung zurück. Bei dieser Rückmeldung spricht man von REI (Remote Error Indication). Die für uns wichtigen sind:\todo{Das Steht irgendwie alleine und ich kann nichts damit anfangen}
 
 
 \begin{itemize}
@@ -226,7 +225,7 @@ Die Ergebnisse sind alle, wie zu erwarten, gleich. Alle drei Fehlermeldungen las
 Hier noch einmal ein Tabellarischer Überblick über alle gemessenen Daten:
 
 
-\begin{table}
+\begin{table}[H]
 	\centering
 	\begin{tabular}{|*{6}{c|}}
 		\hline
@@ -276,18 +275,18 @@ LOS & 7 s & 0 & 0 & 14 & STM1 \\
 
 Wie man anhand der Tabelle sehen kann löst die MS-AIS lediglich maximal 8 SES aus und somit wird die Leitung nicht als unavailable gesetzt.
 
-Zu beobachten war, dass bei den kurzen Bursts die TMNS überhaupt gar nicht auf den Fehler reagiert. Das ist erklärbar, da die  Fehlereinspeisung endet, bevor der Fehler erkannt wird. Bei den LOS Alarmen sind die Error Sekunden schon beträchtlich höher. Ein sieben Sekunden langer LOS kann die Leitung bereits für einige Momente auf \glqq unavalible\grqq setzen wie man an dem UAS Feld erkennen kann.
+Zu beobachten war, dass bei den kurzen Bursts die TMNS überhaupt gar nicht auf den Fehler reagiert. Das ist erklärbar, da die  Fehlereinspeisung endet, bevor der Fehler erkannt wird. Bei den LOS Alarmen sind die Error Sekunden schon beträchtlich höher. Ein sieben Sekunden langer LOS kann die Leitung bereits für einige Momente auf \glqq unavalible\grqq~setzen, wie man an dem UAS Feld erkennen kann.
 
 
 \subsection{Pointer}
 Um zu verstehen, was ein Pointer ist, muss man sich einen SDH Rahmen genauer ansehen. Ein SDH Rahmen besteht aus Overhead (Steuerdaten) und Payload (Nutzdaten und weitere Daten). Ein Pointer zeigt auf den Beginn der Nutzdaten im Payload. Besonders beim Multiplexen von mehreren SDM-n Rahmen zu einem SDM-(n+1) Rahmen müssen die ursprünglichen Payload Bereiche adressierbar bleiben. 
 
-Da das SDH-Netz ein voll getaktetes Netz ist, kann es bei Taktverschiebungen zu einem Datenverlust, bzw. zu Zugriffen auf die falschen Bits kommen. Um diese Taktverschiebungen auszugleichen, ist es möglich, Leer-Bytes einzufügen, oder den Payload früher zu senden. Diese Verschiebungen werden Poinerjustierung genannt. Eine Pointerjustierung kann aber nur in jedem vierten gesendeten Rahmen statt finden.
+Da das SDH-Netz ein voll getaktetes Netz ist, kann es bei Taktverschiebungen zu einem Datenverlust, bzw. zu Zugriffen auf die falschen Bits kommen. Um diese Taktverschiebungen auszugleichen, ist es möglich, Leer-Bytes einzufügen, oder den Payload früher zu senden. Diese Verschiebungen werden Poinerjustierung genannt. Eine Pointerjustierung kann aber nur in jedem vierten gesendeten Rahmen statt finden und muss angekündigt sein.
 
 %und so durch Taktunterschiede es theoretisch zu einer Überlast kommen kann, gibt es Pointer. 
 %Diese sind in der Administrative Unit zu finden und zeigen auf die Position der Nutzinfomrationen im Payload Bereich. Durch Pointer ist es möglich die Taktunterschiede, durch einfügen von Leer-Bytes oder früheres Senden von Payload, auszugleichen. Es können allerdings nur in jedem vierten Rahmen nach Ankündigung die Pointer angepasst werden.
 
-In diesem Versuch beschäftigen wir uns mit dem dekrementieren und Inkrementieren von Pointern, also einer negativen und einer positiven Verschiebung von Pointern. Zusätzlich dazu, werden wir ausprobieren, was passiert, wenn der Systemtakt gestört wird.
+In diesem Versuch beschäftigen wir uns mit dem Dekrementieren und Inkrementieren von Pointern, also einer negativen und einer positiven Verschiebung von Pointern. Zusätzlich dazu werden wir ausprobieren, was passiert, wenn der Systemtakt gestört wird.
 
 
 \subsubsection{Manuelles negativ und positiv Justieren}
@@ -303,7 +302,7 @@ Elmi hat für die Justierung des Pointers ein eigenes Menue. Hier kann man einste
 
 Zuerst dekrementieren wir den Pointer was ein Pointer Justification Event auslöst und in TMNS im Performance Menu von AU-4 als -PJE-Erhöhung wahrzunehmen ist.
 
-Entsprechend umgekehrt verhält sich das System für die Inkrementierung des Pointers. Im Versuch war zu erkennen das die ersten drei gesendeten Werte nicht in dem Perfomance-Fenster sichtbar waren. Dies ist darauf zurück zu führen das nur bei jedem vierten Rahmen eine Pointer-Aktivität durchgeführt wird. Also wurden die ersten drei als Ankündigung verstanden das nun der Pointer geändert wird. \todo{stimmt
+Entsprechend umgekehrt verhält sich das System bei einer Inkrementierung des Pointers. Im Versuch war zu erkennen, dass die ersten drei gesendeten Werte nicht in dem Perfomance-Fenster sichtbar waren. Dies ist darauf zurück zu führen das nur bei jedem vierten Rahmen eine Pointer-Aktivität durchgeführt wird. Also wurden die ersten drei als Ankündigung verstanden das nun der Pointer geändert wird. \todo{stimmt
 das denn auch?}
 
 
@@ -315,7 +314,7 @@ Um einen Taktunterschied zu provozieren, wird der Takt des Elmi auf den der inte
 
 \subsubsection{Kontinuierliches negatives Justieren bei internem Takt}
 
-Als letztes möchten wir gerne noch versuchen was passiert, wenn wir zusätzlich zu dem geändertem Takt noch negative Pointer Justierungen einspeisen. Bei Verwendung des internen Taktes von Elmi haben wir festgestellt das eine positive Pointerjustierung nötig ist, um das Netz synchron zu halten. \textcolor{red}{Wenn wir nun aber auf der Sende Seite den langsameren Takt durch negativ Justierung ausgleichen kann man beobachten wie die benötigten Pointer-Aktivitäten sinken.} \textcolor{blue}{Vorschlag: Zu den automatisch eingespeisten Positiv Pointern speisen wir nun Negativpointer ein. Zu erkennen ist, dass die Anzahl der Positivpointer zurück geht.} Wenn man das Intervall entsprechend weit verkleinern würde, \textcolor{red}{könnte man den kompletten ausgleich zwischen den unterschiedlichen Takten erreichen} \textcolor{blue}{könnte man erreichen, dass keine Pointer mehr mitgesendet werden. Der Hintergrund ist, dass wir durch die Pointerjustierung keinen echten Ausgleich der Taktunterschiede erreichen. Wir speisen lediglich Pointer ein. Da ein Pointer aber entweder positiv oder negativ sein kann, erreichen wir durch unsere künstlichen Negativpointer einen scheinbaren Ausgleich des Taktes.}
+Als letztes möchten wir gerne noch versuchen was passiert, wenn wir zusätzlich zu dem geändertem Takt noch negative Pointer Justierungen einspeisen. Bei Verwendung des internen Taktes von Elmi haben wir festgestellt, dass eine positive Pointerjustierung nötig ist, um das Netz synchron zu halten. \textcolor{red}{Wenn wir nun aber auf der Sende Seite den langsameren Takt durch negativ Justierung ausgleichen kann man beobachten wie die benötigten Pointer-Aktivitäten sinken.} \textcolor{blue}{Vorschlag: Zu den automatisch eingespeisten Positiv Pointern speisen wir nun Negativpointer ein. Zu erkennen ist, dass die Anzahl der Positivpointer zurück geht.} Wenn man das Intervall entsprechend weit verkleinern würde, \textcolor{red}{könnte man den kompletten ausgleich zwischen den unterschiedlichen Takten erreichen} \textcolor{blue}{könnte man erreichen, dass keine Pointer mehr mitgesendet werden. Der Hintergrund ist, dass wir durch die Pointerjustierung keinen echten Ausgleich der Taktunterschiede erreichen. Wir speisen lediglich Pointer ein. Da ein Pointer aber entweder positiv oder negativ sein kann, erreichen wir durch unsere künstlichen Negativpointer einen scheinbaren Ausgleich des Taktes.}
 
  In dem Versuch haben wir beobachtet wie sich die Pointerjustierung auswirkt. Dies ist hier noch einmal Tabellarsich aufgeführt.
 
@@ -347,4 +346,4 @@ In den Versuchen wurde das bereits erlangte Wissen praktisch
 angewandt. Vor allem in dem Bereichen Pointer wurden die das
 Verständnis dafür sehr viel klarer und die Zusammenhänge eindeutiger.
 Allerdings waren die Versuche alle sehr klar definiert und die
-Erwartungen nicht überrascht.
+Erwartungen nicht überrascht. \todo{Keine Ahnung, was das bedeuten soll.}
