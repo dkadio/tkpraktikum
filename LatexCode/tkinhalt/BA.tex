@@ -16,7 +16,7 @@ Der folgende Versuch soll das grundlegende Verständnis für ISDN vertiefen und gl
 
 Als Switch steht ein Patapsco Liberator S zur Verfügung. Der Switch übernimmt die Funktionen des Netzes. Dazu gehören die TEI Vergabe, das Routing von Gesprächen und die Vergabe von Telefonnummern. Auf der Hardwareebene verbindet der Liberator die Telefone.
 
-Zusätzlich steht ein EyeSDN Gerät. Dieses ermöglicht die Verbindung des Computers mit dem ISDN Netz und damit den Mittschnitt der Daten. 
+Zusätzlich steht ein EyeSDN Gerät zur Verfügung. Dieses ermöglicht die Verbindung des Computers mit dem ISDN Netz und damit den Mittschnitt der Daten. 
 
 Zur Telefonie stehen zwei Telefone zur Verfügung und zum Konfigurieren des Systems ein Computer. Die Stromversorgung der Telefone wird vom Liberator eingespeist.
 
@@ -37,7 +37,7 @@ Die Einstellungen können direkt an den Telefonen getestet werden. Wenn der Hörer
 Nachdem die Ports konfiguriert sind, und die Konfiguration auf den Liberator S übertragen sind, sind die Telefone grundsätzlich aktiv. Beide Telefone geben nach dem Abheben des Hörers ein Freizeichen. 
 
 \subsection{Einrichten der Routing Tabellen}
-Nach dem Versuch \ref{einrichtungPorts} haben die Telefone bereits Grundfunktionalitäten. Zum Telefonieren und für die weiteren Versuche fehlt aber noch die Einrichtung der Routinginformationen. Ohne die Routinginformationen ist es nicht möglich, ein Gespräch von einem Telefon zum Anderen zu leiten, als zu telefonieren.
+Nach dem Versuch \ref{einrichtungPorts} haben die Telefone bereits Grundfunktionalitäten. Zum Telefonieren und für die weiteren Versuche fehlt aber noch die Einrichtung der Routinginformationen. Ohne die Routinginformationen ist es nicht möglich, ein Gespräch von einem Telefon zum Anderen zu leiten, also zu telefonieren.
 
 \subsubsection{Aufbau des Versuchs}
 Der Aufbau des Versuchs entspricht dem vom Versuch \ref{einrichtungPorts}. Dieser ist für den aktuellen Versuch aber eine Vorraussetzung.
@@ -46,15 +46,15 @@ Der Aufbau des Versuchs entspricht dem vom Versuch \ref{einrichtungPorts}. Diese
 Das Routing wird im Interface Term des Liberator Fensters eingerichtet. Für das Einrichten von  Routen können Profile angelegt werden, dadurch bleibt das System flexibler. Wir richten ein neues Profil ein, und konfigurieren die Routen von Telefon 1 zu Telefon 2  und umgekehrt. Wie bereits im letzten Versuch werden die Einstellungen nach dem Hochladen wirksam.
 
 \subsubsection{Auswertung des Versuchs}
-Nachdem die Routen konfiguriert sind, ist es möglich das Telefon 2 vom Telefon 1 an anzurufen. Bzw. ein Anruf in die Umgekehrte Richtung ist auch möglich.
+Nachdem die Routen konfiguriert sind, ist es möglich das Telefon 2 vom Telefon 1 aus anzurufen. Ein Anruf in die Umgekehrte Richtung ist auch möglich.
 
 \section{Aufzeichnungen und Interpretationen des ISDN-D-Kanal Protokolls}
-\subsection{Aufzeichnen des  ISDN-D-Kanal Protokolls \ref{aufzeichnenDKanal}}
+\subsection{Aufzeichnen des  ISDN-D-Kanal Protokolls \label{aufzeichnenDKanal}}
 \subsubsection{Versuchsaufbau}
 Der Versuchsaufbau entspricht dem Versuch  \ref{einrichtungPorts}. Die beiden vorangegangen Versuche sind für diesen voraus gesetzt.
 
 \subsubsection{Versuchdurchführung}
-Die spätere Auswertung wird erleichtert, wenn der, eventuell schon laufende, Mitschnittsdienst erst gestoppt wird und alle vorhandenen Ergebnisse verworfen werden. Nachdem das geschehen ist, wird der Mitschnittdienst wieder gestartet und das Telefon 1 vom Telefon 2 angerufen. Wenn das Telefon 2 klingelt wird der Hörer abgehoben und nach einem kurzen Moment wieder aufgelegt. Dadurch wird ein Gespräch aufgebaut und wieder abgebaut. Direkt nach dem Beenden des Gesprächs wird der Mitschnittdienst wieder gestoppt. 
+Die spätere Auswertung wird erleichtert, wenn der, eventuell schon laufende, Mitschnittsdienst erst gestoppt wird und alle vorhandenen Ergebnisse verworfen werden. Nachdem das geschehen ist, wird der Mitschnittdienst wieder gestartet und mit dem Telefon 1 das Telefon 2 angerufen. Wenn das Telefon 2 klingelt wird der Hörer abgehoben und nach einem kurzen Moment wieder aufgelegt. Dadurch wird ein Gespräch aufgebaut und wieder abgebaut. Direkt nach dem Beenden des Gesprächs wird der Mitschnittdienst wieder gestoppt. 
 Die Auswertung des Gesprächs beginnt, wenn der Mitschnitt im Fenster mit einem Doppelklick ausgewählt wird. 
 
 \subsection{Interpretieren des D-Kanal-Protokoll Mitschnitts}
@@ -74,7 +74,7 @@ Die aufgezeichneten Protokolldaten werden mit Wireshark geöffnet.
 Zur einfacheren und genaueren Auswertung des Versuchs sind in der Aufgabenbeschreibung 12 Fragen beschrieben. 
 \begin{enumerate} 
 	\item \textbf{Welche Rahmen dienen der TEI-Vergabe, und welcher TEI-Wert wird dem Telefon von der Vermittlung zugewiesen?} \newline
-		Die Tei vergabe wird über das Protocol TEI mit der info Itenty Request behandelt. Diese fordert einen TEi Wert zur indentifizierung des Endgerätes an. 
+		Die TEI, Terminal Endpoint Identifier, Vergabe wird über das Protocol TEI mit der info Itenty Request behandelt. Diese fordert einen TEI Wert zur Indentifizierung des Endgerätes an. 
 		
 		\begin{figure}
 		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/indenty_request_a1.png}
@@ -91,19 +91,19 @@ Zur einfacheren und genaueren Auswertung des Versuchs sind in der Aufgabenbeschr
 		\end{figure}
 
 	\item \textbf{Wann ist der Aufbau der Schicht 2 abgeschlossen?}  \newline
-	Der Aufbau ist nach dem senden eines unnumbered Acknowledge Frame der zur Bestätigung des Set Asynchronous Balance Mode Extended Frame benutzt wird beendet.
+	Der Aufbau ist nach dem Senden eines unnumbered Acknowledge Frame beendet.  Dieser wird zur Bestätigung des Set Asynchronous Balance Mode Extended Frame benutzt.
 		
-		\begin{figure}
+		\begin{figure}[H]
 		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/sabme_a2.png}
 		\caption{SABME Nachricht}
 		\label{sabme_nachricht}
 		\end{figure}
 	
 	\item \textbf{Welchen ISDN-Dienst fordert das Telefon von der Vermittlungsstelle an, welche Übertragungskapazität benötigt dieser Dienst?}\newline
-	Das Telefon fordert den Dienst zum übertragen von Sprache an. Dies ist ein Kanal mit 64 kbit/s übertragungskapazität.
+	Das Telefon fordert den Dienst zum Übertragen von Sprache an. Dies ist ein Kanal mit 64 kbit/s Übertragungskapazität.
 	Im folgenden Frame kann man dies herauslesen. Es handelt sich hierbei um eine Setup Nachricht.
 		
-		\begin{figure}
+		\begin{figure}[H]
 		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/setup_a3.png}
 		\caption{Setup Nachricht}
 		\label{setup_nachricht}
@@ -111,25 +111,24 @@ Zur einfacheren und genaueren Auswertung des Versuchs sind in der Aufgabenbeschr
 	
 	\item \textbf{Welche Kodierung des Sprachkanals wird gewählt?}\newline
 		Wie man auf dem nachfolgenden Bild in Grau hinterlegt erkennen kann wird der TU-T Standardized-Coding verwendet.
-		Diese Richtlinie gilt für das digitalisieren analoger Audiosignale mittels Puls-Code-Modulation. Der Einsatzbereich für dieses Codecs 			ist wie zu erwarten in der klassischen sowie in der IP-Telefonie.
-		\begin{figure}
+		Diese Richtlinie gilt für das Digitalisieren analoger Audiosignale mittels Puls-Code-Modulation. Der Einsatzbereich für dieses Codecs ist, wie zu erwarten, in der klassischen sowie in der IP-Telefonie.
+		\begin{figure}[H]
 		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/itu_code.png}
 		\caption{Verwendete Codecs}
 		\label{codecs} 
 		\end{figure}
 		
 	\item \textbf{Welche MSN-Nummer wird in welchem Rahmen übertragen?}\newline
-	Im Setup Frame das man in der vorherigen Frage bereits betracheten konnte wird die MSN des anrufenden Teilnehmers übertragen. Zu finden ist 	diese unter dem Abschnitt Q.931 als Callin Party-Number.
-	Die MSN des Teilnehmers auf der anderen Seite steht die MSN in dem Connect Rahmen. Diese ist ebenfalls im Abschnitt Q.931 unter Connected 		Number zu sehen.
-		\begin{figure}
+	Im Setup Frame, welches man in der vorherigen Frage bereits betrachten konnte, wird die MSN des anrufenden Teilnehmers übertragen. Zu finden ist diese unter dem Abschnitt Q.931 als Callin Party-Number. Die MSN des Teilnehmers auf der anderen Seite steht die MSN in dem Connect Rahmen. Diese ist ebenfalls im Abschnitt Q.931 unter Connected Number zu sehen.
+		\begin{figure}[H]
 		\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/connect_a5.png} 
 		\caption{Connect Nachricht}
 		\label{connect_nachricht}
 		\end{figure}
 		
 	\item \textbf{Wann ist der gesicherte Aufbau der Schicht 3 abgeschlossen?}\newline
-	Die Schicht 3 ist Aufgebaut sobald das Netzwerk dem User eine Seup-Acknoledgment-		Nachricht übersendet. Diese bestätigt die vom User gesendete Setup-Nachricht und das alles gut gegangen ist. 
-	\begin{figure}
+	Die Schicht 3 ist aufgebaut, sobald das Netzwerk dem User eine Seup-Acknoledgment-Nachricht übersendet. Diese bestätigt die vom User gesendete Setup-Nachricht und dass alles gut gegangen ist. 
+	\begin{figure}[H]
 	\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/setup_acknoledge_a6.png}
 	\caption{Setup Acknowledge}
 	\label{setup_acknowledge}
@@ -138,7 +137,7 @@ Zur einfacheren und genaueren Auswertung des Versuchs sind in der Aufgabenbeschr
 	\item \textbf{Welchen B-Kanal weist die Vermittlung der Verbindung zu?}\newline
 	In dem Call Proceeding-Frame findet man die Angabe zu dem genutzten Channel. In unserem Fall wäre das unter Q.931, 
 	Information channel selection: B1 channel (0x01. Dies gibt an das der genutzte Channel hier der B1 ist. 
-	\begin{figure}
+	\begin{figure}[H]
 	\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/call-proceeding_a7.png}
 	\caption{Call Proceeding Nachricht}
 	\label{call_proceeding_nachricht}
@@ -147,31 +146,30 @@ Zur einfacheren und genaueren Auswertung des Versuchs sind in der Aufgabenbeschr
 	\item \textbf{Wo wird die gerufene Telefonnummer übermittelt?}\newline
 	Die Information-Frames senden bereits Teile der Rufnummer bevor die eigentliche Vermittlung anfängt. In unserem Fall werden hier insgesamt 		drei Frames gesendet die jeweils einer Nummer enthalten. Aufgrund der Übersichtlichkeit sind die Frames stark gekürzt und direkt 				hintereinander gesetzt. 
 	
-	\begin{figure}
+	\begin{figure}[H]
 	\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/information_a8.png}
 	\caption{Informations Rahmen}
 	\label{info_rahmen}
 	\end{figure}
 
-	\item \textbf{Mit welchem Rahmen bestätigt die Vermittlung die Vollständigkeit der Rufnummer und beginn den angeforderten Teilnehmer anzuwählen?}\newline
-	Nachdem alle Ziffern gesendet worden sind und die Vermittlungstelle diese als gültige Rufnummer erkannt hat sendet Sie einen Call 				Proceeding-Frame an das Telefon und es wird keine weitere Ziffer mehr angenommen. Nun beginng die Anwahl des anderen Teilnehmers.
-	Der Call-Proceeding-Frame ist bereits zwei Fragen vorher gezeigt worden und wird deshalb hier nicht noch einmal aufgeführt.
+	\item \textbf{Mit welchem Rahmen bestätigt die Vermittlung die Vollständigkeit der Rufnummer und beginnt den angeforderten Teilnehmer anzuwählen?}\newline
+	Nachdem alle Ziffern gesendet worden sind und die Vermittlungstelle diese als gültige Rufnummer erkannt hat sendet sie einen Call Proceeding-Frame an das Telefon und es wird keine weitere Ziffer mehr angenommen. Nun beginnt die Anwahl des anderen Teilnehmers. Der Call-Proceeding-Frame ist bereits zwei Fragen vorher gezeigt worden und wird deshalb hier nicht noch einmal aufgeführt.
 
 	\item \textbf{Mit welchem Rahmen signalisiert die Vermittlung, dass der gerufene Teilnehmeranschluss ein Endgerät besitzt, das den Sprachdienst erfüllen kann und ein Rufsignal aussendet?}
 	
 	
 	Jedes Endgerät das den Anruf annehmen kann sendet eine Alerting Nachricht und beginnt darauf hin zu Klingeln.
 	
-	\begin{figure}
+	\begin{figure}[H]
 	\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/alerting_a9.png}
 	\caption{Alert Frame}
 	\label{alert_frame}
 	\end{figure}
 
 	\item \textbf{Wann sind die Schichten 3 und 2 jeweils wieder vollständig abgebaut?}\newline
-	Nachdem das Netzwerk eine Realease Complete Nachricht gesendet hat sind alle vorher belegten Kanäle wieder frei und Schicht 3, sowie 		Schicht 2 wieder abgebaut.
+	Nachdem das Netzwerk eine Realease Complete Nachricht gesendet hat sind alle vorher belegten Kanäle wieder frei und Schicht 3, sowie Schicht 2 wieder abgebaut.
 	
-	\begin{figure}
+	\begin{figure}[H]
 	\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/Release-Complete.png}
 	\caption{Realease Complete Frame}
 	\label{release_complete}
@@ -179,9 +177,9 @@ Zur einfacheren und genaueren Auswertung des Versuchs sind in der Aufgabenbeschr
 	
 
 	\item \textbf{Bei ISDN gibt es die Möglichkeit, bei einem abgehenden Ruf die Zielrufnummer vor oder nach dem Abheben des Hörers einzugeben. Wodurch unterscheidet sich die Signalisierung auf Schicht 3 (SETUP- und INFO Nachricht) der Teilnehmerschnittstelle in diesen beiden Fällen?}\newline
-Durch Abnehmen des Hörers wird für gewöhnlich eine Setup Nachricht gesendet wodurch bereits eine Verbindung zur Vermittlungsstelle aufgebaut wird. Nimmt der Teilnehmer also erst den Hörer ab können bereits die ersten Ziffern überliefert werden. Dieser Vorgang ist durch den Versuch gut nachvollziehbar. Im Gegensatz dazu kann der Nutzer ebenfalls die Ziffern erst tippen und dann den Hörer abnehmen. Dies hat zur Folge das die benötigten Ziffern bereits vorhanden sind bevor die Setup-Nachricht gesendet wird. Dadurch können die Ziffern direkt in der Setup-Nachricht mit gesendet werden. Der folgende Frame zeigt das bereits die Called-Party-Number eingetragen ist. Hier wird das Endgerät mit der Nummer 100 von dem Endgerät mir der Nummer 200 Angerufen. Der Frame wurde aufgrund der Größe etwas zugeschnitten, er enthält jedoch alle wichtigen Informationen.
+Durch Abnehmen des Hörers wird für gewöhnlich eine Setup Nachricht gesendet wodurch bereits eine Verbindung zur Vermittlungsstelle aufgebaut wird. Nimmt der Teilnehmer also erst den Hörer ab können bereits die ersten Ziffern überliefert werden. Dieser Vorgang ist durch den Versuch gut nachvollziehbar. Im Gegensatz dazu kann der Nutzer ebenfalls die Ziffern erst tippen und dann den Hörer abnehmen. Dies hat zur Folge, dass die benötigten Ziffern bereits vorhanden sind bevor die Setup-Nachricht gesendet wird. Dadurch können die Ziffern direkt in der Setup-Nachricht mit gesendet werden. Der folgende Frame zeigt das bereits die Called-Party-Number eingetragen ist. Hier wird das Endgerät mit der Nummer 100 von dem Endgerät mir der Nummer 200 angerufen. Der Frame wurde aufgrund der Größe etwas zugeschnitten, er enthält jedoch alle wichtigen Informationen.
 	
-	\begin{figure}
+	\begin{figure}[H]
 	\includegraphics[width=0.8\textwidth]{tkinhalt/ba_bilder/ba/letzte_setup_block.png}
 	\caption{Setup Nachricht mit vollständiger Rufnummer}
 	\label{setup_block_nachricht}
