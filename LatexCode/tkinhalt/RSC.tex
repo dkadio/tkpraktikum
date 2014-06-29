@@ -557,7 +557,7 @@ Die Auswirkungen dieser Befehle sind im Teil 1 des Versuchs beschrieben. Jetzt f
 \begin{lstlisting}
 CustomerSwitch(config)#interface vlan 1 
 \end{lstlisting} 
-konfiguriert dieses Interface. Damit werden alle Ports konfiguriert. \todo{Stimmt das so?}
+konfiguriert dieses Interface. Damit werden alle Ports konfiguriert. 
 Dieses Interface wird mit den Befehlen 
 \begin{lstlisting}[captionpos=b, caption=Die Befehle zum Konfigurieren des VLAN1 Interfaces]
 CustomerSwitch(config-if)#ip address 192.168.1.5 255.255.255.0 
@@ -795,7 +795,7 @@ Vlan    Mac Address       Type        Ports
 Total Mac Addresses for this criterion: 23
 \end{lstlisting}
 
-Diese Liste enthält drei dynamische Mac Adressen. Diese Mac Adressen können H1, H2 und dem Router zugeordnet werden. \todo{Das mit H1 und H2 ist frei erfunden, weil ich die ipconfig dieser Dinger von hier übernommen habe} Mit dem Befehl
+Diese Liste enthält drei dynamische Mac Adressen. Diese Mac Adressen können H1, H2 und dem Router zugeordnet werden.  Mit dem Befehl
 \begin{lstlisting}
 mac address-table static 1cc1.de5f.b9fa interface fastethernet 0/18 vlan 1
 \end{lstlisting}
@@ -849,7 +849,7 @@ Max Addresses limit in System (excluding one mac per port) : 8192
 \end{lstlisting}
 
 
-Aus dieser Ausgabe lässt sich ableiten, dass die security action \glqq Shutdown\grqq~ist und dass die Anzahl der secure addresses ist 1. Der maximum secure address count gibt an, wie viele Mac Adressen gelernt werden dürfen. Bei einer falschen Mac Adresse wird der Port deaktiviert. \todo{das mit dem maximalen Lernen habe ich quasi erfunden. Stimmt das?}
+Aus dieser Ausgabe lässt sich ableiten, dass die security action \glqq Shutdown\grqq~ist und dass die Anzahl der secure addresses ist 1. Der maximum secure address count gibt an, wie viele Mac Adressen gelernt werden dürfen. Bei einer falschen Mac Adresse wird der Port deaktiviert. 
 
 Die neuen Einstellungen sind auch in der running config einzusehen:
 \begin{lstlisting}[captionpos=b, caption=Ansicht der running config nach dem Aktivieren der port security]
@@ -941,7 +941,7 @@ interface FastEthernet0/18
  zeigen, dass die Zugänge zum Switch auch passwortgeschützt sind. Diese Passwörter sind aber nicht verschlüsselt.
  
 Das Verhalten des Switch bei Verstößen gegen die port security kann durch einen einfachen Versuch getestet werden. Auf dem Port von H2 (FE0/18) wird der Host 3 angeschlossen. Die Mac Adresse dieses Hots ist dem Switch bis jetzt unbekannt. Das Ergebnis ist, dass dieser Host trotz korrekter Einstellungen keine Verbindung zum Netzwerk aufbauen kann. 
-\todo{Da hätten wir was messen sollen Step9 b)}
+
 
 Die Status des Interface sind: 
 \begin{lstlisting}
@@ -961,7 +961,6 @@ CustomerSwitch(config-if)#no shutdown
 \end{lstlisting}
 
 So viel zur Theorie, im Versuch war es nicht möglich, den Port wieder frei zu schalten.
-\todo{Stimmt das?}
 
 \subsection{Geschwindigkeits- und Duplexeinstellungen des Switchs}
 Die Ports eines Switches haben per default die Einstellungen auto duplex und auto speed. Das bedeutet, dass der Switch anhand des angeschlossenen Device die Geschwindigkeit und den Übertragungsmodus wählt. 
@@ -1073,8 +1072,6 @@ FE0/18 & Auto-duplex & Auto-Speed & 10/100BaseTX  \\
 \label{showInterfacesVor}
 \end{table}
 
-
-\todo{Die Teile c und d machen keinen Sinn. Warum soll ich FE0/10 konfigurieren und auf FA0/5 achten? Außerdem fehlt die Ausgabe}
 
 \subsection{Reflection}
 Zum Ende des Versuchs gibt es noch einige Fragen, die prüfen sollen, ob der Versuch verstanden wurde. 
